@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; Ollama – ollama_book</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./cp_2.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter_1.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ollama</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">ollama_book</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter_1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ollama</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ollama安装</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ollama 自定义导入模型</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ollama REST API</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ollama 在 LangChain 中的使用</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ollama 可视化界面部署</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">应用案例</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ollama-简介" id="toc-ollama-简介" class="nav-link active" data-scroll-target="#ollama-简介"><span class="header-section-number">1.1</span> Ollama 简介</a>
+  <ul class="collapse">
+  <li><a href="#ollama-为什么要存在" id="toc-ollama-为什么要存在" class="nav-link" data-scroll-target="#ollama-为什么要存在"><span class="header-section-number">1.1.1</span> Ollama 为什么要存在</a></li>
+  <li><a href="#ollama-的结构" id="toc-ollama-的结构" class="nav-link" data-scroll-target="#ollama-的结构"><span class="header-section-number">1.1.2</span> Ollama 的结构</a></li>
+  <li><a href="#ollama有什么用" id="toc-ollama有什么用" class="nav-link" data-scroll-target="#ollama有什么用"><span class="header-section-number">1.1.3</span> Ollama有什么用？</a></li>
+  <li><a href="#关于-ollama-的常见误解" id="toc-关于-ollama-的常见误解" class="nav-link" data-scroll-target="#关于-ollama-的常见误解"><span class="header-section-number">1.1.4</span> 关于 Ollama 的常见误解</a></li>
+  </ul></li>
+  <li><a href="#ollama-特点" id="toc-ollama-特点" class="nav-link" data-scroll-target="#ollama-特点"><span class="header-section-number">1.2</span> Ollama 特点</a></li>
+  <li><a href="#支持的模型" id="toc-支持的模型" class="nav-link" data-scroll-target="#支持的模型"><span class="header-section-number">1.3</span> 支持的模型</a></li>
+  <li><a href="#ollama-常用命令" id="toc-ollama-常用命令" class="nav-link" data-scroll-target="#ollama-常用命令"><span class="header-section-number">1.4</span> Ollama 常用命令</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ollama</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="ollama-简介" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="ollama-简介"><span class="header-section-number">1.1</span> Ollama 简介</h2>
+<blockquote class="blockquote">
+<p>“Get up and running with large language models locally.”</p>
+</blockquote>
+<p>Ollama 是一个开源的本地大型语言模型运行与管理工具，旨在帮助开发者和终端用户<strong>在本地机器上快速运行、下载、管理和调用各类开源大语言模型（LLM）</strong>，而无需持续依赖云服务。Ollama 的定位是“在本地启动并运行大型语言模型”，持续简化本地 LLM 的落地和应用开发流程。</p>
+<section id="ollama-为什么要存在" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="ollama-为什么要存在"><span class="header-section-number">1.1.1</span> Ollama 为什么要存在</h3>
+<p>Ollama 的存在，并不是因为“本地跑模型很酷”，而是因为 云端大模型在现实世界中存在结构性缺陷，而这些缺陷不是通过“更便宜的 API”就能解决的。</p>
+<p>1. 云端 LLM 的四个根本约束</p>
+<p>在 2023–2025 年，大模型应用快速普及，但同时暴露出一组不可回避的问题：</p>
+<ul>
+<li><p>成本不可控<br>
+API 调用是OPEX模式，且与使用规模强绑定，一旦进入真实业务或高频场景，成本呈指数级增长。</p></li>
+<li><p>隐私与数据主权问题<br>
+医疗、法律、企业内部资料、个人笔记等数据，天然不适合外传至第三方云。</p></li>
+<li><p>可控性与稳定性不足<br>
+云模型的版本升级、策略调整、限流、封禁，对开发者来说是外生风险。</p></li>
+<li><p>离线 / 边缘场景缺位<br>
+本地开发、内网环境、边缘设备、弱网环境，云方案本身不可达。</p></li>
+</ul>
+<p>Ollama 的存在，本质上是对这些问题的一次系统性回应。</p>
+<p>2. Ollama 的核心定位</p>
+<p>Ollama 是一个“把大模型变成一种本地基础设施能力”的工具。</p>
+<p>它试图完成的不是“替代云模型”，而是让 <strong>LLM 像数据库、像 Redis、像 Docker 一样，成为开发者可以本地掌控的基础设施组件</strong>。</p>
+</section>
+<section id="ollama-的结构" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="ollama-的结构"><span class="header-section-number">1.1.2</span> Ollama 的结构</h3>
+<p>如果从工程与系统角度看，Ollama 并不是一个“模型集合”，而是一个 <strong>分层明确的本地 LLM 运行平台</strong>。</p>
+<p>1. 核心结构拆解</p>
+<p>（1）模型运行与推理引擎层</p>
+<ul>
+<li><p>基于 llama.cpp 生态 与 GGUF 模型格式</p></li>
+<li><p>统一处理：<br>
+CPU / GPU（Metal / CUDA / ROCm）调度<br>
+量化模型加载<br>
+推理上下文管理</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>这一层解决的是：“模型能不能在这台机器上跑起来”。</p>
+</blockquote>
+<p>（2）模型管理与分发层</p>
+<ul>
+<li><p><code>ollama pull</code> / <code>run</code> / <code>list / rm</code></p></li>
+<li><p>模型版本、参数、量化形式的统一管理</p></li>
+<li><p>官方模型仓库 + 社区模型</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>这一层解决的是：“模型作为资源如何被管理”。</p>
+</blockquote>
+<p>（3）服务接口层（API / CLI）</p>
+<ul>
+<li><p>CLI：面向开发者与技术用户</p></li>
+<li><p>REST API：<br>
+/api/generate</p>
+<p>/api/chat</p>
+<p>/api/embeddings</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>这一层解决的是：“模型如何被程序调用”。</p>
+</blockquote>
+<p>（4）用户体验与生态层</p>
+<ul>
+<li><p>GUI 客户端（2025 年后逐步成熟）</p></li>
+<li><p>与 LangChain、LlamaIndex、Continue、IDE 插件等集成</p></li>
+<li><p>本地 Agent / RAG / 文档分析工具链</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>这一层解决的是：“模型如何进入真实工作流”。</p>
+</blockquote>
+<p>2. 一个关键理解</p>
+<p>Ollama 不是模型本身，也不是“又一个 AI 应用”，而是LLM Runtime + Model Manager + Local AI Service</p>
+</section>
+<section id="ollama有什么用" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="ollama有什么用"><span class="header-section-number">1.1.3</span> Ollama有什么用？</h3>
+<p>（1）本地开发与实验环境（Developer First）</p>
+<p>Prompt / Agent / RAG 快速实验、无 API Key、无费用焦虑、可调试、可复现</p>
+<p>对开发者而言，Ollama ≈ LLM 世界的 localhost。</p>
+<p>（2）隐私敏感场景</p>
+<p>医疗病历分析、法律文本、合同审阅、企业内部文档问答、个人知识库。</p>
+<p>数据不出机器是刚需，而不是加分项。</p>
+<p>（3）……</p>
+</section>
+<section id="关于-ollama-的常见误解" class="level3" data-number="1.1.4">
+<h3 data-number="1.1.4" class="anchored" data-anchor-id="关于-ollama-的常见误解"><span class="header-section-number">1.1.4</span> 关于 Ollama 的常见误解</h3>
+<p>误解 1：Ollama ≈ 一个模型 / 一个聊天工具</p>
+<p>Ollama 不是模型，也不是 ChatGPT 的本地替代品。</p>
+<p>它是模型运行平台，就像 Docker不是应用本身。</p>
+<p>误解 2：本地模型一定比云模型“差很多”</p>
+<p>在大量任务中，比如文档理解、总结、分类、RAG问答，中等规模模型已经“够用且更可控”。</p>
+<p>很多场景需要的是 <strong>可靠性与一致性</strong>，不是榜单分数。</p>
+<p>误解 3：Ollama 只适合“极客玩具”</p>
+<p>事实恰恰相反，GUI 的出现、工具链的成熟、Agent/RAG的落地使 Ollama 正在从极客工具 → 工程工具 → 生产工具 迁移。</p>
+<p>误解 4：用了 Ollama 就不需要云模型了</p>
+<p>这是一个<strong>非此即彼的误解</strong>。现实中更常见的是本地 Ollama + 云模型混合架构，本地负责隐私 / 高频 / 成本敏感，云端负责复杂推理 / 超大上下文 / 多模态。</p>
+</section>
+</section>
+<section id="ollama-特点" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="ollama-特点"><span class="header-section-number">1.2</span> Ollama 特点</h2>
+<ul>
+<li><p>本地可控，而非只是“免费”</p>
+<p>Ollama 的核心价值是把 LLM 变成你本地可掌控的基础设施：模型版本、参数、更新节奏都由你决定，而不是被云服务绑定。</p></li>
+<li><p>真正的一键式本地 LLM Runtime</p>
+<p>无需理解 CUDA、显存、量化细节，通过简单命令即可完成模型下载、运行和切换，复杂性被封装在平台内部。</p></li>
+<li><p>跨平台且工程级稳定</p>
+<p>稳定支持 macOS、Linux、Windows，并可通过 Docker 部署，已从“能跑”进化到“可长期使用”。</p></li>
+<li><p>模型生态成熟、覆盖主流开源路线</p>
+<p>支持并持续更新主流开源模型（如 LLaMA、Qwen、Gemma、DeepSeek 等），适配不同规模与场景需求。</p></li>
+<li><p>既是工具，也是本地 AI 服务层</p>
+<p>提供统一 CLI 与 REST API，可作为本地 Copilot、RAG、Agent、批量推理等应用的后端服务。</p></li>
+<li><p>隐私与成本结构天然友好</p>
+<p>数据不出本地、零 API 调用成本，特别适合高频调用、隐私敏感或内网/离线场景。</p></li>
+<li><p>常见误解澄清</p>
+<p>Ollama 不是“聊天软件”，也不是“云模型替代品”，而是本地 LLM 运行与管理平台，常与云模型形成混合架构。</p></li>
+</ul>
+</section>
+<section id="支持的模型" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="支持的模型"><span class="header-section-number">1.3</span> 支持的模型</h2>
+<p>Ollama 支持的模型库列表 <a href="https://ollama.com/library" class="uri">https://ollama.com/library</a>。</p>
+<p><img src="images/chapter_1_7.jpg" class="img-fluid"></p>
+<p>Cloud标签代表的是远程模型，表示该模型可直接通过官方云服务调用（有免费额度）；Embedding模型用来向量化文本，用于把文本（或多模态输入）转换为向量；Vision是视觉模型，支持图像输入（有时也包括视频），常见任务包括图片理解、OCR、图文问答；Tools部分的模型可输出结构化参数 调用外部函数 / API；Thinking强化推理 / 规划能力模型。</p>
+<p>下面是一些受欢迎的模型：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Model</th>
+<th style="text-align: center;">Tag</th>
+<th style="text-align: center;">Parameters</th>
+<th style="text-align: center;">Size</th>
+<th>Download</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">DeepSeek-R1</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7B</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run deepseek-r1</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">DeepSeek-R1</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">671B</td>
+<td style="text-align: center;">404GB</td>
+<td><code>ollama run deepseek-r1:671b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Llama 3.3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70B</td>
+<td style="text-align: center;">43GB</td>
+<td><code>ollama run llama3.3</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Llama 3.2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">3B</td>
+<td style="text-align: center;">2.0GB</td>
+<td><code>ollama run llama3.2</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Llama 3.2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">1B</td>
+<td style="text-align: center;">1.3GB</td>
+<td><code>ollama run llama3.2:1b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Llama 3.2 Vision</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">11B</td>
+<td style="text-align: center;">7.9GB</td>
+<td><code>ollama run llama3.2-vision</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Llama 3.2 Vision</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">90B</td>
+<td style="text-align: center;">55GB</td>
+<td><code>ollama run llama3.2-vision:90b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Llama 3.1</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8B</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llama3.1</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Llama 3.1</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">405B</td>
+<td style="text-align: center;">231GB</td>
+<td><code>ollama run llama3.1:405b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Gemma 2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">2B</td>
+<td style="text-align: center;">1.6GB</td>
+<td><code>ollama run gemma2:2b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Gemma 2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">9B</td>
+<td style="text-align: center;">5.5GB</td>
+<td><code>ollama run gemma2</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Gemma 2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">27B</td>
+<td style="text-align: center;">16GB</td>
+<td><code>ollama run gemma2:27b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mistral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run mistral:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">110b</td>
+<td style="text-align: center;">63GB</td>
+<td><code>ollama run qwen:110b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Phi 4</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">14B</td>
+<td style="text-align: center;">9.1GB</td>
+<td><code>ollama run phi4</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">codellama</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">39GB</td>
+<td><code>ollama run codellama:70b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">qwen2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">72b</td>
+<td style="text-align: center;">41GB</td>
+<td><code>ollama run qwen2:72b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llava</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llava:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">nomic-embed-text</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">v1.5</td>
+<td style="text-align: center;">274MB</td>
+<td><code>ollama pull nomic-embed-text:v1.5</code></td>
+</tr>
+</tbody>
+</table>
+<p>所有支持的模型（数据统计至2024.8.2）。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Model</th>
+<th style="text-align: center;">Tag</th>
+<th style="text-align: center;">Parameters</th>
+<th style="text-align: center;">Size</th>
+<th>Download</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">llama3.1</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">405b</td>
+<td style="text-align: center;">231GB</td>
+<td><code>ollama run llama3.1:405b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama3.1</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">40GB</td>
+<td><code>ollama run llama3.1:70b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama3.1</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llama3.1:8b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">gemma2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">27b</td>
+<td style="text-align: center;">16GB</td>
+<td><code>ollama run gemma2:27b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">gemma2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">9b</td>
+<td style="text-align: center;">5.4GB</td>
+<td><code>ollama run gemma2:9b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">gemma2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">2b</td>
+<td style="text-align: center;">1.6GB</td>
+<td><code>ollama run gemma2:2b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mistral-nemo</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">12b</td>
+<td style="text-align: center;">7.1GB</td>
+<td><code>ollama run mistral-nemo:12b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">mistral-large</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">123b</td>
+<td style="text-align: center;">69GB</td>
+<td><code>ollama run mistral-large:123b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">qwen2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">72b</td>
+<td style="text-align: center;">41GB</td>
+<td><code>ollama run qwen2:72b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">qwen2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.4GB</td>
+<td><code>ollama run qwen2:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">qwen2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">1.5b</td>
+<td style="text-align: center;">935MB</td>
+<td><code>ollama run qwen2:1.5b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">qwen2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">0.5b</td>
+<td style="text-align: center;">352MB</td>
+<td><code>ollama run qwen2:0.5b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">deepseek-coder-v2</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">236b</td>
+<td style="text-align: center;">133GB</td>
+<td><code>ollama run deepseek-coder-v2:236b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">deepseek-coder-v2</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">16b</td>
+<td style="text-align: center;">8.9GB</td>
+<td><code>ollama run deepseek-coder-v2:16b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">phi3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">14b</td>
+<td style="text-align: center;">7.9GB</td>
+<td><code>ollama run phi3:14b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">phi3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">3.8b</td>
+<td style="text-align: center;">2.2GB</td>
+<td><code>ollama run phi3:3.8b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mistral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run mistral:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">mixtral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8x22b</td>
+<td style="text-align: center;">80GB</td>
+<td><code>ollama run mixtral:8x22b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mixtral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8x7b</td>
+<td style="text-align: center;">26GB</td>
+<td><code>ollama run mixtral:8x7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">codegemma</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">5.0GB</td>
+<td><code>ollama run codegemma:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">codegemma</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">2b</td>
+<td style="text-align: center;">1.6GB</td>
+<td><code>ollama run codegemma:2b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">command-r</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">35b</td>
+<td style="text-align: center;">20GB</td>
+<td><code>ollama run command-r:35b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">command-r-plus</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">104b</td>
+<td style="text-align: center;">59GB</td>
+<td><code>ollama run command-r-plus:104b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llava</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">34b</td>
+<td style="text-align: center;">20GB</td>
+<td><code>ollama run llava:34b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llava</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">8.0GB</td>
+<td><code>ollama run llava:13b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llava</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llava:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">40GB</td>
+<td><code>ollama run llama3:70b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llama3:8b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">gemma</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">5.0GB</td>
+<td><code>ollama run gemma:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">gemma</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">2b</td>
+<td style="text-align: center;">1.7GB</td>
+<td><code>ollama run gemma:2b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">110b</td>
+<td style="text-align: center;">63GB</td>
+<td><code>ollama run qwen:110b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">72b</td>
+<td style="text-align: center;">41GB</td>
+<td><code>ollama run qwen:72b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">32b</td>
+<td style="text-align: center;">18GB</td>
+<td><code>ollama run qwen:32b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">14b</td>
+<td style="text-align: center;">8.2GB</td>
+<td><code>ollama run qwen:14b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.5GB</td>
+<td><code>ollama run qwen:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">4b</td>
+<td style="text-align: center;">2.3GB</td>
+<td><code>ollama run qwen:4b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">1.8b</td>
+<td style="text-align: center;">1.1GB</td>
+<td><code>ollama run qwen:1.8b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">qwen</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">0.5b</td>
+<td style="text-align: center;">395MB</td>
+<td><code>ollama run qwen:0.5b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">39GB</td>
+<td><code>ollama run llama2:70b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run llama2:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run llama2:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">codellama</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">39GB</td>
+<td><code>ollama run codellama:70b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">codellama</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">34b</td>
+<td style="text-align: center;">19GB</td>
+<td><code>ollama run codellama:34b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">codellama</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run codellama:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">codellama</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run codellama:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">dolphin-mixtral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8x7b</td>
+<td style="text-align: center;">26GB</td>
+<td><code>ollama run dolphin-mixtral:8x7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">dolphin-mixtral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8x22b</td>
+<td style="text-align: center;">80GB</td>
+<td><code>ollama run dolphin-mixtral:8x22b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">nomic-embed-text</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">v1.5</td>
+<td style="text-align: center;">274MB</td>
+<td><code>ollama pull nomic-embed-text:v1.5</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama2-uncensored</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">39GB</td>
+<td><code>ollama run llama2-uncensored:70b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama2-uncensored</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run llama2-uncensored:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">phi</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">2.7b</td>
+<td style="text-align: center;">1.6GB</td>
+<td><code>ollama run phi:2.7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">deepseek-coder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">33b</td>
+<td style="text-align: center;">19GB</td>
+<td><code>ollama run deepseek-coder:33b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">deepseek-coder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">6.7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run deepseek-coder:6.7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">deepseek-coder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">1.3b</td>
+<td style="text-align: center;">776MB</td>
+<td><code>ollama run deepseek-coder:1.3b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">dolphin-mistral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run dolphin-mistral:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">orca-mini</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">39GB</td>
+<td><code>ollama run orca-mini:70b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">orca-mini</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run orca-mini:13b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">orca-mini</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run orca-mini:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">orca-mini</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">3b</td>
+<td style="text-align: center;">2.0GB</td>
+<td><code>ollama run orca-mini:3b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">mxbai-embed-large</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">335m</td>
+<td style="text-align: center;">670MB</td>
+<td><code>ollama pull mxbai-embed-large:335m</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">dolphin-llama3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">40GB</td>
+<td><code>ollama run dolphin-llama3:70b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">dolphin-llama3</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run dolphin-llama3:8b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">zephyr</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">141b</td>
+<td style="text-align: center;">80GB</td>
+<td><code>ollama run zephyr:141b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">zephyr</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run zephyr:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">starcoder2</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">15b</td>
+<td style="text-align: center;">9.1GB</td>
+<td><code>ollama run starcoder2:15b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">starcoder2</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.0GB</td>
+<td><code>ollama run starcoder2:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">starcoder2</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">3b</td>
+<td style="text-align: center;">1.7GB</td>
+<td><code>ollama run starcoder2:3b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">mistral-openorca</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run mistral-openorca:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">yi</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">34b</td>
+<td style="text-align: center;">19GB</td>
+<td><code>ollama run yi:34b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">yi</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">9b</td>
+<td style="text-align: center;">5.0GB</td>
+<td><code>ollama run yi:9b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">yi</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">6b</td>
+<td style="text-align: center;">3.5GB</td>
+<td><code>ollama run yi:6b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama2-chinese</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run llama2-chinese:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama2-chinese</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run llama2-chinese:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llava-llama3</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">5.5GB</td>
+<td><code>ollama run llava-llama3:8b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">vicuna</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">33b</td>
+<td style="text-align: center;">18GB</td>
+<td><code>ollama run vicuna:33b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">vicuna</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run vicuna:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">vicuna</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run vicuna:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">nous-hermes2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">34b</td>
+<td style="text-align: center;">19GB</td>
+<td><code>ollama run nous-hermes2:34b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">nous-hermes2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">10.7b</td>
+<td style="text-align: center;">6.1GB</td>
+<td><code>ollama run nous-hermes2:10.7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">tinyllama</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">1.1b</td>
+<td style="text-align: center;">638MB</td>
+<td><code>ollama run tinyllama:1.1b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">wizard-vicuna-uncensored</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">30b</td>
+<td style="text-align: center;">18GB</td>
+<td><code>ollama run wizard-vicuna-uncensored:30b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">wizard-vicuna-uncensored</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run wizard-vicuna-uncensored:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">wizard-vicuna-uncensored</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run wizard-vicuna-uncensored:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">codestral</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">22b</td>
+<td style="text-align: center;">13GB</td>
+<td><code>ollama run codestral:22b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">starcoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">15b</td>
+<td style="text-align: center;">9.0GB</td>
+<td><code>ollama run starcoder:15b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">starcoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.3GB</td>
+<td><code>ollama run starcoder:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">starcoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">3b</td>
+<td style="text-align: center;">1.8GB</td>
+<td><code>ollama run starcoder:3b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">starcoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">1b</td>
+<td style="text-align: center;">726MB</td>
+<td><code>ollama run starcoder:1b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">wizardlm2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8x22b</td>
+<td style="text-align: center;">80GB</td>
+<td><code>ollama run wizardlm2:8x22b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">wizardlm2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run wizardlm2:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">openchat</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run openchat:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">aya</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">35b</td>
+<td style="text-align: center;">20GB</td>
+<td><code>ollama run aya:35b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">aya</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">4.8GB</td>
+<td><code>ollama run aya:8b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">tinydolphin</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">1.1b</td>
+<td style="text-align: center;">637MB</td>
+<td><code>ollama run tinydolphin:1.1b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">stable-code</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">3b</td>
+<td style="text-align: center;">1.6GB</td>
+<td><code>ollama run stable-code:3b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">openhermes</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">v2.5</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run openhermes:v2.5</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">wizardcoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">33b</td>
+<td style="text-align: center;">19GB</td>
+<td><code>ollama run wizardcoder:33b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">wizardcoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">python</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run wizardcoder:python</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">codeqwen</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.2GB</td>
+<td><code>ollama run codeqwen:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">wizard-math</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">39GB</td>
+<td><code>ollama run wizard-math:70b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">wizard-math</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run wizard-math:13b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">wizard-math</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run wizard-math:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">granite-code</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">34b</td>
+<td style="text-align: center;">19GB</td>
+<td><code>ollama run granite-code:34b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">granite-code</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">20b</td>
+<td style="text-align: center;">12GB</td>
+<td><code>ollama run granite-code:20b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">granite-code</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">4.6GB</td>
+<td><code>ollama run granite-code:8b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">granite-code</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">3b</td>
+<td style="text-align: center;">2.0GB</td>
+<td><code>ollama run granite-code:3b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">stablelm2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">12b</td>
+<td style="text-align: center;">7.0GB</td>
+<td><code>ollama run stablelm2:12b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">stablelm2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">1.6b</td>
+<td style="text-align: center;">983MB</td>
+<td><code>ollama run stablelm2:1.6b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">neural-chat</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run neural-chat:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">all-minilm</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">33m</td>
+<td style="text-align: center;">67MB</td>
+<td><code>ollama pull all-minilm:33m</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">all-minilm</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">22m</td>
+<td style="text-align: center;">46MB</td>
+<td><code>ollama pull all-minilm:22m</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">phind-codellama</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">34b</td>
+<td style="text-align: center;">19GB</td>
+<td><code>ollama run phind-codellama:34b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">dolphincoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">15b</td>
+<td style="text-align: center;">9.1GB</td>
+<td><code>ollama run dolphincoder:15b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">dolphincoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.2GB</td>
+<td><code>ollama run dolphincoder:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">nous-hermes</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run nous-hermes:13b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">nous-hermes</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run nous-hermes:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">sqlcoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">15b</td>
+<td style="text-align: center;">9.0GB</td>
+<td><code>ollama run sqlcoder:15b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">sqlcoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run sqlcoder:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama3-gradient</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">40GB</td>
+<td><code>ollama run llama3-gradient:70b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama3-gradient</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llama3-gradient:8b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">starling-lm</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run starling-lm:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">xwinlm</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run xwinlm:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">xwinlm</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run xwinlm:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">yarn-llama2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run yarn-llama2:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">yarn-llama2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run yarn-llama2:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">deepseek-llm</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">67b</td>
+<td style="text-align: center;">38GB</td>
+<td><code>ollama run deepseek-llm:67b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">deepseek-llm</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.0GB</td>
+<td><code>ollama run deepseek-llm:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama3-chatqa</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">40GB</td>
+<td><code>ollama run llama3-chatqa:70b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama3-chatqa</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llama3-chatqa:8b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">orca2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run orca2:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">orca2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run orca2:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">solar</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">10.7b</td>
+<td style="text-align: center;">6.1GB</td>
+<td><code>ollama run solar:10.7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">samantha-mistral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run samantha-mistral:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">dolphin-phi</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">2.7b</td>
+<td style="text-align: center;">1.6GB</td>
+<td><code>ollama run dolphin-phi:2.7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">stable-beluga</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">39GB</td>
+<td><code>ollama run stable-beluga:70b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">stable-beluga</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run stable-beluga:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">stable-beluga</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run stable-beluga:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">moondream</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">1.8b</td>
+<td style="text-align: center;">1.7GB</td>
+<td><code>ollama run moondream:1.8b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">snowflake-arctic-embed</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">335m</td>
+<td style="text-align: center;">669MB</td>
+<td><code>ollama pull snowflake-arctic-embed:335m</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">snowflake-arctic-embed</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">137m</td>
+<td style="text-align: center;">274MB</td>
+<td><code>ollama pull snowflake-arctic-embed:137m</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">snowflake-arctic-embed</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">110m</td>
+<td style="text-align: center;">219MB</td>
+<td><code>ollama pull snowflake-arctic-embed:110m</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">snowflake-arctic-embed</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">33m</td>
+<td style="text-align: center;">67MB</td>
+<td><code>ollama pull snowflake-arctic-embed:33m</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">snowflake-arctic-embed</td>
+<td style="text-align: center;">Embedding</td>
+<td style="text-align: center;">22m</td>
+<td style="text-align: center;">46MB</td>
+<td><code>ollama pull snowflake-arctic-embed:22m</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">bakllava</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run bakllava:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">wizardlm-uncensored</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run wizardlm-uncensored:13b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">deepseek-v2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">236b</td>
+<td style="text-align: center;">133GB</td>
+<td><code>ollama run deepseek-v2:236b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">deepseek-v2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">16b</td>
+<td style="text-align: center;">8.9GB</td>
+<td><code>ollama run deepseek-v2:16b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">medllama2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run medllama2:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">yarn-mistral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run yarn-mistral:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama-pro</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">instruct</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llama-pro:instruct</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">nous-hermes2-mixtral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8x7b</td>
+<td style="text-align: center;">26GB</td>
+<td><code>ollama run nous-hermes2-mixtral:8x7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">meditron</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">39GB</td>
+<td><code>ollama run meditron:70b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">meditron</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run meditron:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">nexusraven</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run nexusraven:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">codeup</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run codeup:13b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llava-phi3</td>
+<td style="text-align: center;">Vision</td>
+<td style="text-align: center;">3.8b</td>
+<td style="text-align: center;">2.9GB</td>
+<td><code>ollama run llava-phi3:3.8b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">everythinglm</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run everythinglm:13b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">glm4</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">9b</td>
+<td style="text-align: center;">5.5GB</td>
+<td><code>ollama run glm4:9b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">codegeex4</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">9b</td>
+<td style="text-align: center;">5.5GB</td>
+<td><code>ollama run codegeex4:9b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">magicoder</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run magicoder:7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">stablelm-zephyr</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">3b</td>
+<td style="text-align: center;">1.6GB</td>
+<td><code>ollama run stablelm-zephyr:3b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">codebooga</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">34b</td>
+<td style="text-align: center;">19GB</td>
+<td><code>ollama run codebooga:34b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mistrallite</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run mistrallite:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">wizard-vicuna</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run wizard-vicuna:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">duckdb-nsql</td>
+<td style="text-align: center;">Code</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">3.8GB</td>
+<td><code>ollama run duckdb-nsql:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">megadolphin</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">120b</td>
+<td style="text-align: center;">68GB</td>
+<td><code>ollama run megadolphin:120b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">goliath</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">120b-q4_0</td>
+<td style="text-align: center;">66GB</td>
+<td><code>ollama run goliath:120b-q4_0</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">notux</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8x7b</td>
+<td style="text-align: center;">26GB</td>
+<td><code>ollama run notux:8x7b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">falcon2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">11b</td>
+<td style="text-align: center;">6.4GB</td>
+<td><code>ollama run falcon2:11b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">open-orca-platypus2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">13b</td>
+<td style="text-align: center;">7.4GB</td>
+<td><code>ollama run open-orca-platypus2:13b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">notus</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run notus:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">dbrx</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">132b</td>
+<td style="text-align: center;">74GB</td>
+<td><code>ollama run dbrx:132b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">internlm2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.5GB</td>
+<td><code>ollama run internlm2:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">alfred</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">40b</td>
+<td style="text-align: center;">24GB</td>
+<td><code>ollama run alfred:40b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">llama3-groq-tool-use</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">40GB</td>
+<td><code>ollama run llama3-groq-tool-use:70b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">llama3-groq-tool-use</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">8b</td>
+<td style="text-align: center;">4.7GB</td>
+<td><code>ollama run llama3-groq-tool-use:8b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">mathstral</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">7b</td>
+<td style="text-align: center;">4.1GB</td>
+<td><code>ollama run mathstral:7b</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">firefunction-v2</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">70b</td>
+<td style="text-align: center;">40GB</td>
+<td><code>ollama run firefunction-v2:70b</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">nuextract</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">3.8b</td>
+<td style="text-align: center;">2.2GB</td>
+<td><code>ollama run nuextract:3.8b</code></td>
+</tr>
+</tbody>
+</table>
+<p>模型直接在官网找，现在很方便。</p>
+<p>最新支持模型请参考：<a href="https://ollama.com/search" class="uri">https://ollama.com/search</a></p>
+<blockquote class="blockquote">
+<p>注意：运行 7B 模型至少需要 8GB 内存，运行 13B 模型至少需要 16GB 内存，运行 33B 模型至少需要 32GB 内存。</p>
+</blockquote>
+</section>
+<section id="ollama-常用命令" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="ollama-常用命令"><span class="header-section-number">1.4</span> Ollama 常用命令</h2>
+<p>终端输入 <code>Ollama</code>，输出如下：</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Usage:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ollama</span> <span class="pp">[</span><span class="ss">flags</span><span class="pp">]</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ollama</span> <span class="pp">[</span><span class="ss">command</span><span class="pp">]</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Available</span> Commands:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">serve</span>       Start ollama</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">create</span>      Create a model</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">show</span>        Show information for a model</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">run</span>         Run a model</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">stop</span>        Stop a running model</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">pull</span>        Pull a model from a registry</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">push</span>        Push a model to a registry</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">signin</span>      Sign in to ollama.com</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="ex">signout</span>     Sign out from ollama.com</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="ex">list</span>        List models</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ps</span>          List running models</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cp</span>          Copy a model</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span>          Remove a model</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="bu">help</span>        Help about any command</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ex">Flags:</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-h,</span> <span class="at">--help</span>      help for ollama</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-v,</span> <span class="at">--version</span>   Show version information</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ex">Use</span> <span class="st">"ollama [command] --help"</span> for more information about a command.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>总结如下：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>命令</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ollama serve</code></td>
+<td style="text-align: left;">启动 Ollama</td>
+</tr>
+<tr class="even">
+<td><code>ollama create</code></td>
+<td style="text-align: left;">从 Modelfile 创建模型</td>
+</tr>
+<tr class="odd">
+<td><code>ollama show</code></td>
+<td style="text-align: left;">显示模型信息</td>
+</tr>
+<tr class="even">
+<td><code>ollama run</code></td>
+<td style="text-align: left;">运行模型</td>
+</tr>
+<tr class="odd">
+<td><code>ollama stop</code></td>
+<td style="text-align: left;">停止正在运行的模型</td>
+</tr>
+<tr class="even">
+<td><code>ollama pull</code></td>
+<td style="text-align: left;">从注册表中拉取模型</td>
+</tr>
+<tr class="odd">
+<td><code>ollama push</code></td>
+<td style="text-align: left;">将模型推送到注册表</td>
+</tr>
+<tr class="even">
+<td><code>ollama sign in</code></td>
+<td style="text-align: left;">登陆ollama.com</td>
+</tr>
+<tr class="odd">
+<td><code>ollama sign out</code></td>
+<td style="text-align: left;">登出ollama.com</td>
+</tr>
+<tr class="even">
+<td><code>ollama list</code></td>
+<td style="text-align: left;">列出所有模型</td>
+</tr>
+<tr class="odd">
+<td><code>ollama ps</code></td>
+<td style="text-align: left;">列出正在运行的模型</td>
+</tr>
+<tr class="even">
+<td><code>ollama cp</code></td>
+<td style="text-align: left;">复制模型</td>
+</tr>
+<tr class="odd">
+<td><code>ollama rm</code></td>
+<td style="text-align: left;">删除模型</td>
+</tr>
+<tr class="even">
+<td><code>ollama help</code></td>
+<td style="text-align: left;">显示任意命令的帮助信息</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>标志</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-h, --help</code></td>
+<td>显示 Ollama 的帮助信息</td>
+</tr>
+<tr class="even">
+<td><code>-v, --version</code></td>
+<td>显示版本信息</td>
+</tr>
+</tbody>
+</table>
+<p>列出所有模型：</p>
+<p><img src="images/chapter_1_8.jpg" class="img-fluid"></p>
+<p>多行输入命令时，可以使用 <code>"""</code> 进行换行。</p>
+<p><img src="images/chapter_1_9.jpg" class="img-fluid"></p>
+<p>使用 <code>"""</code> 结束换行。</p>
+<p><img src="images/chapter_1_10.jpg" class="img-fluid"></p>
+<p>终止 Ollama 模型推理服务，可以使用 <code>/bye</code>。</p>
+<p><img src="images/chapter_1_11-01.jpg" class="img-fluid"></p>
+<p>注意：Ollama 进程会一直运行，如果需要终止 Ollama 所有相关进程，可以使用以下命令：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Get-Process</span> <span class="kw">|</span> <span class="ex">Where-Object</span> {<span class="va">$_</span>.ProcessName <span class="at">-like</span> <span class="st">'*ollama*'</span>} <span class="kw">|</span> <span class="ex">Stop-Process</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>它的作用是查找并强制停止所有名称中包含 “ollama” 的正在运行的进程。</p>
+<p>这条命令通常用于：</p>
+<ol type="1">
+<li>Ollama 卡死 / 无响应</li>
+<li>端口被占用，无法重新启动</li>
+<li>Windows 下 Ollama 后台服务异常</li>
+<li>需要“彻底重启” Ollama</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./cp_2.html" class="pagination-link" aria-label="Ollama安装">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ollama安装</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

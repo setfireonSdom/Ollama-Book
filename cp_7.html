@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; 应用案例 – ollama book</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./summary.html" rel="next">
+<link href="./cp_6.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cp_7.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">应用案例</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">ollama book</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Ollama</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Ollama安装</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Ollama 自定义导入模型</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ollama REST API</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ollama 在 LangChain 中的使用</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ollama 可视化界面部署</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cp_7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">应用案例</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#搭建本地的-ai-copilot-编程助手" id="toc-搭建本地的-ai-copilot-编程助手" class="nav-link active" data-scroll-target="#搭建本地的-ai-copilot-编程助手"><span class="header-section-number">7.1</span> 搭建本地的 AI Copilot 编程助手</a>
+  <ul class="collapse">
+  <li><a href="#ai-编程介绍" id="toc-ai-编程介绍" class="nav-link" data-scroll-target="#ai-编程介绍"><span class="header-section-number">7.1.1</span> AI 编程介绍</a></li>
+  <li><a href="#集成开发环境-continue-接入" id="toc-集成开发环境-continue-接入" class="nav-link" data-scroll-target="#集成开发环境-continue-接入"><span class="header-section-number">7.1.2</span> 集成开发环境 Continue 接入</a></li>
+  <li><a href="#命令行环境-aider-接入" id="toc-命令行环境-aider-接入" class="nav-link" data-scroll-target="#命令行环境-aider-接入"><span class="header-section-number">7.1.3</span> 命令行环境 Aider 接入</a></li>
+  <li><a href="#集成开发环境-roocline-接入新" id="toc-集成开发环境-roocline-接入新" class="nav-link" data-scroll-target="#集成开发环境-roocline-接入新"><span class="header-section-number">7.1.4</span> 集成开发环境 RooCline 接入（新）</a></li>
+  </ul></li>
+  <li><a href="#使用-langchain-构建本地-rag-应用" id="toc-使用-langchain-构建本地-rag-应用" class="nav-link" data-scroll-target="#使用-langchain-构建本地-rag-应用"><span class="header-section-number">7.2</span> 使用 LangChain 构建本地 RAG 应用</a>
+  <ul class="collapse">
+  <li><a href="#环境设置" id="toc-环境设置" class="nav-link" data-scroll-target="#环境设置"><span class="header-section-number">7.2.1</span> 环境设置</a></li>
+  <li><a href="#文档加载" id="toc-文档加载" class="nav-link" data-scroll-target="#文档加载"><span class="header-section-number">7.2.2</span> 文档加载</a></li>
+  <li><a href="#构建-chain-表达形式" id="toc-构建-chain-表达形式" class="nav-link" data-scroll-target="#构建-chain-表达形式"><span class="header-section-number">7.2.3</span> 构建 Chain 表达形式</a></li>
+  <li><a href="#简单qa" id="toc-简单qa" class="nav-link" data-scroll-target="#简单qa"><span class="header-section-number">7.2.4</span> 简单QA</a></li>
+  <li><a href="#带有检索的qa" id="toc-带有检索的qa" class="nav-link" data-scroll-target="#带有检索的qa"><span class="header-section-number">7.2.5</span> 带有检索的QA</a></li>
+  <li><a href="#总结" id="toc-总结" class="nav-link" data-scroll-target="#总结"><span class="header-section-number">7.2.6</span> 总结</a></li>
+  </ul></li>
+  <li><a href="#使用-llamaindex-搭建本地-rag-应用" id="toc-使用-llamaindex-搭建本地-rag-应用" class="nav-link" data-scroll-target="#使用-llamaindex-搭建本地-rag-应用"><span class="header-section-number">7.3</span> 使用 LlamaIndex 搭建本地 RAG 应用</a>
+  <ul class="collapse">
+  <li><a href="#简介" id="toc-简介" class="nav-link" data-scroll-target="#简介"><span class="header-section-number">7.3.1</span> 简介</a></li>
+  <li><a href="#模型下载" id="toc-模型下载" class="nav-link" data-scroll-target="#模型下载"><span class="header-section-number">7.3.2</span> 模型下载</a></li>
+  <li><a href="#安装依赖" id="toc-安装依赖" class="nav-link" data-scroll-target="#安装依赖"><span class="header-section-number">7.3.3</span> 安装依赖</a></li>
+  <li><a href="#加载数据" id="toc-加载数据" class="nav-link" data-scroll-target="#加载数据"><span class="header-section-number">7.3.4</span> 加载数据</a></li>
+  <li><a href="#构建索引" id="toc-构建索引" class="nav-link" data-scroll-target="#构建索引"><span class="header-section-number">7.3.5</span> 构建索引</a></li>
+  <li><a href="#查询数据" id="toc-查询数据" class="nav-link" data-scroll-target="#查询数据"><span class="header-section-number">7.3.6</span> 查询数据</a></li>
+  <li><a href="#检索上下文进行对话" id="toc-检索上下文进行对话" class="nav-link" data-scroll-target="#检索上下文进行对话"><span class="header-section-number">7.3.7</span> 检索上下文进行对话</a></li>
+  <li><a href="#向量索引的存储和加载" id="toc-向量索引的存储和加载" class="nav-link" data-scroll-target="#向量索引的存储和加载"><span class="header-section-number">7.3.8</span> 向量索引的存储和加载</a></li>
+  <li><a href="#streamlit-应用" id="toc-streamlit-应用" class="nav-link" data-scroll-target="#streamlit-应用"><span class="header-section-number">7.3.9</span> streamlit 应用</a></li>
+  </ul></li>
+  <li><a href="#使用-langchain-实现本地-agent" id="toc-使用-langchain-实现本地-agent" class="nav-link" data-scroll-target="#使用-langchain-实现本地-agent"><span class="header-section-number">7.4</span> 使用 LangChain 实现本地 Agent</a>
+  <ul class="collapse">
+  <li><a href="#安装包" id="toc-安装包" class="nav-link" data-scroll-target="#安装包"><span class="header-section-number">7.4.1</span> 安装包</a></li>
+  <li><a href="#代码" id="toc-代码" class="nav-link" data-scroll-target="#代码"><span class="header-section-number">7.4.2</span> 代码</a></li>
+  <li><a href="#问题" id="toc-问题" class="nav-link" data-scroll-target="#问题"><span class="header-section-number">7.4.3</span> 问题</a></li>
+  </ul></li>
+  <li><a href="#使用-llamaindex-实现本地-agent" id="toc-使用-llamaindex-实现本地-agent" class="nav-link" data-scroll-target="#使用-llamaindex-实现本地-agent"><span class="header-section-number">7.5</span> 使用 LlamaIndex 实现本地 Agent</a>
+  <ul class="collapse">
+  <li><a href="#简介-1" id="toc-简介-1" class="nav-link" data-scroll-target="#简介-1"><span class="header-section-number">7.5.1</span> 简介</a></li>
+  <li><a href="#安装" id="toc-安装" class="nav-link" data-scroll-target="#安装"><span class="header-section-number">7.5.2</span> 安装</a></li>
+  <li><a href="#导入依赖" id="toc-导入依赖" class="nav-link" data-scroll-target="#导入依赖"><span class="header-section-number">7.5.3</span> 导入依赖</a></li>
+  <li><a href="#初始化-agent-工具" id="toc-初始化-agent-工具" class="nav-link" data-scroll-target="#初始化-agent-工具"><span class="header-section-number">7.5.4</span> 初始化 Agent 工具</a></li>
+  <li><a href="#初始化-llm-和-agent" id="toc-初始化-llm-和-agent" class="nav-link" data-scroll-target="#初始化-llm-和-agent"><span class="header-section-number">7.5.5</span> 初始化 LLM 和 Agent</a></li>
+  <li><a href="#进行对话" id="toc-进行对话" class="nav-link" data-scroll-target="#进行对话"><span class="header-section-number">7.5.6</span> 进行对话</a></li>
+  </ul></li>
+  <li><a href="#使用-gpt-oss120b-cloud-和-ollama-实现本地-rag-应用" id="toc-使用-gpt-oss120b-cloud-和-ollama-实现本地-rag-应用" class="nav-link" data-scroll-target="#使用-gpt-oss120b-cloud-和-ollama-实现本地-rag-应用"><span class="header-section-number">7.6</span> 使用 gpt-oss:120b-cloud 和 Ollama 实现本地 RAG 应用</a>
+  <ul class="collapse">
+  <li><a href="#简介-2" id="toc-简介-2" class="nav-link" data-scroll-target="#简介-2"><span class="header-section-number">7.6.1</span> 简介</a></li>
+  <li><a href="#前期准备" id="toc-前期准备" class="nav-link" data-scroll-target="#前期准备"><span class="header-section-number">7.6.2</span> 前期准备</a></li>
+  <li><a href="#文档加载-1" id="toc-文档加载-1" class="nav-link" data-scroll-target="#文档加载-1"><span class="header-section-number">7.6.3</span> 文档加载</a></li>
+  <li><a href="#初始化向量存储" id="toc-初始化向量存储" class="nav-link" data-scroll-target="#初始化向量存储"><span class="header-section-number">7.6.4</span> 初始化向量存储</a></li>
+  <li><a href="#构建-chain-表达式" id="toc-构建-chain-表达式" class="nav-link" data-scroll-target="#构建-chain-表达式"><span class="header-section-number">7.6.5</span> 构建 Chain 表达式</a></li>
+  <li><a href="#带有检索的-qa" id="toc-带有检索的-qa" class="nav-link" data-scroll-target="#带有检索的-qa"><span class="header-section-number">7.6.6</span> 带有检索的 QA</a></li>
+  <li><a href="#总结-1" id="toc-总结-1" class="nav-link" data-scroll-target="#总结-1"><span class="header-section-number">7.6.7</span> 总结</a></li>
+  </ul></li>
+  <li><a href="#在本地使用obsidian做rag" id="toc-在本地使用obsidian做rag" class="nav-link" data-scroll-target="#在本地使用obsidian做rag"><span class="header-section-number">7.7</span> 在本地使用obsidian做RAG</a>
+  <ul class="collapse">
+  <li><a href="#下载obsidian" id="toc-下载obsidian" class="nav-link" data-scroll-target="#下载obsidian"><span class="header-section-number">7.7.1</span> 下载obsidian</a></li>
+  <li><a href="#打开" id="toc-打开" class="nav-link" data-scroll-target="#打开"><span class="header-section-number">7.7.2</span> 打开</a></li>
+  <li><a href="#创建个虚拟环境" id="toc-创建个虚拟环境" class="nav-link" data-scroll-target="#创建个虚拟环境"><span class="header-section-number">7.7.3</span> 创建个虚拟环境</a></li>
+  <li><a href="#导入所有包" id="toc-导入所有包" class="nav-link" data-scroll-target="#导入所有包"><span class="header-section-number">7.7.4</span> 导入所有包</a></li>
+  <li><a href="#查看有多少.md文件" id="toc-查看有多少.md文件" class="nav-link" data-scroll-target="#查看有多少.md文件"><span class="header-section-number">7.7.5</span> 查看有多少<code>.md</code>文件</a></li>
+  <li><a href="#输入api_key" id="toc-输入api_key" class="nav-link" data-scroll-target="#输入api_key"><span class="header-section-number">7.7.6</span> 输入api_key</a></li>
+  <li><a href="#保存索引" id="toc-保存索引" class="nav-link" data-scroll-target="#保存索引"><span class="header-section-number">7.7.7</span> 保存索引</a></li>
+  <li><a href="#读取索引" id="toc-读取索引" class="nav-link" data-scroll-target="#读取索引"><span class="header-section-number">7.7.8</span> 读取索引</a></li>
+  <li><a href="#问答" id="toc-问答" class="nav-link" data-scroll-target="#问答"><span class="header-section-number">7.7.9</span> 问答</a></li>
+  <li><a href="#使用本地模型" id="toc-使用本地模型" class="nav-link" data-scroll-target="#使用本地模型"><span class="header-section-number">7.7.10</span> 使用本地模型</a></li>
+  </ul></li>
+  <li><a href="#在cherry-studio使用ollama" id="toc-在cherry-studio使用ollama" class="nav-link" data-scroll-target="#在cherry-studio使用ollama"><span class="header-section-number">7.8</span> 在Cherry Studio使用ollama</a>
+  <ul class="collapse">
+  <li><a href="#下载" id="toc-下载" class="nav-link" data-scroll-target="#下载"><span class="header-section-number">7.8.1</span> 下载</a></li>
+  <li><a href="#导入ollama" id="toc-导入ollama" class="nav-link" data-scroll-target="#导入ollama"><span class="header-section-number">7.8.2</span> 导入ollama</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">应用案例</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>ollama的远程模型有时候可能用不了，所以使用模型的时候，可以将远程模型替换成：</p>
+<p><code>deepseek-r1:1.5b</code> 、<code>llama3.2:1b</code> 、<code>qwen2.5:0.5b</code> 、<code>qwen2.5:1.5b</code> 这些都是很小的模型，本地跑起来不算卡。</p>
+<p>embedding模型可以用：<code>nomic-embed-text:latest</code> 、<code>bge-m3:latest</code></p>
+<section id="搭建本地的-ai-copilot-编程助手" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="搭建本地的-ai-copilot-编程助手"><span class="header-section-number">7.1</span> 搭建本地的 AI Copilot 编程助手</h2>
+<section id="ai-编程介绍" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="ai-编程介绍"><span class="header-section-number">7.1.1</span> AI 编程介绍</h3>
+<section id="为什么我们要使用-ai-编程" class="level4" data-number="7.1.1.1">
+<h4 data-number="7.1.1.1" class="anchored" data-anchor-id="为什么我们要使用-ai-编程"><span class="header-section-number">7.1.1.1</span> 为什么我们要使用 AI 编程？</h4>
+<p>大语言模型问世已久，但是其表现最出色的领域一直是编程领域，原因如下：</p>
+<ol type="1">
+<li>明确的对错标准。在编程世界里, 代码要么能跑, 要么不能。这种非黑即白的特性让 AI 更容易判断自己的输出质量。</li>
+<li>精确的语言。编程语言没有太多模棱两可的地方。每个符号、每个关键字都有明确的含义。这种精确性正是 AI 模型所擅长的。</li>
+<li>目标明确的任务。写代码时, 我们通常有明确的目标。比如, “写一个计算斐波那契数列的函数”。这种清晰的指令让 AI 更容易集中精力解决问题。</li>
+<li>知识的通用性。学会了一种编程语言的基本概念, 很多东西都能迁移到其他语言。这种知识的可迁移性让 AI 模型在编程领域学习效率特别高。</li>
+</ol>
+</section>
+<section id="我们如何使用-ai-编程" class="level4" data-number="7.1.1.2">
+<h4 data-number="7.1.1.2" class="anchored" data-anchor-id="我们如何使用-ai-编程"><span class="header-section-number">7.1.1.2</span> 我们如何使用 AI 编程？</h4>
+<ol type="1">
+<li>使用大模型对话应用（这里不再讲解）</li>
+<li>使用集成开发环境（IDE）
+<ul>
+<li>Continue</li>
+</ul></li>
+<li>使用命令行工具
+<ul>
+<li>Aider</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="集成开发环境-continue-接入" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="集成开发环境-continue-接入"><span class="header-section-number">7.1.2</span> 集成开发环境 Continue 接入</h3>
+<p>本地模型代码补全</p>
+<p>cursor虽然提供了一些免费模型的使用，但是没有提供免费的代码补全，所以可以使用本地模型来进行代码补全。</p>
+<section id="安装所需模型" class="level4" data-number="7.1.2.1">
+<h4 data-number="7.1.2.1" class="anchored" data-anchor-id="安装所需模型"><span class="header-section-number">7.1.2.1</span> 安装所需模型</h4>
+<ol type="1">
+<li>安装 Ollama</li>
+<li>安装以下模型
+<ul>
+<li>安装通用问答模型<code>ollama pull llama3:8b</code></li>
+<li>安装自动代码补全模型: <code>ollama pull starcoder2:3b</code>（也可以用qwen2.5-coder:7b,4GB）</li>
+<li>安装 embedding 模型: <code>ollama pull nomic-embed-text</code></li>
+</ul></li>
+</ol>
+</section>
+<section id="打开cursor" class="level4" data-number="7.1.2.2">
+<h4 data-number="7.1.2.2" class="anchored" data-anchor-id="打开cursor"><span class="header-section-number">7.1.2.2</span> 打开cursor</h4>
+<p><img src="images/cp_7_1.png" class="img-fluid"></p>
+<p>在插件搜索栏搜索<code>Continue</code>.</p>
+<p><img src="images/cp_7_2.png" class="img-fluid"></p>
+<p>下载Continue</p>
+</section>
+<section id="配置模型" class="level4" data-number="7.1.2.3">
+<h4 data-number="7.1.2.3" class="anchored" data-anchor-id="配置模型"><span class="header-section-number">7.1.2.3</span> 配置模型</h4>
+<p>在左边文件夹区域</p>
+<p><img src="images/co_7_3.png" class="img-fluid"></p>
+<p><img src="images/cp_7_4.png" class="img-fluid"></p>
+<p><img src="images/cp_7_5.png" class="img-fluid">把指定的模型替换成ollama本地有的，且合适的模型就可以补全了。</p>
+<p><img src="images/cp_7_6.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="命令行环境-aider-接入" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="命令行环境-aider-接入"><span class="header-section-number">7.1.3</span> 命令行环境 Aider 接入</h3>
+<p>Aider 是基于命令行的编程助手，比起集成开发环境，它拥有顶级的系统权限和功能使用，但同时意味着它更难上手。</p>
+<p>以下教程将教会你安装 Aider 以及连接到 Ollama 服务</p>
+<p>此外，请确保：</p>
+<ol type="1">
+<li>安装了 git 并且有 git 使用经验</li>
+<li>python 使用经验</li>
+</ol>
+<section id="安装-aider" class="level4" data-number="7.1.3.1">
+<h4 data-number="7.1.3.1" class="anchored" data-anchor-id="安装-aider"><span class="header-section-number">7.1.3.1</span> 安装 Aider</h4>
+<ol type="1">
+<li>Aider 的使用过程中对 python 环境有大量依赖，建议使用 conda 新开一个环境或者使用 python 新建虚拟环境，以下使用 conda 演示</li>
+</ol>
+<p>新起一个 conda 虚拟环境（python 虚拟环境同理）</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>conda create -n aider_env python=3.9</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>进入该虚拟环境</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>conda activate aider_env</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>按照以下命令安装</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>python -m pip install aider-chat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>python -m pip 的意思不是“用 pip 这个命令”，而是“让当前这个 python 解释器，去运行它自带环境里的 pip 模块”。-m 的含义是 run module，也就是把一个 Python 模块当成入口程序来执行。换句话说，这条命令的主语是 python，而不是 pip。</p>
+<p>关键差异就在这里。pip install 的本质是调用一个叫 pip 的可执行脚本，而这个 pip 脚本到底对应哪一个 Python，是不确定的，它取决于你的 PATH、conda 环境、venv 状态，甚至取决于你之前装过什么。你敲 pip install 的时候，实际上是在赌“这个 pip 恰好属于我现在想用的那个 Python”。</p>
+<p>而 python -m pip install 的语义是完全确定的：我明确指定了 python，用的就是当前这个 python，然后让它加载它自己那一套 pip，再往它自己的 site-packages 里装东西。也就是说，python 和 pip 在逻辑上是强绑定的，不存在装到“隔壁 Python”里的问题。</p>
+<p>python -m pip 本质上是一个“防歧义写法”。它牺牲了一点点输入长度，换来的是环境确定性和可复现性。</p>
+</blockquote>
+</section>
+<section id="设置-ollama-并启动" class="level4" data-number="7.1.3.2">
+<h4 data-number="7.1.3.2" class="anchored" data-anchor-id="设置-ollama-并启动"><span class="header-section-number">7.1.3.2</span> 设置 Ollama 并启动</h4>
+<p>1.启动命令行，按照如下设置环境变量</p>
+<pre class="plain"><code>export OLLAMA_API_BASE=http://127.0.0.1:11434 # Mac/Linux环境
+setx OLLAMA_API_BASE http://127.0.0.1:11434 # Windows环境,设置以后重启shell工具</code></pre>
+<p>2.cd 进入自己本地的代码仓库位置，若没有，Aider 会自动在当前目录下初始化 git 仓库</p>
+<pre class="plain"><code>#example 
+cd D:\Myfile\handy-ollama\handy-ollama\handy-ollama</code></pre>
+<p>3.使用以下命令运行 Aider</p>
+<pre class="plain"><code>aider --model ollama/&lt;你的模型名字&gt;
+#example
+#aider --model ollama/llama3.2:3b
+#aider --model ollama/gpt-oss:120b-cloud 使用云上模型会报错</code></pre>
+<p>命令输入后出现一些选择，如下：</p>
+<pre class="plain"><code>..../miniconda3/envs/aider_env/bin/python -m pip install --upgrade --upgrade-strategy only-if-needed aider-chat
+Run pip install? (Y)es/(N)o [Yes]: y 
+...
+Installation complete.
+
+Re-run aider to use new version.
+
+No git repo found, create one to track aider's changes (recommended)? (Y)es/(N)o [Yes]: y
+Open documentation url for more info? (Y)es/(N)o/(D)on't ask again [Yes]: n</code></pre>
+<p>你也可以使用 .env 文件配置 Aider 相关信息</p>
+<p>比如</p>
+<pre class="plain"><code>## 指定OPENAI_KEY(如果有的话)
+OPENAI_API_KEY=xxx
+
+## 指定你使用model
+AIDER_MODEL=ollama/llama3:8b</code></pre>
+<p>更多配置参考：<a href="https://aider.chat/docs/config/dotenv.html" class="uri">https://aider.chat/docs/config/dotenv.html</a></p>
+<p>4.进入以下页面即成功</p>
+<p><img src="images/cp_7_7.png" class="img-fluid"></p>
+<p>5.你现在可以跟他聊天，或者给他发送一些指令，它可以直接修改你的代码</p>
+<p>电脑配置太低的话，会卡住。</p>
+</section>
+<section id="基本使用" class="level4" data-number="7.1.3.3">
+<h4 data-number="7.1.3.3" class="anchored" data-anchor-id="基本使用"><span class="header-section-number">7.1.3.3</span> 基本使用</h4>
+<ol type="1">
+<li>你可以问它一些关于这个仓库的基本信息</li>
+</ol>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-13.png" class="img-fluid"></p>
+<p>2.Add Files 添加文件</p>
+<pre class="plain"><code>/add &lt;file1&gt; &lt;file2&gt; ...</code></pre>
+<p>然后你就可以根据这些文件来做一些提问</p>
+<pre><code>- 你可以在不添加任何文件的情况下使用 Aider，它会根据您的请求尝试找出需要编辑哪些文件。(但是想过往往不好)
+- 添加相关的文件以对某个特定的代码或者文件进行修改或者答疑。（不要添加一堆额外的文件。如果添加太多文件，生成效果也不好，并且需要花费更多 Token ）。</code></pre>
+<p>示例：</p>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-14.png" class="img-fluid"></p>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-15.png" class="img-fluid"></p>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-16.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li>使用 Aider 直接对代码文件或者其他文件进行修改，比如对 Readme最后一行加一个总结</li>
+</ol>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-17.png" class="img-fluid"></p>
+<p>查看实际文件</p>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-18.png" class="img-fluid"></p>
+<ol start="4" type="1">
+<li>如果不希望 Aider 对文件进行实际操作，可以在对话前添加操作符 /ask</li>
+<li>使用 /drop 删除所有添加入的文件</li>
+</ol>
+</section>
+<section id="参考资料" class="level4" data-number="7.1.3.4">
+<h4 data-number="7.1.3.4" class="anchored" data-anchor-id="参考资料"><span class="header-section-number">7.1.3.4</span> 参考资料</h4>
+<p>常用斜杠命令列表：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/add</code></td>
+<td>将文件添加到聊天中，以便 GPT 可以编辑或详细审查它们</td>
+</tr>
+<tr class="even">
+<td><code>/ask</code></td>
+<td>询问关于代码库的问题，而不编辑任何文件</td>
+</tr>
+<tr class="odd">
+<td><code>/chat-mode</code></td>
+<td>切换到新的聊天模式</td>
+</tr>
+<tr class="even">
+<td><code>/clear</code></td>
+<td>清除聊天历史</td>
+</tr>
+<tr class="odd">
+<td><code>/clipboard</code></td>
+<td>将剪贴板中的图像/文本添加到聊天中（可选择为图像提供名称）</td>
+</tr>
+<tr class="even">
+<td><code>/code</code></td>
+<td>请求对代码进行更改</td>
+</tr>
+<tr class="odd">
+<td><code>/commit</code></td>
+<td>提交在聊天外对仓库所做的编辑（提交信息可选）</td>
+</tr>
+<tr class="even">
+<td><code>/diff</code></td>
+<td>显示自上次消息以来的更改差异</td>
+</tr>
+<tr class="odd">
+<td><code>/drop</code></td>
+<td>从聊天会话中移除文件以释放上下文空间</td>
+</tr>
+<tr class="even">
+<td><code>/exit</code></td>
+<td>退出应用程序</td>
+</tr>
+<tr class="odd">
+<td><code>/git</code></td>
+<td>运行 git 命令</td>
+</tr>
+<tr class="even">
+<td><code>/help</code></td>
+<td>询问关于 aider 的问题</td>
+</tr>
+<tr class="odd">
+<td><code>/lint</code></td>
+<td>对提供的文件或聊天中的文件进行代码检查和修复（如果未提供文件）</td>
+</tr>
+<tr class="even">
+<td><code>/ls</code></td>
+<td>列出所有已知文件，并指示哪些文件包含在聊天会话中</td>
+</tr>
+<tr class="odd">
+<td><code>/map</code></td>
+<td>打印当前仓库信息</td>
+</tr>
+<tr class="even">
+<td><code>/map-refresh</code></td>
+<td>强制刷新仓库信息并打印出来</td>
+</tr>
+<tr class="odd">
+<td><code>/model</code></td>
+<td>切换到新的语言模型</td>
+</tr>
+<tr class="even">
+<td><code>/models</code></td>
+<td>搜索可用模型列表</td>
+</tr>
+<tr class="odd">
+<td><code>/quit</code></td>
+<td>退出应用程序</td>
+</tr>
+<tr class="even">
+<td><code>/read-only</code></td>
+<td>将文件添加到聊天中，仅供参考，不可编辑</td>
+</tr>
+<tr class="odd">
+<td><code>/run</code></td>
+<td>运行 shell 命令，并可选择将输出添加到聊天中（别名：!）</td>
+</tr>
+<tr class="even">
+<td><code>/test</code></td>
+<td>运行 shell 命令，并在非零退出代码时将输出添加到聊天中</td>
+</tr>
+<tr class="odd">
+<td><code>/tokens</code></td>
+<td>报告当前聊天上下文使用的令牌数量</td>
+</tr>
+<tr class="even">
+<td><code>/undo</code></td>
+<td>如果最后一次 git 提交是由 aider 完成的，则撤销该提交</td>
+</tr>
+<tr class="odd">
+<td><code>/voice</code></td>
+<td>录制并转录语音输入</td>
+</tr>
+<tr class="even">
+<td><code>/web</code></td>
+<td>抓取网页，转换为 markdown 并添加到聊天中</td>
+</tr>
+</tbody>
+</table>
+<p>更多用法请参照 <a href="https://aider.chat/docs/usage.html" class="uri">https://aider.chat/docs/usage.html</a></p>
+</section>
+</section>
+<section id="集成开发环境-roocline-接入新" class="level3" data-number="7.1.4">
+<h3 data-number="7.1.4" class="anchored" data-anchor-id="集成开发环境-roocline-接入新"><span class="header-section-number">7.1.4</span> 集成开发环境 RooCline 接入（新）</h3>
+<section id="cline-和-roocline" class="level4" data-number="7.1.4.1">
+<h4 data-number="7.1.4.1" class="anchored" data-anchor-id="cline-和-roocline"><span class="header-section-number">7.1.4.1</span> Cline 和 RooCline</h4>
+<p>Cline是目前世界范围内最火热的 vscode 的 ai 编程插件。它对人工智能辅助的运用方式与市场上大多数工具不同。它并非仅仅专注于代码生成或补全，而是作为一种系统级工具运行，能够与整个开发环境进行交互。在处理复杂的调试场景、大规模重构或集成测试时，这一特性就显得尤为重要，具体我们可以看参考资料中的Cline部分。今天我们要介绍的是 Roo Cline。</p>
+<p>RooCline 是 Cline 的增强版，专注于提升开发效率和灵活性。它支持多语言、多模型（如 Gemini、Meta 等），并提供了智能通知、文件处理优化、缺失代码检测等功能。此外，RooCline 还支持与 Cline 并行运行，适合需要同时处理多种任务的开发者。</p>
+<p>虽然 Roo Cline 的量级仍然不及 Cline，但增速很快。它在 Cline 的基础上，加了一些额外的实验功能，还能自我编写部分代码，只需要人类做少量干预。</p>
+<p>并且 Cline 消耗的 Token 数量很高，这或多或少影响了日常开发成本。</p>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-19.png" class="img-fluid"></p>
+</section>
+<section id="在-vscode-安装-roocline-以及配置本地-ollama" class="level4" data-number="7.1.4.2">
+<h4 data-number="7.1.4.2" class="anchored" data-anchor-id="在-vscode-安装-roocline-以及配置本地-ollama"><span class="header-section-number">7.1.4.2</span> 在 VScode 安装 RooCline 以及配置本地 Ollama</h4>
+<p>Ollama 安装模型（以 deepseek-r1:1.5b 为例）</p>
+<ol type="1">
+<li>ollama run deepseek-r1:1.5b</li>
+<li>在 VScode 插件库安装模型</li>
+</ol>
+<p>搜索 Roo Cline ，看到如下的图标，点击 install 或者安装</p>
+<p><img src="images/cp_7_9.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li>配置 ollama</li>
+</ol>
+<p><img src="images/cp_7_10.png" class="img-fluid"></p>
+<p><img src="images/cp_7_11.png" class="img-fluid"></p>
+<p><img src="images/cp_7_12.png" class="img-fluid"></p>
+<p><img src="images/cp_7_13.png" class="img-fluid"></p>
+<ol start="4" type="1">
+<li>现在，你可以像使用其他任何集成编辑器+ ai 一样使用 cursor（vscode）</li>
+</ol>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-22.png" class="img-fluid"></p>
+<p>接下来，我们会介绍一些 Roo cline 独有的功能！</p>
+</section>
+<section id="roo-cline-特性" class="level4" data-number="7.1.4.3">
+<h4 data-number="7.1.4.3" class="anchored" data-anchor-id="roo-cline-特性"><span class="header-section-number">7.1.4.3</span> Roo Cline 特性</h4>
+<p>注意，这些特性需要依赖一定的大模型能力，特别是在控制系统级别应用的时候。我们举例中的 deepseek-r1:1.5b 不具备以下这些操作的能力，会报错复杂度太高。建议接入 deepseek 的 api 访问（很便宜）。</p>
+<p>以下1~2功能点击功能区域的 Prompt 图标即可进入配置页面</p>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-23.png" class="img-fluid"></p>
+<ol type="1">
+<li>支持任意 API/模型
+<ul>
+<li>OpenRouter/Anthropic/Glama/OpenAI/Google Gemini/AWS Bedrock/Azure/GCP Vertex</li>
+<li>本地模型（LM Studio/Ollama）及任何 OpenAI 兼容接口</li>
+<li>不同模式可使用不同模型（如架构设计用高级模型，日常编码用经济模型）</li>
+<li>会话级使用量追踪（Token 消耗和成本统计）</li>
+</ul></li>
+<li>自定义模式：通过模式定制 Roo Code 的角色、指令和权限：
+<ul>
+<li>内置模式
+<ul>
+<li>Code模式：默认多功能编码助手</li>
+<li>Architect模式：系统级设计和架构分析</li>
+<li>Ask模式：深度研究及问题解答</li>
+</ul></li>
+<li>用户创建模式
+<ul>
+<li>输入”Create a new mode for “即可生成定制角色</li>
+<li>每个模式可拥有独立指令和技能集（在 Prompts 标签管理）</li>
+</ul></li>
+<li>高级功能
+<ul>
+<li>文件类型限制（如 ask/architect 模式仅编辑 markdown）</li>
+<li>自定义文件规则（如仅操作 .test.ts 测试文件）</li>
+<li>模式间切换（如自动转代码模式实现具体功能）</li>
+<li>自主创建新模式（含角色定义和文件限制）</li>
+</ul></li>
+</ul></li>
+<li>颗粒度控制 Roo cline 权限</li>
+</ol>
+<p>点击设置界面进入：可以在 Auto-Approve Setting 控制 Roo cline 的权限.</p>
+<p>注意，这里控制的是哪些操作可以不经过你的同意自动进行。否则将会在进行前对你进行一次点击确认过程</p>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-24.png" class="img-fluid"></p>
+<ol start="4" type="1">
+<li>文件与编辑器操作
+<ul>
+<li>项目文件创建/编辑（显示差异对比）</li>
+<li>自动响应代码错误（缺失导入、语法问题等）</li>
+<li>通过编辑器时间轴追踪变更（便于审查/回滚）</li>
+</ul></li>
+<li>命令行集成
+<ul>
+<li>包管理/构建/测试命令</li>
+<li>监控输出并自动适配错误</li>
+<li>后台持续运行开发服务器 支持审批策略：逐条确认/常规操作自动批准</li>
+</ul></li>
+<li>浏览器自动化</li>
+</ol>
+<p>在第三步中，选择以下选项即可让 Roo Cline拥有网页自动化能力</p>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-25.png" class="img-fluid"></p>
+<pre><code>- 启动本地/远程 Web 应用
+- 点击/输入/滚动/截图操作
+- 收集控制台日志调试运行时问题 适用于端到端测试和视觉验证</code></pre>
+<ol start="7" type="1">
+<li>MCP 工具扩展</li>
+</ol>
+<p>Model Context Protocol (MCP) 是 Roo 的能力扩展协议，允许 Roo 与本地服务器通信，这些服务器提供额外的工具和资源。相当于给这个编程助手装上了”外接大脑”。</p>
+<p>本地/云端双模式：既可以用你电脑本地的工具服务，也能连社区共享的现成模块</p>
+<p>动态创建工具：直接告诉 Roo “做个能查最新 npm 文档的工具”，它会自动生成对接代码</p>
+<p>举例：</p>
+<pre><code>1. 接社区资源：用别人造好的轮子</code></pre>
+<p>比如接入已存在的「天气 API 查询工具」</p>
+<p>直接使用开源社区验证过的工具</p>
+<pre><code>2. 自建私藏工具：根据业务需求定制</code></pre>
+<p>说”做个能抓取公司内部日志的工具”</p>
+<p>Roo 会自动生成：</p>
+<pre class="plain"><code># 示例自动生成的工具框架
+class LogTool(MCPPlugin):
+    def fetch_logs(self, service_name):
+    # 自动对接公司日志系统
+    # 返回最近1小时的关键错误日志
+...</code></pre>
+<p>你审核通过后，这个工具就会出现在 Roo 的技能列表里</p>
+<pre><code>3. 安全机制：所有新增工具需要人工审核授权才会激活，防止随意调用敏感接口</code></pre>
+<p><img src="https://github.com/liamamilin/handy-ollama/raw/main/docs/images/C7-1-26.png" class="img-fluid"></p>
+<ol start="8" type="1">
+<li>上下文@：提供额外上下文的方式：
+<ul>
+<li><code>@file</code>：嵌入文件内容</li>
+<li><code>@folder</code>：包含完整目录结构</li>
+<li><code>@problems</code>：引入工作区错误/警告</li>
+<li><code>@url</code>：获取 URL 文档（转 markdown）</li>
+<li><code>@git</code>：提供 Git 提交记录/差异分析 帮助聚焦关键信息，优化 token 使用</li>
+</ul></li>
+</ol>
+<p>参考资料（推荐阅读）</p>
+<p>Roo Cline github地址：<a href="https://github.com/RooVetGit/Roo-Code" class="uri">https://github.com/RooVetGit/Roo-Code</a>现已改名叫 Roo-Code，更多新功能等你去发现</p>
+<p>Cline 介绍：<a href="https://zhuanlan.zhihu.com/p/21779725904" class="uri">https://zhuanlan.zhihu.com/p/21779725904</a></p>
+<p>Cline 和 Cursor 对比：<a href="https://aicoding.csdn.net/679052f1911edf5f3b049d25.html" class="uri">https://aicoding.csdn.net/679052f1911edf5f3b049d25.html</a></p>
+<p>使用 ai 编程工具从零不写一行代码完成一个AI服务网站：<a href="https://cloud.tencent.com/developer/article/2479975" class="uri">https://cloud.tencent.com/developer/article/2479975</a></p>
+</section>
+</section>
+</section>
+<section id="使用-langchain-构建本地-rag-应用" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="使用-langchain-构建本地-rag-应用"><span class="header-section-number">7.2</span> 使用 LangChain 构建本地 RAG 应用</h2>
+<p>该教程假设您已经熟悉以下概念:</p>
+<ul>
+<li><a href="https://python.langchain.com/v0.2/docs/concepts/#chat-models">Chat Models</a></li>
+<li><a href="https://python.langchain.com/v0.2/docs/how_to/sequence/">Chaining runnables</a></li>
+<li><a href="https://python.langchain.com/v0.2/docs/concepts/#embedding-models">Embeddings</a></li>
+<li><a href="https://python.langchain.com/v0.2/docs/concepts/#vector-stores">Vector stores</a></li>
+<li><a href="https://python.langchain.com/v0.2/docs/tutorials/rag/">Retrieval-augmented generation</a></li>
+</ul>
+<p>很多流行的项目如 <a href="https://github.com/ggerganov/llama.cpp">llama.cpp</a>, <a href="https://github.com/ollama/ollama">Ollama</a>, 和 <a href="https://github.com/Mozilla-Ocho/llamafile">llamafile</a> 显示了本地环境中运行大语言模型的重要性。</p>
+<p>LangChain 与许多可以本地运行的 <a href="https://python.langchain.com/v0.2/docs/how_to/local_llms">开源 LLM 供应商</a> 有集成，<a href="https://python.langchain.com/v0.2/docs/integrations/providers/ollama/">Ollama</a> 便是其中之一。</p>
+<section id="环境设置" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="环境设置"><span class="header-section-number">7.2.1</span> 环境设置</h3>
+<p>首先，我们需要进行环境设置。</p>
+<p>Ollama 的 <a href="https://github.com/ollama/ollama">GitHub仓库</a> 中提供了详细的说明, 简单总结如下:</p>
+<ul>
+<li><a href="https://ollama.com/download">下载</a> 并运行 Ollama 应用程序</li>
+<li>从命令行, 参考 <a href="https://ollama.com/library">Ollama 模型列表</a> 和 <a href="https://python.langchain.com/v0.2/docs/integrations/text_embedding/">文本嵌入模型列表</a> 拉取模型。在该教程中，我们以 <code>llama3.1:8b</code> 和 <code>nomic-embed-text</code> 为例:
+<ul>
+<li>命令行输入 <code>ollama pull llama3.1:8b</code>，拉取通用的开源大语言模型 <code>llama3.1:8b</code></li>
+<li>命令行输入 <code>ollama pull nomic-embed-text</code> 拉取 <a href="https://ollama.com/search?c=embedding">文本嵌入模型</a> <code>nomic-embed-text</code></li>
+</ul></li>
+<li>当应用运行时，所有模型将自动在 <code>localhost:11434</code> 上启动</li>
+<li>注意，你的模型选择需要考虑你的本地硬件能力，该教程的参考显存大小 <code>GPU Memory &gt; 8GB</code></li>
+</ul>
+<p>接下来，安装本地嵌入、向量存储和模型推理所需的包。</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># langchain_community</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>qU langchain langchain_community</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Chroma</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>qU langchain_chroma</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Ollama</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pip install <span class="op">-</span>qU langchain_ollama</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="plain"><code>Note: you may need to restart the kernel to use updated packages.
+Note: you may need to restart the kernel to use updated packages.
+Note: you may need to restart the kernel to use updated packages.</code></pre>
+<p>You can also <a href="./docs/integrations/text_embedding/">see this page</a> for a full list of available embeddings models</p>
+</section>
+<section id="文档加载" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="文档加载"><span class="header-section-number">7.2.2</span> 文档加载</h3>
+<p>现在让我们加载并分割一个示例文档。</p>
+<p>我们将以 Lilian Weng 的关于 Agent 的 <a href="https://lilianweng.github.io/posts/2023-06-23-agent/">博客</a> 为例。</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_text_splitters <span class="im">import</span> RecursiveCharacterTextSplitter</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.document_loaders <span class="im">import</span> WebBaseLoader</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> WebBaseLoader(<span class="st">"https://lilianweng.github.io/posts/2023-06-23-agent/"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> loader.load()</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">500</span>, chunk_overlap<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>all_splits <span class="op">=</span> text_splitter.split_documents(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>接着，初始化向量存储。 我们使用的文本嵌入模型是 <code>nomic-embed-text</code> 。</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_chroma <span class="im">import</span> Chroma</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_ollama <span class="im">import</span> OllamaEmbeddings</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>local_embeddings <span class="op">=</span> OllamaEmbeddings(model<span class="op">=</span><span class="st">"nomic-embed-text:latest"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>vectorstore <span class="op">=</span> Chroma.from_documents(documents<span class="op">=</span>all_splits, embedding<span class="op">=</span>local_embeddings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>现在我们得到了一个本地的向量数据库! 来简单测试一下相似度检索:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>question <span class="op">=</span> <span class="st">"What are the approaches to Task Decomposition?"</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> vectorstore.similarity_search(question)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="plain"><code>4</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>docs[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/cp_7_14.png" class="img-fluid"></p>
+<p>接下来实例化大语言模型 <code>gpt-oss:120b-cloud</code> 并测试模型推理是否正常：</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_ollama <span class="im">import</span> ChatOllama</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ChatOllama(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gpt-oss:120b-cloud"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>本地模型太慢了，所以用ollama提供的云模型，如果电脑配置够快，可以选择<code>llama3.1:8b</code>、<code>deepseek-r1:1.5b</code></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>response_message <span class="op">=</span> model.invoke(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Simulate a rap battle between Stephen Colbert and John Oliver"</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response_message.content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/cp_7_15.png" class="img-fluid"></p>
+</section>
+<section id="构建-chain-表达形式" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="构建-chain-表达形式"><span class="header-section-number">7.2.3</span> 构建 Chain 表达形式</h3>
+<p>我们可以通过传入检索到的文档和简单的 prompt 来构建一个 <code>summarization chain</code> 。</p>
+<p>它使用提供的输入键值格式化提示模板，并将格式化后的字符串传递给指定的模型：</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.output_parsers <span class="im">import</span> StrOutputParser</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> ChatPromptTemplate.from_template(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Summarize the main themes in these retrieved docs: </span><span class="sc">{docs}</span><span class="st">"</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 将传入的文档转换成字符串的形式</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_docs(docs):</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span>.join(doc.page_content <span class="cf">for</span> doc <span class="kw">in</span> docs)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> {<span class="st">"docs"</span>: format_docs} <span class="op">|</span> prompt <span class="op">|</span> model <span class="op">|</span> StrOutputParser()</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>question <span class="op">=</span> <span class="st">"What are the approaches to Task Decomposition?"</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> vectorstore.similarity_search(question)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>chain.invoke(docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="plain"><code>'**Main Themes**\n\n1. **Task Decomposition Strategies**  \n   - **LLM‑driven prompting** – simple cues such as “Steps for\u202fXYZ.\u202f1.” or “What are the subgoals for achieving\u202fXYZ?” let a language model generate a step‑by‑step plan.  \n   - **Task‑specific instructions** – giving a concrete directive (“Write a story outline.”) steers the model toward an appropriate hierarchical breakdown (chapters, scenes, etc.).  \n   - **Human input** – users can supply or validate subgoals, providing guidance that the model may not infer on its own.\n\n2. **Planning as a Core Component**  \n   - Complex tasks consist of many interrelated steps; an agent must first **recognize** these steps and **plan** how to sequence them before execution.  \n   - Planning is framed as the first stage of a three‑stage pipeline: *Planning → Execution → Reflection*.\n\n3. **Subgoal Generation &amp; Decomposition**  \n   - The agent repeatedly splits a large goal into smaller, tractable subgoals, enabling parallel or incremental processing and reducing cognitive load.  \n   - Each subgoal becomes a unit of work for downstream “expert” models.\n\n4. **Expert Model Execution**  \n   - Specialized models (or “expert” modules) are invoked to carry out the concrete subtasks (e.g., code synthesis, summarization, image generation).  \n   - Results are logged for later review.\n\n5. **Reflection, Self‑Criticism, and Refinement**  \n   - After execution, the agent performs **self‑reflection**: checking outcomes against expectations, identifying mistakes, and adjusting future steps.  \n   - This iterative loop improves the quality of the final result and helps the system learn from its own errors.\n\n6. **Memory / State Management**  \n   - A persistent memory stores the plan, subgoals, intermediate results, and reflection notes, so the agent can recall prior decisions, avoid redundant work, and maintain continuity across long‑running or multi‑turn tasks.\n\n**Overall Picture**  \nThe documents describe a hierarchical, iterative workflow for intelligent agents:\n\n1. **Plan** – decompose the objective using LLM prompting, task‑specific cues, or human guidance.  \n2. **Execute** – delegate each subgoal to expert models and record outcomes.  \n3. **Reflect** – evaluate performance, self‑criticize, and refine the plan.  \n\nMemory ties the three stages together, enabling the agent to build on past experience and progressively improve its problem‑solving capability.'</code></pre>
+</section>
+<section id="简单qa" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="简单qa"><span class="header-section-number">7.2.4</span> 简单QA</h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.runnables <span class="im">import</span> RunnablePassthrough</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>RAG_TEMPLATE <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="st">You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;context&gt;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="sc">{context}</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/context&gt;</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="st">Answer the following question:</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="sc">{question}</span><span class="st">"""</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>rag_prompt <span class="op">=</span> ChatPromptTemplate.from_template(RAG_TEMPLATE)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> (</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    RunnablePassthrough.assign(context<span class="op">=</span><span class="kw">lambda</span> <span class="bu">input</span>: format_docs(<span class="bu">input</span>[<span class="st">"context"</span>]))</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> rag_prompt</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> model</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> StrOutputParser()</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>question <span class="op">=</span> <span class="st">"What are the approaches to Task Decomposition?"</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> vectorstore.similarity_search(question)</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Run</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>chain.invoke({<span class="st">"context"</span>: docs, <span class="st">"question"</span>: question})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="plain"><code>'Task decomposition can be performed (1) by prompting a large language model with simple requests such as “Steps for\u202fXYZ” or “What are the subgoals for achieving\u202fXYZ?”. (2) It can use task‑specific instructions, e.g., “Write a story outline” for novel writing. (3) It can also rely on human input to define the subgoals.'</code></pre>
+</section>
+<section id="带有检索的qa" class="level3" data-number="7.2.5">
+<h3 data-number="7.2.5" class="anchored" data-anchor-id="带有检索的qa"><span class="header-section-number">7.2.5</span> 带有检索的QA</h3>
+<p>最后，我们带有语义检索功能的 QA 应用（本地 RAG 应用），可以根据用户问题自动从向量数据库中检索语义上最相近的文档片段：</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>retriever <span class="op">=</span> vectorstore.as_retriever()</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>qa_chain <span class="op">=</span> (</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"context"</span>: retriever <span class="op">|</span> format_docs, <span class="st">"question"</span>: RunnablePassthrough()}</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> rag_prompt</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> model</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> StrOutputParser()</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>question <span class="op">=</span> <span class="st">"What are the approaches to Task Decomposition?"</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>qa_chain.invoke(question)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="plain"><code>'Task decomposition can be performed (1) by prompting a large language model with simple cues such as “Steps for\u202fXYZ” or “What are the subgoals for\u202fXYZ?”. (2) It can also rely on task‑specific instructions, e.g., giving a directive like “Write a story outline” for novel writing. (3) Finally, human input can be used to define and break down the subgoals.'</code></pre>
+</section>
+<section id="总结" class="level3" data-number="7.2.6">
+<h3 data-number="7.2.6" class="anchored" data-anchor-id="总结"><span class="header-section-number">7.2.6</span> 总结</h3>
+<p>恭喜，至此，你已经完整的实现了一个基于 Langchain 框架和本地模型构建的 RAG 应用。你可以在教程的基础上替换本地模型来尝试不同模型的效果和能力，或进一步进行扩展，丰富应用的能力和表现力，或者添加更多实用有趣的功能。</p>
+</section>
+</section>
+<section id="使用-llamaindex-搭建本地-rag-应用" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="使用-llamaindex-搭建本地-rag-应用"><span class="header-section-number">7.3</span> 使用 LlamaIndex 搭建本地 RAG 应用</h2>
+<section id="简介" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="简介"><span class="header-section-number">7.3.1</span> 简介</h3>
+<p>本文档将详细介绍如何使用 LlamaIndex 框架来搭建本地 RAG（Retrieval-Augmented Generation）应用。通过集成 LlamaIndex，可以在本地环境中构建一个 RAG 系统，结合检索与生成的能力，以提高信息检索的效率和生成内容的相关性。可以自定义本地知识库路径，通过 LlamaIndex 构建索引，然后利用索引进行上下文对话。</p>
+<blockquote class="blockquote">
+<p>注: 本文档包含核心代码片段和详细解释。完整代码可见 <a href="https://github.com/datawhalechina/handy-ollama/blob/main/notebook/C7/LlamaIndex_RAG/%E4%BD%BF%E7%94%A8LlamaIndex%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0RAG%E5%BA%94%E7%94%A8.ipynb">notebook</a> 。</p>
+</blockquote>
+</section>
+<section id="模型下载" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="模型下载"><span class="header-section-number">7.3.2</span> 模型下载</h3>
+<p>本例中使用的是 <code>gpt-oss:120b-cloud</code> 模型，可以根据自身电脑配置，使用合适的模型（电脑配置不好就用云模型）。</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull bge-m3:latest</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ollama pull nomic-embed-text</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="安装依赖" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="安装依赖"><span class="header-section-number">7.3.3</span> 安装依赖</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install llama-index-llms-ollama</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install llama-index-embeddings-ollama</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-U</span> llama-index-readers-file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="加载数据" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="加载数据"><span class="header-section-number">7.3.4</span> 加载数据</h3>
+<p>导入包</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> llama_index.core <span class="im">import</span> VectorStoreIndex, SimpleDirectoryReader, Settings</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> llama_index.embeddings.ollama <span class="im">import</span> OllamaEmbedding</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> llama_index.llms.ollama <span class="im">import</span> Ollama</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>加载当前目录下 data 文件夹中所有的文档，并加载到内存中。</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> SimpleDirectoryReader(<span class="st">"data"</span>).load_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>数据在github页面：<a href="https://github.com/datawhalechina/handy-ollama/tree/main/notebook/C7/LlamaIndex_RAG/data" class="uri">https://github.com/datawhalechina/handy-ollama/tree/main/notebook/C7/LlamaIndex_RAG/data</a></p>
+<p>按它的结构在代码文件同目录下创建一个data文件夹，里面放dw.txt。</p>
+</section>
+<section id="构建索引" class="level3" data-number="7.3.5">
+<h3 data-number="7.3.5" class="anchored" data-anchor-id="构建索引"><span class="header-section-number">7.3.5</span> 构建索引</h3>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Settings.embed_model <span class="op">=</span> OllamaEmbedding(model_name<span class="op">=</span><span class="st">"nomic-embed-text"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>Settings.llm <span class="op">=</span> Ollama(model<span class="op">=</span><span class="st">"gpt-oss:120b-cloud"</span>, request_timeout<span class="op">=</span><span class="fl">360.0</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> VectorStoreIndex.from_documents(</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    documents,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>Settings.embed_model</code> ： 全局的 <code>embed_model</code> 属性。示例代码中将创建好的嵌入模型赋值给全局的 <code>embed_model</code> 属性；</li>
+<li><code>Settings.llm</code> ： 全局的 <code>llm</code> 属性。示例代码中将创建好的语言模型赋值给全局的 <code>llm</code> 属性；</li>
+<li><code>VectorStoreIndex.from_documents</code>：使用之前加载的文档构建索引，并转换成向量，便于快速检索。</li>
+</ul>
+<p>通过 <code>Settings</code> 全局属性的设置，在后面的索引构建以及查询的过程中就会默认使用相应的模型。</p>
+</section>
+<section id="查询数据" class="level3" data-number="7.3.6">
+<h3 data-number="7.3.6" class="anchored" data-anchor-id="查询数据"><span class="header-section-number">7.3.6</span> 查询数据</h3>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>query_engine <span class="op">=</span> index.as_query_engine(streaming<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> query_engine.query(<span class="st">"Datawhale是什么?"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>response.print_response_stream()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>index.as_query_engine()</code>：根据之前构建好的索引，创建查询引擎。该查询引擎可以接收查询，返回检索后的响应。</li>
+</ul>
+</section>
+<section id="检索上下文进行对话" class="level3" data-number="7.3.7">
+<h3 data-number="7.3.7" class="anchored" data-anchor-id="检索上下文进行对话"><span class="header-section-number">7.3.7</span> 检索上下文进行对话</h3>
+<p>由于检索到的上下文可能会占用大量可用的 LLM 上下文，因此需要为聊天历史记录配置较小 token 限制！</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 检索上下文进行对话</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> llama_index.core.memory <span class="im">import</span> ChatMemoryBuffer</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>memory <span class="op">=</span> ChatMemoryBuffer.from_defaults(token_limit<span class="op">=</span><span class="dv">1500</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>chat_engine <span class="op">=</span> index.as_chat_engine(</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    chat_mode<span class="op">=</span><span class="st">"context"</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    memory<span class="op">=</span>memory,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    system_prompt<span class="op">=</span><span class="st">"You are a chatbot, able to have normal interactions."</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> chat_engine.stream_chat(<span class="st">"Datawhale是什么？"</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>response.print_response_stream()</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> chat_engine.stream_chat(<span class="st">"Datawhale是哪一年成立的？"</span>)</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>response.print_response_stream()</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>chat_mode</code> 可以根据使用场景，选择合适的模式，支持的模式如下：</p>
+<ul>
+<li><code>best</code>（默认）：使用带有查询引擎工具的代理（react 或 openai）；</li>
+<li><code>context</code>：使用检索器获取上下文；</li>
+<li><code>condense_question</code>：将问题进行浓缩；</li>
+<li><code>condense_plus_context</code>：将问题进行浓缩并使用检索器获取上下文；</li>
+<li><code>simple</code>：直接使用 LLM 的简单聊天引擎；</li>
+<li><code>react</code>：使用带有查询引擎工具的 react 代理；</li>
+<li><code>openai</code>：使用带有查询引擎工具的 openai 代理。</li>
+</ul>
+</section>
+<section id="向量索引的存储和加载" class="level3" data-number="7.3.8">
+<h3 data-number="7.3.8" class="anchored" data-anchor-id="向量索引的存储和加载"><span class="header-section-number">7.3.8</span> 向量索引的存储和加载</h3>
+<ul>
+<li><code>storage_context.persist</code> 存储向量索引。</li>
+<li><code>load_index_from_storage</code> 加载向量索引。</li>
+</ul>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 存储向量索引</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>persist_dir <span class="op">=</span> <span class="st">'local_index/'</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>index.storage_context.persist(persist_dir<span class="op">=</span>persist_dir)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 加载向量索引</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> llama_index.core <span class="im">import</span> StorageContext, load_index_from_storage</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>storage_context <span class="op">=</span> StorageContext.from_defaults(persist_dir<span class="op">=</span>persist_dir)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>index<span class="op">=</span> load_index_from_storage(storage_context)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="streamlit-应用" class="level3" data-number="7.3.9">
+<h3 data-number="7.3.9" class="anchored" data-anchor-id="streamlit-应用"><span class="header-section-number">7.3.9</span> streamlit 应用</h3>
+<p>本例内容还实现了一个 streamlit 应用，具体可以查看 <a href="https://github.com/AXYZdong/handy-ollama/blob/main/notebook/C7/LlamaIndex_RAG/app.py">app.py</a></p>
+<p>所需依赖如下：</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="va">llama_index</span><span class="op">=</span>=0.10.62</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="va">streamlit</span><span class="op">=</span>=1.36.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>[!NOTE]<br>
+在 <code>app.py</code> 中，为了在连续对话中不重新加载模型，可以配置环境变量 <code>OLLAMA_NUM_PARALLEL</code> 和 <code>OLLAMA_MAX_LOADED_MODELS</code>，因为支持多个模型加载，所以至少需要额外的 8G 内存。</p>
+<p><code>OLLAMA_NUM_PARALLEL</code>：同时处理单个模型的多个请求。</p>
+<p><code>OLLAMA_MAX_LOADED_MODELS</code>：同时加载多个模型。</p>
+</blockquote>
+<p>示例展示</p>
+<ol type="1">
+<li>单文本问答</li>
+</ol>
+<p><img src="images/cp_7_16.png" class="img-fluid"></p>
+<ol start="2" type="1">
+<li>多文本问答</li>
+</ol>
+<p><img src="images/cp_7_17.png" class="img-fluid"></p>
+<p>参考文献</p>
+<ul>
+<li><a href="https://docs.llamaindex.ai/en/stable/getting_started/starter_example_local/?h=ollama#load-data-and-build-an-index">LlamaIndex 文档</a></li>
+</ul>
+</section>
+</section>
+<section id="使用-langchain-实现本地-agent" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="使用-langchain-实现本地-agent"><span class="header-section-number">7.4</span> 使用 LangChain 实现本地 Agent</h2>
+<p>github的那个教程已经废了，老版本langchain应该可以运行，新版本运行不了了。</p>
+<p>老版本的问题代码：</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.pydantic_v1 <span class="im">import</span> BaseModel, Field</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.agents <span class="im">import</span> AgentExecutor, create_react_agent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>AgentExecutor</code>被移除了。create_react_agent变成 create_agent了。</p>
+<section id="安装包" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="安装包"><span class="header-section-number">7.4.1</span> 安装包</h3>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>U langchain langchain<span class="op">-</span>core langchain<span class="op">-</span>community ollama langchain<span class="op">-</span>ollama pydantic <span class="op">-</span>i https:<span class="op">//</span>pypi.tuna.tsinghua.edu.cn<span class="op">/</span>simple<span class="op">/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="代码" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="代码"><span class="header-section-number">7.4.2</span> 代码</h3>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.tools <span class="im">import</span> tool</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SearchInput(BaseModel):</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    location: <span class="bu">str</span> <span class="op">=</span> Field(description<span class="op">=</span><span class="st">"location to search for"</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span>(args_schema<span class="op">=</span>SearchInput)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> weather_forecast(location: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""天气预报工具。"""</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[TOOL] Weather for </span><span class="sc">{</span>location<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"A dummy forecast for </span><span class="sc">{</span>location<span class="sc">}</span><span class="ss">,it's Cloudy and rainy,the next day will be Storming"</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mood_guess(people: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""天气预报工具。"""</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[TOOL] Mood for </span><span class="sc">{</span>people<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"A dummy guess for </span><span class="sc">{</span>people<span class="sc">}</span><span class="ss">,happy and satisfied."</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_ollama <span class="im">import</span> ChatOllama</span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ChatOllama(</span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gpt-oss:20b-cloud"</span>,</span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>    temperature<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.agents <span class="im">import</span> create_agent</span>
+<span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a>tools <span class="op">=</span> [weather_forecast,mood_guess]</span>
+<span id="cb43-30"><a href="#cb43-30" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> create_agent(model, tools<span class="op">=</span>tools)</span>
+<span id="cb43-31"><a href="#cb43-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-32"><a href="#cb43-32" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> agent.invoke(</span>
+<span id="cb43-33"><a href="#cb43-33" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"messages"</span>: [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"What's the weather in San Francisco? And how does  Alice feel?"</span>}]}</span>
+<span id="cb43-34"><a href="#cb43-34" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-35"><a href="#cb43-35" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.messages <span class="im">import</span> AIMessage</span>
+<span id="cb43-36"><a href="#cb43-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-37"><a href="#cb43-37" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> msg <span class="kw">in</span> result[<span class="st">"messages"</span>]:</span>
+<span id="cb43-38"><a href="#cb43-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(msg, AIMessage) <span class="kw">and</span> msg.content:</span>
+<span id="cb43-39"><a href="#cb43-39" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(msg.content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>输出</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>[TOOL] Weather <span class="cf">for</span> San Francisco</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>[TOOL] Mood <span class="cf">for</span> Alice</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="op">**</span>San Francisco<span class="op">**</span>  </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> <span class="op">**</span>Today:<span class="op">**</span> Cloudy <span class="cf">with</span> rain.  </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> <span class="op">**</span>Tomorrow:<span class="op">**</span> Expect a storm.</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="op">**</span>Alice’s mood<span class="op">**</span>  </span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> She’s feeling happy <span class="kw">and</span> satisfied.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="问题" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="问题"><span class="header-section-number">7.4.3</span> 问题</h3>
+<p>github上这教程比较老了，很多问题，首先没提供包安装，缺少这些上下文。问AI也经常出错，可能是因为langchain比较新，模型的资料少（最近他们应该准备更新了）。</p>
+<p>这篇文档参考官方文档的案例：<a href="https://docs.langchain.com/oss/python/langchain/models#invoke" class="uri">https://docs.langchain.com/oss/python/langchain/models#invoke</a></p>
+<p>它实现了，极简的让模型调用工具。</p>
+</section>
+</section>
+<section id="使用-llamaindex-实现本地-agent" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="使用-llamaindex-实现本地-agent"><span class="header-section-number">7.5</span> 使用 LlamaIndex 实现本地 Agent</h2>
+<section id="简介-1" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="简介-1"><span class="header-section-number">7.5.1</span> 简介</h3>
+<p>本文档介绍了如何使用 LlamaIndex 中的 <code>ReActAgent</code> 结合 Ollama 实现一个简单的本地 Agent。</p>
+<p>本文档中使用的 LLM 为 gpt-oss:120b-cloud 模型，由于不同模型调用 tools 的能力不同，可以自行尝试使用不同的模型实现 Agent。</p>
+</section>
+<section id="安装" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="安装"><span class="header-section-number">7.5.2</span> 安装</h3>
+<pre class="plain"><code> ! pip install -U llama-index llama-index-llms-ollama -i https://pypi.tuna.tsinghua.edu.cn/simple/</code></pre>
+</section>
+<section id="导入依赖" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="导入依赖"><span class="header-section-number">7.5.3</span> 导入依赖</h3>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> llama_index.core.tools <span class="im">import</span> FunctionTool</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> llama_index.core.agent <span class="im">import</span> ReActAgent</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> llama_index.llms.ollama <span class="im">import</span> Ollama</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="初始化-agent-工具" class="level3" data-number="7.5.4">
+<h3 data-number="7.5.4" class="anchored" data-anchor-id="初始化-agent-工具"><span class="header-section-number">7.5.4</span> 初始化 Agent 工具</h3>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define tools</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> multiply(a: <span class="bu">float</span>, b: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[TOOL CALLED] multiply(a=</span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">*</span> b</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>multiply_tool <span class="op">=</span> FunctionTool.from_defaults(fn<span class="op">=</span>multiply)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create FunctionTool instances</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>multiply_tool <span class="op">=</span> FunctionTool.from_defaults(</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    fn<span class="op">=</span>multiply,</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"MultiplyTool"</span>,</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    description<span class="op">=</span><span class="st">"A tool that multiplies two floats."</span>,</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    return_direct<span class="op">=</span><span class="va">True</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="初始化-llm-和-agent" class="level3" data-number="7.5.5">
+<h3 data-number="7.5.5" class="anchored" data-anchor-id="初始化-llm-和-agent"><span class="header-section-number">7.5.5</span> 初始化 LLM 和 Agent</h3>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize LLM</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>llm <span class="op">=</span> Ollama(model<span class="op">=</span><span class="st">"gpt-oss:120b-cloud"</span>, request_timeout<span class="op">=</span><span class="fl">360.0</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize ReAct agent with tools</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> ReActAgent(</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    tools<span class="op">=</span>[multiply_tool],</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    llm<span class="op">=</span>llm,</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 可选参数</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    max_iterations<span class="op">=</span><span class="dv">10</span>,           <span class="co"># 防止死循环</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># react_chat_formatter=...,   # 可以自定义 prompt 格式</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="进行对话" class="level3" data-number="7.5.6">
+<h3 data-number="7.5.6" class="anchored" data-anchor-id="进行对话"><span class="header-section-number">7.5.6</span> 进行对话</h3>
+<p>直接使用 LLM 对话。</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># direct response</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>res_llm <span class="op">=</span> llm.complete(<span class="st">"What is 2.3 × 4.8 ? Calculate step by step"</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res_llm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>输出结果：</p>
+<pre class="plain"><code>Step‑by‑step multiplication of 2.3 × 4.8
+1. Remove the decimals
+Both numbers have one decimal place.
+\[
+2.3 = \frac{23}{10},\qquad 4.8 = \frac{48}{10}
+\]
+Multiplying the fractions:
+\[
+2.3 \times 4.8 = \frac{23}{10}\times\frac{48}{10}= \frac{23 \times 48}{100}
+\]
+So we just need the product **23 × 48**, then we’ll place the decimal point two places from the right (because we had 1 + 1 = 2 decimal places).
+
+2. Multiply the whole numbers 23 × 48
+Write it out as a standard column multiplication:
+23
+
+| × 48 |
+|:-----|
+|      |
+
+a. Multiply by the units digit (8):
+
+\[ 23 \times 8 = 184 \]
+
+Write 184 under the line:
+
+        
+      23
+   ×  48
+   -------
+     184   ← (23 × 8)
+
+b. Multiply by the tens digit (4).\
+Since the 4 is actually 40, we’ll later shift the result one place to the left (or simply add a zero at the end).
+
+\[ 23 \times 4 = 92 \]
+
+Write 92 with a trailing zero:
+
+      23
+   ×  48
+   -------
+     184   ← (23 × 8)
+    920    ← (23 × 40)
+
+c. Add the two partial products:
+
+\[ 184 + 920 = 1104 \]
+
+So,
+
+\[ 23 \times 48 = 1104 \]
+
+3. Restore the decimal places
+
+We divided each original number by 10 (one decimal place each), i.e., we multiplied by (\frac{1}{10}\times\frac{1}{10}= \frac{1}{100}).
+
+Therefore we place the decimal point two places from the right of 1104:
+
+\[ 1104 ;\rightarrow; 11.04 \]
+
+Result
+
+\[ \boxed{2.3 \times 4.8 = 11.04} \]</code></pre>
+<p>LLM 调用 Agent 对话。</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>handler <span class="op">=</span> agent.run(<span class="st">"What is 2.3 × 4.8 ? Calculate step by step"</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="cf">await</span> handler</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>输出结果：</p>
+<pre class="plain"><code>[TOOL CALLED] multiply(a=2.3, b=4.8)
+11.04</code></pre>
+</section>
+</section>
+<section id="使用-gpt-oss120b-cloud-和-ollama-实现本地-rag-应用" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="使用-gpt-oss120b-cloud-和-ollama-实现本地-rag-应用"><span class="header-section-number">7.6</span> 使用 gpt-oss:120b-cloud 和 Ollama 实现本地 RAG 应用</h2>
+<section id="简介-2" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="简介-2"><span class="header-section-number">7.6.1</span> 简介</h3>
+<p>本文档详细介绍如何利用 gpt-oss:120b-cloud（速度更快） 和 Ollama 构建本地化的 RAG（检索增强生成）应用。同时也是对 <a href="https://github.com/datawhalechina/handy-ollama/blob/main/docs/C7/3.%20%E4%BD%BF%E7%94%A8%20LangChain%20%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%20RAG%20%E5%BA%94%E7%94%A8.md">使用 LangChain 搭建本地 RAG 应用</a> 的补充。</p>
+<p>我们将通过实例演示完整的实现流程，包括文档处理、向量存储、模型调用等关键步骤。本教程选用 gpt-oss:120b-cloud 作为基础语言模型。考虑到不同模型具有各自的特点和性能表现，读者可以根据实际需求选择其他合适的模型来实现 RAG 系统。</p>
+</section>
+<section id="前期准备" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="前期准备"><span class="header-section-number">7.6.2</span> 前期准备</h3>
+<pre class="plain"><code>!pip install pdfplumber -i https://pypi.tuna.tsinghua.edu.cn/simple/
+!pip install -U langchain-chroma chromadb -i https://pypi.tuna.tsinghua.edu.cn/simple/</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>langchain                 <span class="fl">1.2.3</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>langchain<span class="op">-</span>core            <span class="fl">1.2.7</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>langchain<span class="op">-</span>text<span class="op">-</span>splitters  <span class="fl">1.1.0</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>langchain<span class="op">-</span>community       <span class="fl">0.4.1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="文档加载-1" class="level3" data-number="7.6.3">
+<h3 data-number="7.6.3" class="anchored" data-anchor-id="文档加载-1"><span class="header-section-number">7.6.3</span> 文档加载</h3>
+<p>加载 PDF 文档并将其切分为适当大小的文本块。</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_community.document_loaders <span class="im">import</span> PDFPlumberLoader</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="bu">file</span> <span class="op">=</span> <span class="st">"DeepSeek_R1.pdf"</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the PDF</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> PDFPlumberLoader(<span class="bu">file</span>)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> loader.load()</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_text_splitters <span class="im">import</span> RecursiveCharacterTextSplitter</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">500</span>, chunk_overlap<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>all_splits <span class="op">=</span> text_splitter.split_documents(docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="初始化向量存储" class="level3" data-number="7.6.4">
+<h3 data-number="7.6.4" class="anchored" data-anchor-id="初始化向量存储"><span class="header-section-number">7.6.4</span> 初始化向量存储</h3>
+<p>使用 Chroma 数据库存储文档向量，并配置 Ollama 提供的嵌入模型。</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_chroma <span class="im">import</span> Chroma</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_ollama <span class="im">import</span> OllamaEmbeddings</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>local_embeddings <span class="op">=</span> OllamaEmbeddings(model<span class="op">=</span><span class="st">"nomic-embed-text"</span>)</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>vectorstore <span class="op">=</span> Chroma.from_documents(documents<span class="op">=</span>all_splits, embedding<span class="op">=</span>local_embeddings)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="构建-chain-表达式" class="level3" data-number="7.6.5">
+<h3 data-number="7.6.5" class="anchored" data-anchor-id="构建-chain-表达式"><span class="header-section-number">7.6.5</span> 构建 Chain 表达式</h3>
+<p>设置模型和提示模板，构建处理链。</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.output_parsers <span class="im">import</span> StrOutputParser</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.prompts <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_ollama <span class="im">import</span> ChatOllama</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ChatOllama(</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gpt-oss:120b-cloud"</span>,</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> ChatPromptTemplate.from_template(</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Summarize the main themes in these retrieved docs: </span><span class="sc">{docs}</span><span class="st">"</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 将传入的文档转换成字符串的形式</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_docs(docs):</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span>.join(doc.page_content <span class="cf">for</span> doc <span class="kw">in</span> docs)</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> {<span class="st">"docs"</span>: format_docs} <span class="op">|</span> prompt <span class="op">|</span> model <span class="op">|</span> StrOutputParser()</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>question <span class="op">=</span> <span class="st">"What is the purpose of the DeepSeek project?"</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> vectorstore.similarity_search(question)</span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>chain.invoke(docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>输出</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">'**Main Themes**</span><span class="ch">\n\n</span><span class="co">| Theme | What the text says | Why it matters |</span><span class="ch">\n</span><span class="co">|------|--------------------|----------------|</span><span class="ch">\n</span><span class="co">| **Performance gaps on engineering tasks** | DeepSeek‑R1 does **not** markedly beat its predecessor (DeepSeek‑V3) on software‑engineering benchmarks. | Shows that raw model scaling isn’t enough; targeted data‑handling tricks are needed. |</span><span class="ch">\n</span><span class="co">| **Planned upgrades** | Future releases will use **rejection‑sampling on engineering data** and **asynchronous RL evaluations** to lift efficiency and quality. | Provides a concrete roadmap for closing the engineering‑task gap. |</span><span class="ch">\n</span><span class="co">| **Robustness &amp; bias mitigation** | The model avoids the **length‑bias** that plagues many GPT‑style evaluators, keeping performance stable across a variety of tasks. | Reinforces confidence that gains aren’t artefacts of test‑set quirks. |</span><span class="ch">\n</span><span class="co">| **Strengths in reasoning‑heavy domains** | – **Math**: on par with OpenAI</span><span class="ch">\u202f</span><span class="co">o1‑1217 and far ahead of other models.&lt;br&gt;– **Algorithmic coding** (LiveCodeBench, Codeforces): reasoning‑focused models dominate.&lt;br&gt;– **Engineering‑oriented coding**: OpenAI</span><span class="ch">\u202f</span><span class="co">o1‑1217 still outperforms DeepSeek‑R1. | Highlights that the model’s **reasoning pipeline** works well, but domain‑specific engineering knowledge still lags. |</span><span class="ch">\n</span><span class="co">| **RL‑only reasoning incentive** | This work is the **first open study** proving that large‑language‑model reasoning can be boosted **purely through reinforcement learning**, without any supervised‑fine‑tuning (SFT) “seed.” | Breaks the conventional belief that SFT is a prerequisite for reasoning improvements. |</span><span class="ch">\n</span><span class="co">| **Multi‑stage training pipeline** | 1. **Cold‑start collection** → fine‑tune DeepSeek‑V3‑Base.&lt;br&gt;2. **Reasoning‑oriented RL** (DeepSeek‑R1‑Zero).&lt;br&gt;3. Near‑convergence → generate new SFT data via **rejection sampling** from the RL checkpoint.&lt;br&gt;4. Merge with existing supervised data (writing, factual QA, self‑cognition) and **re‑train** the base model. | Shows a **systematic loop**: supervised seed → RL‑driven reasoning discovery → fresh supervised data → retraining, enabling continual improvement. |</span><span class="ch">\n</span><span class="co">| **Human‑preference alignment** | Two RL stages are dedicated to **discovering better reasoning patterns** and **aligning outputs with human preferences**. | Makes the model not only stronger analytically but also more useful and safe for real users. |</span><span class="ch">\n\n</span><span class="co">**Take‑away Summary**</span><span class="ch">\n\n</span><span class="co">The documents revolve around **evaluating and improving DeepSeek‑R1**:</span><span class="ch">\n\n</span><span class="co">1. **Current limits** on software‑engineering tasks are acknowledged, prompting plans for data‑centric fixes (rejection sampling, async RL).  </span><span class="ch">\n</span><span class="co">2. The model shows **strong, bias‑free reasoning** on math and algorithmic coding, rivaling top OpenAI systems, but still trails on engineering‑specific code.  </span><span class="ch">\n</span><span class="co">3. A **novel RL‑only incentive** demonstrates that reasoning can be boosted without prior SFT, a first in open research.  </span><span class="ch">\n</span><span class="co">4. The **training pipeline** intertwines cold‑start supervised fine‑tuning, reasoning‑focused RL, and a feedback loop that creates fresh supervised data from RL checkpoints, eventually aligning the model with human preferences.</span><span class="ch">\n\n</span><span class="co">Overall, the themes illustrate a **balanced picture of progress and challenges**: solid reasoning gains via RL, robust evaluation practices, and a clear roadmap to lift engineering‑task performance through targeted data‑recycling strategies.'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="带有检索的-qa" class="level3" data-number="7.6.6">
+<h3 data-number="7.6.6" class="anchored" data-anchor-id="带有检索的-qa"><span class="header-section-number">7.6.6</span> 带有检索的 QA</h3>
+<p>整合检索和问答功能。</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.runnables <span class="im">import</span> RunnablePassthrough</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>RAG_TEMPLATE <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="st">You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;context&gt;</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a><span class="sc">{context}</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/context&gt;</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a><span class="st">Answer the following question:</span></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a><span class="sc">{question}</span><span class="st">"""</span></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>rag_prompt <span class="op">=</span> ChatPromptTemplate.from_template(RAG_TEMPLATE)</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>retriever <span class="op">=</span> vectorstore.as_retriever()</span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-18"><a href="#cb59-18" aria-hidden="true" tabindex="-1"></a>qa_chain <span class="op">=</span> (</span>
+<span id="cb59-19"><a href="#cb59-19" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"context"</span>: retriever <span class="op">|</span> format_docs, <span class="st">"question"</span>: RunnablePassthrough()}</span>
+<span id="cb59-20"><a href="#cb59-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> rag_prompt</span>
+<span id="cb59-21"><a href="#cb59-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> model</span>
+<span id="cb59-22"><a href="#cb59-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> StrOutputParser()</span>
+<span id="cb59-23"><a href="#cb59-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-24"><a href="#cb59-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-25"><a href="#cb59-25" aria-hidden="true" tabindex="-1"></a>question <span class="op">=</span> <span class="st">"What is the purpose of the DeepSeek project?"</span></span>
+<span id="cb59-26"><a href="#cb59-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-27"><a href="#cb59-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Run</span></span>
+<span id="cb59-28"><a href="#cb59-28" aria-hidden="true" tabindex="-1"></a>qa_chain.invoke(question)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>输出</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co">'The DeepSeek project aims to build large‑language models with stronger reasoning abilities by using a multi‑stage training pipeline that combines supervised fine‑tuning and reinforcement‑learning to incentivize reasoning without heavy SFT. It seeks to improve performance across diverse tasks—math, coding, software‑engineering, and factual QA—by iteratively refining the model with cold‑start data, RL‑driven reasoning, and rejection‑sampled SFT. This approach enables more robust, bias‑free evaluations and higher benchmark scores.'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="总结-1" class="level3" data-number="7.6.7">
+<h3 data-number="7.6.7" class="anchored" data-anchor-id="总结-1"><span class="header-section-number">7.6.7</span> 总结</h3>
+<p>本教程详细介绍了如何使用 DeepSeek R1 和 Ollama 构建本地化的 RAG 应用系统。我们通过四个主要步骤实现了完整的功能：</p>
+<ol type="1">
+<li><strong>文档处理</strong>：使用 PDFPlumberLoader 加载 PDF 文档，并通过 RecursiveCharacterTextSplitter 将文本切分成适当大小的块。</li>
+<li><strong>向量存储</strong>：利用 Chroma 数据库和 Ollama 的嵌入模型建立向量存储系统，为后续的相似度检索提供基础。</li>
+<li><strong>Chain 构建</strong>：设计并实现处理链，将文档处理、提示模板和模型响应整合成流程化的处理过程。</li>
+<li><strong>RAG 实现</strong>：通过整合检索和问答功能，实现了完整的检索增强生成系统，能够基于文档内容回答用户问询。</li>
+</ol>
+<p>通过本教程，可以快速搭建起自己的本地 RAG 系统，并根据实际需求进行定制化改进。建议在实践中多尝试不同的模型和参数配置，以获得最佳的使用效果。</p>
+<blockquote class="blockquote">
+<p>注: 使用 streamlit 或 FastAPI 等工具，可以将本地 RAG 应用部署为 Web 服务，实现更广泛的应用场景。</p>
+<p>仓库中也提供了 <code>app.py</code> 文件，可以直接运行该文件，启动 Web 服务。 参考文档 <a href="https://apidog.com/blog/rag-deepseek-r1-ollama/">Build a RAG System with DeepSeek R1 &amp; Ollama</a>。<br>
+注意：运行该代码前，要提前运行 Ollama 服务。</p>
+</blockquote>
+<p>对话页面如下：</p>
+<p><img src="images/cp_7_18.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="在本地使用obsidian做rag" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="在本地使用obsidian做rag"><span class="header-section-number">7.7</span> 在本地使用obsidian做RAG</h2>
+<section id="下载obsidian" class="level3" data-number="7.7.1">
+<h3 data-number="7.7.1" class="anchored" data-anchor-id="下载obsidian"><span class="header-section-number">7.7.1</span> 下载obsidian</h3>
+<p>官网：<a href="https://obsidian.md/" class="uri">https://obsidian.md/</a></p>
+<p><img src="images/cp_7_19-01.png" class="img-fluid"></p>
+<p>点击红圈部分直接下载obsidian，obsidian-1.11.4.dmg。</p>
+</section>
+<section id="打开" class="level3" data-number="7.7.2">
+<h3 data-number="7.7.2" class="anchored" data-anchor-id="打开"><span class="header-section-number">7.7.2</span> 打开</h3>
+<p>界面类似这样</p>
+<p><img src="images/cp_7_20.png" class="img-fluid"></p>
+<p>创建新仓库。</p>
+<p><img src="images/cp_7_21.png" class="img-fluid"></p>
+<p><img src="images/cp_7_22.png" class="img-fluid"></p>
+</section>
+<section id="创建个虚拟环境" class="level3" data-number="7.7.3">
+<h3 data-number="7.7.3" class="anchored" data-anchor-id="创建个虚拟环境"><span class="header-section-number">7.7.3</span> 创建个虚拟环境</h3>
+<p>用<code>conda create -n handllm python=3.11</code>，或者用<code>python -m venv handllm</code>推荐用conda。</p>
+<p>激活环境<code>conda activate handllm</code>，或<code>source handllm/bin/activate</code></p>
+<section id="安装包-1" class="level4" data-number="7.7.3.1">
+<h4 data-number="7.7.3.1" class="anchored" data-anchor-id="安装包-1"><span class="header-section-number">7.7.3.1</span> 安装包</h4>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install llama-index-llms-ollama</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install llama-index-embeddings-ollama</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-U</span> llama-index-readers-file</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install llama-index-embeddings-dashscope</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install llama-index-llms-openai-like</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="导入所有包" class="level3" data-number="7.7.4">
+<h3 data-number="7.7.4" class="anchored" data-anchor-id="导入所有包"><span class="header-section-number">7.7.4</span> 导入所有包</h3>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.embeddings.dashscope import DashScopeEmbedding,DashScopeTextEmbeddingModels</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import SimpleDirectoryReader,VectorStoreIndex</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.llms.openai_like import OpenAILike</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import Settings</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> pathlib import Path</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="ex">import</span> getpass</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="ex">import</span> json</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="ex">import</span> os</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="查看有多少.md文件" class="level3" data-number="7.7.5">
+<h3 data-number="7.7.5" class="anchored" data-anchor-id="查看有多少.md文件"><span class="header-section-number">7.7.5</span> 查看有多少<code>.md</code>文件</h3>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> pathlib import Path</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="ex">vault_path</span> = Path<span class="er">(</span><span class="st">"/path_to_local_knowledge"</span><span class="kw">)</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="ex">md_files</span> = list<span class="er">(</span><span class="ex">vault_path.rglob</span><span class="er">(</span><span class="st">"*.md"</span><span class="kw">))</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="ex">len</span><span class="er">(</span><span class="ex">md_files</span><span class="kw">))</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="ex">vault_path</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>obsidian里的文件路径可以从如下图片得到：</p>
+<p><img src="images/cp_7_23.png" class="img-fluid"></p>
+<p>再把文件拖到终端，就可以知道路径。</p>
+</section>
+<section id="输入api_key" class="level3" data-number="7.7.6">
+<h3 data-number="7.7.6" class="anchored" data-anchor-id="输入api_key"><span class="header-section-number">7.7.6</span> 输入api_key</h3>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="ex">DASHSCOPE_API_KEY</span> = getpass.getpass<span class="er">(</span><span class="st">"未找到存放Key的文件，请输入你的api_key:"</span><span class="kw">)</span><span class="fu">.strip()</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Key</span> = {</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="st">"DASHSCOPE_API_KEY"</span><span class="ex">:</span> DASHSCOPE_API_KEY</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 指定文件名</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="ex">file_name</span> = <span class="st">'./Key.json'</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="ex">with</span> open<span class="er">(</span><span class="ex">file_name,</span> <span class="st">'w'</span><span class="kw">)</span> <span class="fu">as</span> json_file:</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>            <span class="co"># dump把python对象转成json字符串</span></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">json.dump</span><span class="er">(</span><span class="ex">Key,</span> json_file, indent=4<span class="kw">)</span></span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a><span class="ex">os.environ[</span><span class="st">'DASHSCOPE_API_KEY'</span><span class="ex">]</span> = Key<span class="pp">[</span><span class="st">"DASHSCOPE_API_KEY"</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>本地模型太慢了，使用<code>bge-m3:latest</code>进行向量化，跑了一个多小时才跑完。</p>
+<p>本文档用阿里的百炼平台的模型，需要api_key。如果本地电脑性能好，可以直接下载ollama里面更大的embedding模型。</p>
+<p>使用ollama本地模型的完整代码放最后作为参考。</p>
+</section>
+<section id="保存索引" class="level3" data-number="7.7.7">
+<h3 data-number="7.7.7" class="anchored" data-anchor-id="保存索引"><span class="header-section-number">7.7.7</span> 保存索引</h3>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.embeddings.dashscope import DashScopeEmbedding,DashScopeTextEmbeddingModels</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import SimpleDirectoryReader,VectorStoreIndex</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.llms.openai_like import OpenAILike</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import Settings</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="ex">documents</span> = SimpleDirectoryReader<span class="er">(</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">input_dir</span><span class="op">=</span>vault_path,</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">recursive</span><span class="op">=</span>True,</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">required_exts</span><span class="op">=</span><span class="pp">[</span><span class="st">".md"</span><span class="pp">]</span></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span><span class="fu">.load_data()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Settings.llm</span> = OpenAILike<span class="er">(</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>        <span class="va">model</span><span class="op">=</span><span class="st">"qwen-plus"</span>,</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">api_base</span><span class="op">=</span><span class="st">"https://dashscope.aliyuncs.com/compatible-mode/v1"</span>,</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">api_key</span><span class="op">=</span>os.getenv<span class="kw">(</span><span class="st">"DASHSCOPE_API_KEY"</span><span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">is_chat_model</span><span class="op">=</span>True</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Settings.embed_model</span> = DashScopeEmbedding<span class="er">(</span></span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">model_name</span><span class="op">=</span>DashScopeTextEmbeddingModels.TEXT_EMBEDDING_V2</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import VectorStoreIndex</span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a><span class="ex">index</span> = VectorStoreIndex.from_documents<span class="er">(</span><span class="ex">documents</span><span class="kw">)</span></span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a><span class="ex">index.storage_context.persist</span><span class="er">(</span><span class="va">persist_dir</span><span class="op">=</span><span class="st">"./storage_ali"</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="读取索引" class="level3" data-number="7.7.8">
+<h3 data-number="7.7.8" class="anchored" data-anchor-id="读取索引"><span class="header-section-number">7.7.8</span> 读取索引</h3>
+<p>先构造一个提示词，让模型根据召回信息回答的时候，尽量不偏移。</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import PromptTemplate</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="ex">QA_PROMPT_TMPL</span> = <span class="er">(</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Context information is below.\n"</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"---------------------\n"</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{context_str}\n"</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"---------------------\n"</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"请仅根据上述提供的上下文信息回答问题。限制如下：\n"</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"1. 你的回答必须完全基于提供的上下文，不得使用你已有的外部知识。\n"</span></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2. 如果上下文中没有关于该问题的答案，请直接回答：'抱歉，在您的笔记库中没有找到相关描述。'\n"</span></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"3. 保持回答简洁专业。\n\n"</span></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Query: {query_str}\n"</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Answer: "</span></span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a><span class="ex">qa_prompt</span> = PromptTemplate<span class="er">(</span><span class="ex">QA_PROMPT_TMPL</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 将本地索引文件加载为索引</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import StorageContext,load_index_from_storage</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="ex">storage_context</span> = StorageContext.from_defaults<span class="er">(</span><span class="va">persist_dir</span><span class="op">=</span><span class="st">"./storage_ali"</span><span class="kw">)</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="ex">index</span> = load_index_from_storage<span class="er">(</span><span class="ex">storage_context,embed_model=DashScopeEmbedding</span><span class="er">(</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">model_name</span><span class="op">=</span>DashScopeTextEmbeddingModels.TEXT_EMBEDDING_V2</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">))</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="st">"成功从./storage_ali路径加载索引"</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="问答" class="level3" data-number="7.7.9">
+<h3 data-number="7.7.9" class="anchored" data-anchor-id="问答"><span class="header-section-number">7.7.9</span> 问答</h3>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="ex">query_engine</span> = index.as_query_engine<span class="er">(</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">similarity_top_k</span><span class="op">=</span>5,</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">streaming</span><span class="op">=</span>True,</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">text_qa_template</span><span class="op">=</span>qa_prompt  <span class="co"># 关键点：绑定提示词</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 执行查询</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="ex">response</span> = query_engine.query<span class="er">(</span><span class="st">"今天星期几了？"</span><span class="kw">)</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a><span class="fu">response.print_response_stream()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>输出</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="ex">抱歉，在您的笔记库中没有找到相关描述。</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>继续问</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="ex">response</span> = query_engine.query<span class="er">(</span><span class="st">"读者为什么看网文？"</span><span class="kw">)</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">response.print_response_stream()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>输出</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="ex">读者读网文是为了通过“压抑</span> → 反转 → 补偿”的循环，过度补偿现实生活中无法满足的情绪缺口。网文提供现实中得不到的东西，如力量感、被看见、公平、被爱、价值感和方向感等，并通过镜像机制让读者在主角身上看到自己，经历委屈后实现反转与补偿，从而获得情绪上的满足和多巴胺奖赏。这种循环可不断延续，使读者持续获得心理代偿。</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>使用平台的大模型有时候会出现报错：</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="ex">APIError:</span> Output data may contain inappropriate content. For details, see: https://help.aliyun.com/zh/model-studio/error-code#inappropriate-content</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>大致原因是：</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="ex">generally</span> indicates that a content moderation or safety filter, usually implemented by the service provider <span class="er">(</span><span class="ex">like</span> OpenAI, Microsoft Azure, or other platforms<span class="kw">)</span><span class="ex">,</span> has flagged the generated output as violating its usage policies. </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="使用本地模型" class="level3" data-number="7.7.10">
+<h3 data-number="7.7.10" class="anchored" data-anchor-id="使用本地模型"><span class="header-section-number">7.7.10</span> 使用本地模型</h3>
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> pathlib import Path</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="ex">vault_path</span> = Path<span class="er">(</span><span class="st">"/path_to_local_knowledge"</span><span class="kw">)</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import SimpleDirectoryReader</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="ex">documents</span> = SimpleDirectoryReader<span class="er">(</span></span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">input_dir</span><span class="op">=</span>vault_path,</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">recursive</span><span class="op">=</span>True,</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">required_exts</span><span class="op">=</span><span class="pp">[</span><span class="st">".md"</span><span class="pp">]</span></span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span><span class="fu">.load_data()</span></span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.llms.ollama import Ollama</span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.embeddings.ollama import OllamaEmbedding</span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import Settings</span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a><span class="ex">Settings.llm</span> = Ollama<span class="er">(</span></span>
+<span id="cb75-18"><a href="#cb75-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ollama的云模型，本地模型跑不动</span></span>
+<span id="cb75-19"><a href="#cb75-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">model</span><span class="op">=</span><span class="st">"gpt-oss:120b-cloud"</span>,</span>
+<span id="cb75-20"><a href="#cb75-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">temperature</span><span class="op">=</span>0</span>
+<span id="cb75-21"><a href="#cb75-21" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb75-22"><a href="#cb75-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-23"><a href="#cb75-23" aria-hidden="true" tabindex="-1"></a><span class="ex">Settings.embed_model</span> = OllamaEmbedding<span class="er">(</span></span>
+<span id="cb75-24"><a href="#cb75-24" aria-hidden="true" tabindex="-1"></a>    <span class="va">model_name</span><span class="op">=</span><span class="st">"bge-m3:latest"</span>,</span>
+<span id="cb75-25"><a href="#cb75-25" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb75-26"><a href="#cb75-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-27"><a href="#cb75-27" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import VectorStoreIndex</span>
+<span id="cb75-28"><a href="#cb75-28" aria-hidden="true" tabindex="-1"></a><span class="ex">index</span> = VectorStoreIndex.from_documents<span class="er">(</span><span class="ex">documents</span><span class="kw">)</span></span>
+<span id="cb75-29"><a href="#cb75-29" aria-hidden="true" tabindex="-1"></a><span class="ex">index.storage_context.persist</span><span class="er">(</span><span class="va">persist_dir</span><span class="op">=</span><span class="st">"./storage"</span><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.llms.ollama import Ollama</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.embeddings.ollama import OllamaEmbedding</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 将本地索引文件加载为索引</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import StorageContext,load_index_from_storage</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="ex">storage_context</span> = StorageContext.from_defaults<span class="er">(</span><span class="va">persist_dir</span><span class="op">=</span><span class="st">"./storage"</span><span class="kw">)</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="ex">index</span> = load_index_from_storage<span class="er">(</span><span class="ex">storage_context</span><span class="kw">)</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="ex">print</span><span class="er">(</span><span class="st">"成功从./storage路径加载索引"</span><span class="kw">)</span></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="ex">from</span> llama_index.core import PromptTemplate</span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="ex">QA_PROMPT_TMPL</span> = <span class="er">(</span></span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Context information is below.\n"</span></span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"---------------------\n"</span></span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{context_str}\n"</span></span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"---------------------\n"</span></span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"请仅根据上述提供的上下文信息回答问题。限制如下：\n"</span></span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"1. 你的回答必须完全基于提供的上下文，不得使用你已有的外部知识。\n"</span></span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2. 如果上下文中没有关于该问题的答案，请直接回答：'抱歉，在您的笔记库中没有找到相关描述。'\n"</span></span>
+<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"3. 保持回答简洁专业。\n\n"</span></span>
+<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Query: {query_str}\n"</span></span>
+<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Answer: "</span></span>
+<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb76-23"><a href="#cb76-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-24"><a href="#cb76-24" aria-hidden="true" tabindex="-1"></a><span class="ex">qa_prompt</span> = PromptTemplate<span class="er">(</span><span class="ex">QA_PROMPT_TMPL</span><span class="kw">)</span></span>
+<span id="cb76-25"><a href="#cb76-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-26"><a href="#cb76-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 在创建查询引擎时，通过 text_qa_template 传入自定义提示词</span></span>
+<span id="cb76-27"><a href="#cb76-27" aria-hidden="true" tabindex="-1"></a><span class="ex">query_engine</span> = index.as_query_engine<span class="er">(</span></span>
+<span id="cb76-28"><a href="#cb76-28" aria-hidden="true" tabindex="-1"></a>    <span class="va">similarity_top_k</span><span class="op">=</span>5,</span>
+<span id="cb76-29"><a href="#cb76-29" aria-hidden="true" tabindex="-1"></a>    <span class="va">streaming</span><span class="op">=</span>True,</span>
+<span id="cb76-30"><a href="#cb76-30" aria-hidden="true" tabindex="-1"></a>    <span class="va">text_qa_template</span><span class="op">=</span>qa_prompt  <span class="co"># 关键点：绑定提示词</span></span>
+<span id="cb76-31"><a href="#cb76-31" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb76-32"><a href="#cb76-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-33"><a href="#cb76-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. 执行查询</span></span>
+<span id="cb76-34"><a href="#cb76-34" aria-hidden="true" tabindex="-1"></a><span class="ex">response</span> = query_engine.query<span class="er">(</span><span class="st">"读者为什么看网文？"</span><span class="kw">)</span></span>
+<span id="cb76-35"><a href="#cb76-35" aria-hidden="true" tabindex="-1"></a><span class="fu">response.print_response_stream()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="在cherry-studio使用ollama" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="在cherry-studio使用ollama"><span class="header-section-number">7.8</span> 在Cherry Studio使用ollama</h2>
+<section id="下载" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="下载"><span class="header-section-number">7.8.1</span> 下载</h3>
+<p>官网：<a href="https://www.cherry-ai.com/" class="uri">https://www.cherry-ai.com/</a></p>
+<p><img src="images/cp_7_24.png" class="img-fluid"></p>
+<p><img src="images/cp_7_25.png" class="img-fluid"></p>
+<p>之后打开就好，点击继续。</p>
+</section>
+<section id="导入ollama" class="level3" data-number="7.8.2">
+<h3 data-number="7.8.2" class="anchored" data-anchor-id="导入ollama"><span class="header-section-number">7.8.2</span> 导入ollama</h3>
+<p><img src="images/cp_7_26.png" class="img-fluid"></p>
+<p><img src="images/cp_7_27.png" class="img-fluid"></p>
+<p><img src="images/cp_7_28.png" class="img-fluid"></p>
+<p><img src="images/cp_7_29.png" class="img-fluid"></p>
+<p>在终端输入<code>ollama list</code></p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~</span> % ollama list</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="ex">NAME</span>                        ID              SIZE      MODIFIED     </span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="ex">deepseek-r1:1.5b</span>            e0979632db5a    1.1 GB    47 hours ago    </span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="ex">qwen2.5-coder:7b</span>            dae161e27b0e    4.7 GB    2 days ago      </span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nomic-embed-text:latest</span>     0a109f422b47    274 MB    2 days ago      </span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a><span class="ex">qwen3-coder:480b-cloud</span>      e30e45586389    <span class="at">-</span>         2 days ago      </span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a><span class="ex">deepseek-v3.1:671b-cloud</span>    d3749919e45f    <span class="at">-</span>         2 days ago      </span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a><span class="ex">gpt-oss:20b-cloud</span>           875e8e3a629a    <span class="at">-</span>         2 days ago      </span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a><span class="ex">gpt-oss:120b-cloud</span>          569662207105    <span class="at">-</span>         2 days ago </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>以<code>gpt-oss:120b-cloud</code>为例</p>
+<p><img src="images/cp_7_30.png" class="img-fluid"></p>
+<p>只需要填模型ID，其余的空会自动填写。</p>
+<p>添加模型后，回到首页。</p>
+<p><img src="images/cp_7_31.png" class="img-fluid"></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./cp_6.html" class="pagination-link" aria-label="Ollama 可视化界面部署">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ollama 可视化界面部署</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./summary.html" class="pagination-link" aria-label="Summary">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

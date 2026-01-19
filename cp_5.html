@@ -262,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install jupyter <span class="at">-i</span> https://pypi.tuna.tsinghua.edu.cn/simple/</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span><span class="op">=</span>handlm <span class="at">--display-name</span> <span class="st">"Python (handlm)"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>执行完毕后，重启 Jupyter，并选择该环境的 Kernel，如图所示：</p>
-<p><img src="images/C5-1-1-01.png" class="img-fluid"></p>
+<p><img src="images/cp5_2.png" class="img-fluid"></p>
 </section>
 <section id="注意" class="level4" data-number="5.1.2.3">
 <h4 data-number="5.1.2.3" class="anchored" data-anchor-id="注意"><span class="header-section-number">5.1.2.3</span> ⚠️ 注意</h4>
@@ -690,6 +690,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install langchain-ollama langchain langchain-community Pillow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>3 执行</strong><code>**rm -rf ~/.ollama/models**</code><strong>后，模型都没有了，而且云上模型都没了，咋办？</strong></p>
 <p>公共模型（如 llama3.2、deepseek-r1）——可以重新 <code>pull</code>，云上模型的话，直接在ollama界面使用云上模型，之后<code>ollama list</code>就会显示云上模型。</p>
+<p>也可以直接在官网查看有哪些远程模型，直接<code>ollama run xxx</code> .</p>
 <p>如果<code>pull</code>模型失败，可以删除所有模型试试：</p>
 <p><code>rm -rf ~/.ollama/models</code></p>
 <p>4 在<code>构建一个简单的 RAG 问答系统</code>这部分内容的代码，遇见一个问题：ValueError: input not a numpy array。</p>
@@ -775,29 +776,29 @@ Python；<br>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>&lt;font style="color:rgb(68, 71, 70);"&gt;bash</code></td>
+<td><code>bash</code></td>
 <td>运行环境</td>
 <td>告诉电脑用 Bash Shell 来运行后面的脚本程序。</td>
 </tr>
 <tr class="even">
-<td><code>&lt;font style="color:rgb(68, 71, 70);"&gt;~/miniconda3/miniconda.sh</code></td>
+<td><code>~/miniconda3/miniconda.sh</code></td>
 <td>脚本路径</td>
 <td>指向你刚才下载好的那个安装包文件。</td>
 </tr>
 <tr class="odd">
-<td><code>&lt;font style="color:rgb(68, 71, 70);"&gt;-b</code></td>
+<td><code>-b</code></td>
 <td>Batch (批量/静默)</td>
 <td>最关键的参数。它让安装过程“闭嘴”，不会弹出一大堆用户协议让你按回车，也不会问你“Yes/No”，全部按默认自动完成。</td>
 </tr>
 <tr class="even">
-<td><code>&lt;font style="color:rgb(68, 71, 70);"&gt;-u</code></td>
+<td><code>-u</code></td>
 <td>Update (更新)</td>
 <td>如果你之前装过，这个参数会允许它覆盖或更新现有的文件，防止报错。</td>
 </tr>
 <tr class="odd">
-<td><code>&lt;font style="color:rgb(68, 71, 70);"&gt;-p ~/miniconda3</code></td>
+<td><code>-p ~/miniconda3</code></td>
 <td>Prefix (安装路径)</td>
-<td>明确指定安装的目标文件夹。这里是安装到主目录下的 <code>&lt;font style="color:rgb(68, 71, 70);"&gt;miniconda3</code><br> 文件夹中。</td>
+<td>明确指定安装的目标文件夹。这里是安装到主目录下的 <code>miniconda3</code> 文件夹中。</td>
 </tr>
 </tbody>
 </table>

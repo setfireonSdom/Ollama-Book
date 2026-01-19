@@ -392,7 +392,7 @@ revision="main",
 <p><img src="images/cp_2_11.png" class="img-fluid"></p>
 <p>至此，我们就拿到了一个 <code>ACCESS_TOKEN</code> 。</p>
 <p>这一小节就不写了，参考：<a href="https://github.com/datawhalechina/handy-ollama/blob/main/docs/C3/1.%20%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9E%8B.md" class="uri">https://github.com/datawhalechina/handy-ollama/blob/main/docs/C3/1.%20%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9E%8B.md</a></p>
-<p>转换的过程中主要问题在于llama.cpp的配置，需要安装该文件夹下<code>requirements.txt</code> 中的依赖。遇到各种问题，官方从<code>pip wheel</code> 侧对 macOS x86_64 的支持在 2.2.2 左右就停止了，所以用 <code>pip</code> 在 Intel Mac 上通常只能看到并安装到 2.2.2；更高版本（包括 2.6）没有对应的 macOS x86_64 wheel，于是就会出现“找不到分发包/不支持该 wheel”的各种报错。</p>
+<p>转换的过程中主要问题在于llama.cpp的配置，需要安装该文件夹下<code>requirements.txt</code> 中的依赖。遇到各种问题，官方从<code>pip wheel</code> 侧对 macOS x86_64 的支持在 2.2.2（torch） 左右就停止了，所以用 <code>pip</code> 在 Intel Mac 上通常只能看到并安装到 2.2.2；更高版本（包括 2.6）没有对应的 macOS x86_64 wheel，于是就会出现“找不到分发包/不支持该 wheel”的各种报错。</p>
 <p>如果用低版本的<code>torch</code>，报错：<code>AttributeError: module 'torch' has no attribute 'uint64</code></p>
 <p>至于下载模型可以直接配置上述镜像网站加快下载速度。</p>
 <p>理论上来说，只要配置好<code>llama.cpp</code>运行<code>convert_hf_to_gguf.py</code> 就可以将hg上的模型转换成<code>.gguf</code> 文件，再执行前述”从GGUF导入”部分，即可导入模型。</p>

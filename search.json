@@ -453,8 +453,18 @@
     "objectID": "cp_2.html#注意",
     "href": "cp_2.html#注意",
     "title": "2  Ollama安装",
-    "section": "2.2 注意",
-    "text": "2.2 注意\n\nOllama Desktop 升级后，抬高了 macOS 最低版本，在最近一段时间，很多开发者工具都在做同一件事，放弃旧 macOS SDK 切到更新的 Xcode / Swift / Metal 只支持 macOS 13 / 14+。\n现在低版本的macOS电脑下载不了最新版本的ollama的GUI了，有的旧版本下载了会无法登陆，不再能使用远程模型。\n旧版本：\nhttps://github.com/ollama/ollama/releases?page=2\n源代码：\nhttps://github.com/ollama/ollama\n远端模型在目前版本的ollama里面调用不了了，只能下载一些模型本地用，案例里面的代码模型部分可以更换成小模型，不过运行速度会变慢。",
+    "section": "2.3 注意",
+    "text": "2.3 注意\n\nOllama Desktop 升级后，抬高了 macOS 最低版本，在最近一段时间，很多开发者工具都在做同一件事，放弃旧 macOS SDK 切到更新的 Xcode / Swift / Metal 只支持 macOS 13 / 14+。\n现在低版本的macOS电脑下载不了最新版本的ollama的GUI了，有的旧版本下载了会无法登陆，不再能使用远程模型。\n旧版本：\nhttps://github.com/ollama/ollama/releases?page=2\n源代码：\nhttps://github.com/ollama/ollama\n远端模型在目前版本的ollama里面调用不了了，只能下载一些模型本地用，案例里面的代码模型部分可以更换成小模型，不过运行速度会变慢。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ollama安装</span>"
+    ]
+  },
+  {
+    "objectID": "cp_2.html#ollama-社区的各种集成项目",
+    "href": "cp_2.html#ollama-社区的各种集成项目",
+    "title": "2  Ollama安装",
+    "section": "2.2 Ollama 社区的各种集成项目",
+    "text": "2.2 Ollama 社区的各种集成项目\n在ollama的源代码官网readme里。\n\n列出了一堆集成项目，以Enchanted (macOS native) 为例（https://github.com/gluonfield/enchanted），点击进入：\n\nEnchanted 提供了一个界面来简化与模型交互的过程，它可以接入ollama的模型，不过目前ollama自身已配置一个用户界面。",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ollama安装</span>"
     ]

@@ -468,5 +468,15 @@
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ollama安装</span>"
     ]
+  },
+  {
+    "objectID": "summary.html#续2",
+    "href": "summary.html#续2",
+    "title": "8  Summary",
+    "section": "8.2 续2",
+    "text": "8.2 续2\nhttps://docs.ollama.com/cloud\n\n目前云模型已经不在preview了，可以登录ollama的账户使用云模型了。\n\n点击Manage，可以查看免费额度剩多少。\n\n此刻就可以用免费的云模型了。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Summary</span>"
+    ]
   }
 ]

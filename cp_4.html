@@ -107,6 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -215,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#使用方法" id="toc-使用方法" class="nav-link" data-scroll-target="#使用方法"><span class="header-section-number">4.1.2</span> 使用方法</a></li>
   <li><a href="#流式响应" id="toc-流式响应" class="nav-link" data-scroll-target="#流式响应"><span class="header-section-number">4.1.3</span> 流式响应</a></li>
   <li><a href="#结构化输出" id="toc-结构化输出" class="nav-link" data-scroll-target="#结构化输出"><span class="header-section-number">4.1.4</span> 结构化输出</a></li>
-  <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding"><span class="header-section-number">4.1.5</span> <strong>Coding</strong></a></li>
+  <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding"><span class="header-section-number">4.1.5</span> Coding</a></li>
   <li><a href="#api" id="toc-api" class="nav-link" data-scroll-target="#api"><span class="header-section-number">4.1.6</span> API</a></li>
   <li><a href="#自定义客户端" id="toc-自定义客户端" class="nav-link" data-scroll-target="#自定义客户端"><span class="header-section-number">4.1.7</span> 自定义客户端</a></li>
   <li><a href="#错误" id="toc-错误" class="nav-link" data-scroll-target="#错误"><span class="header-section-number">4.1.8</span> 错误</a></li>
@@ -472,7 +473,7 @@ gpt-oss:120b-cloud          569662207105    -         2 months ago</code></pre>
 </section>
 </section>
 <section id="coding" class="level3" data-number="4.1.5">
-<h3 data-number="4.1.5" class="anchored" data-anchor-id="coding"><span class="header-section-number">4.1.5</span> <strong>Coding</strong></h3>
+<h3 data-number="4.1.5" class="anchored" data-anchor-id="coding"><span class="header-section-number">4.1.5</span> Coding</h3>
 <p>ollama新出现一个命令<code>ollama launch</code> ，执行后，它会让你在终端选择一些工具进行配置，目前有四种：</p>
 <ul>
 <li><p><a href="https://docs.ollama.com/integrations/opencode"><strong>OpenCode</strong></a> - Open-source coding assistant</p></li>
@@ -489,7 +490,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="api" class="level3" data-number="4.1.6">
 <h3 data-number="4.1.6" class="anchored" data-anchor-id="api"><span class="header-section-number">4.1.6</span> API</h3>
-<p>Ollama Python 库提供了丰富的接口，简化了与 Ollama 的交互。这些接口设计直观，易于集成，旨在帮助开发者更便捷地调用和管理模型。如果你想了解更详细的底层实现和完整的 API 端点信息，建议参考 <a href="1. Ollama API 使用指南.md">Ollama API 使用指南</a>。</p>
+<p>Ollama Python 库提供了丰富的接口，简化了与 Ollama 的交互。这些接口设计直观，易于集成，旨在帮助开发者更便捷地调用和管理模型。如果你想了解更详细的底层实现和完整的 API 端点信息，建议参考 <a href="https://github.com/ollama/ollama/blob/main/docs/api.md">Ollama API 使用指南</a>。</p>
 <section id="聊天" class="level4" data-number="4.1.6.1">
 <h4 data-number="4.1.6.1" class="anchored" data-anchor-id="聊天"><span class="header-section-number">4.1.6.1</span> 聊天</h4>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
@@ -863,7 +864,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="api-1" class="level3" data-number="4.2.6">
 <h3 data-number="4.2.6" class="anchored" data-anchor-id="api-1"><span class="header-section-number">4.2.6</span> API</h3>
-<p>Ollama JavaScript 库的 API 设计围绕 Ollama REST API 。如果你想了解更详细的底层实现和完整的 API 端点信息，建议参考 <a href="./1. Ollama API 使用指南.md">Ollama API 使用指南</a></p>
+<p>Ollama JavaScript 库的 API 设计围绕 Ollama REST API 。如果你想了解更详细的底层实现和完整的 API 端点信息，建议参考 <a href="https://github.com/ollama/ollama/blob/main/docs/api.md">Ollama API 使用指南</a></p>
 <section id="聊天-1" class="level4" data-number="4.2.6.1">
 <h4 data-number="4.2.6.1" class="anchored" data-anchor-id="聊天-1"><span class="header-section-number">4.2.6.1</span> 聊天</h4>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">chat</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

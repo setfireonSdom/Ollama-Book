@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Summary – ollama book</title>
+<title>附录 – ollama book</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./附录.html" rel="next">
-<link href="./cp_7.html" rel="prev">
+<link href="./summary.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -84,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./summary.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Summary</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./附录.html">附录</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -161,13 +160,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link active">
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./附录.html" class="sidebar-item-text sidebar-link">
+  <a href="./附录.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">附录</span></a>
   </div>
 </li>
@@ -181,8 +180,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#续" id="toc-续" class="nav-link active" data-scroll-target="#续"><span class="header-section-number">8.1</span> 续</a></li>
-  <li><a href="#续2" id="toc-续2" class="nav-link" data-scroll-target="#续2"><span class="header-section-number">8.2</span> 续2</a></li>
+  <li><a href="#uv" id="toc-uv" class="nav-link active" data-scroll-target="#uv">uv</a>
+  <ul class="collapse">
+  <li><a href="#安装" id="toc-安装" class="nav-link" data-scroll-target="#安装">安装</a></li>
+  <li><a href="#基本用法" id="toc-基本用法" class="nav-link" data-scroll-target="#基本用法">基本用法</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -191,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Summary</span></h1>
+<h1 class="title">附录</h1>
 </div>
 
 
@@ -208,30 +210,34 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>做的过程中，遇到一些问题。</p>
-<p>有的问题是macOS版本过低导致的，例如将huggingface下载的模型转化成.gguf文件，需要用到torch2.6.0，但是只能下载2.2左右的，还有一个方案没试，使用旧版本的llama.cpp，但是目前不打算继续推进了。</p>
-<p>还有ollama本身安装的问题。</p>
-<p>其他问题大多集中在，包本身升级了，使用的函数、方法变了，需要更新代码。</p>
-<p>To be continue……</p>
-<section id="续" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="续"><span class="header-section-number">8.1</span> 续</h2>
-<p>当下日期260121。</p>
-<p>使用不了ollama cloud模型的原因大概是：</p>
-<p><img src="images/clipboard-3087289415.png" class="img-fluid"></p>
-<p>这个功能目前关闭了，估计要过段时间才能开放。</p>
+<section id="uv" class="level2">
+<h2 class="anchored" data-anchor-id="uv">uv</h2>
+<p>uv 是一个用 Rust 编写的 Python 工具，目标是把“Python 项目从创建到运行”的整个链路做成一个又快又简单的统一工具。它之所以要存在，本质原因只有一个：Python 的包管理和环境管理长期处于碎片化、低效和高复杂度的状态。</p>
+<p>在 uv 出现之前，一个稍微正规的 Python 项目，通常需要一堆工具配合使用。比如用 pyenv 管理 Python 版本，用 venv 或 virtualenv 管理虚拟环境，用 pip 安装依赖，用 pip-tools 或 poetry-lock 锁版本，用 poetry 或 setuptools 管理项目元数据。这些工具各自都能用，但组合在一起之后，慢、复杂、容易出错，而且在 CI、跨平台、团队协作中经常踩坑。尤其是 pip 的性能问题，在依赖多一点时会非常明显，解析依赖和下载包都很慢。</p>
+<p>uv 的设计目标就是：把这些事情合并，用一个工具解决，并且在性能上做到数量级的提升。它不是在 pip 上包一层，而是从底层重新实现了解析、下载和缓存机制，所以速度非常快，官方和社区的实测通常是 pip 的 10 到 100 倍。</p>
+<p>从功能上看，uv 至少做了几件关键的事情。第一，它是一个极速的包安装器，可以直接替代 pip 使用。你可以用 uv pip install 来安装依赖，语义和 pip 几乎一致，但速度快很多，而且缓存策略更激进、更合理。第二，它自带虚拟环境管理能力，可以创建、使用和复用虚拟环境，不需要再单独依赖 venv 或 virtualenv。第三，它支持项目级的依赖管理，能够读取 pyproject.toml，并生成和使用锁文件，从而保证依赖的可复现性，这一点在 CI 和生产环境里非常重要。第四，它内置 Python 解释器的发现和管理逻辑，能自动选择合适的 Python 版本，减少“系统 Python / 项目 Python / 虚拟环境 Python”之间的混乱。</p>
+<p>更深一层看，uv 的价值不只是“更快的 pip”，而是它在试图把 Python 的开发体验向现代语言工具链对齐。像 Rust 有 cargo，Node.js 有 npm 和 pnpm，Go 有 go tool，而 Python 长期缺少一个同时覆盖版本、环境、依赖和项目生命周期的统一入口。uv 正是在填这个空位，而且它的实现方式是工程化、性能优先、偏底层的，这也是它选择用 Rust 而不是 Python 实现的原因。</p>
+<p>总结来说，uv 存在的原因是 Python 工具链太慢、太散、太容易出问题；它的核心功能是极速依赖安装、虚拟环境管理、项目依赖锁定和 Python 版本协同；它解决的问题不是“多一个选择”，而是试图成为那个你可以默认使用、不用纠结的基础工具。如果你关心可复现性、CI 速度、开发体验和长期维护成本，uv 基本上是一个顺理成章的选择。</p>
+<section id="安装" class="level3">
+<h3 class="anchored" data-anchor-id="安装">安装</h3>
+<p>Macos and Linux</p>
+<pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre>
+<p>Windows</p>
+<pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
+<p>如果碰到错误，可以去官网看看：<a href="https://docs.astral.sh/uv/getting-started/installation/#standalone-installer" class="uri">https://docs.astral.sh/uv/getting-started/installation/#standalone-installer</a></p>
 </section>
-<section id="续2" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="续2"><span class="header-section-number">8.2</span> 续2</h2>
-<p><a href="https://docs.ollama.com/cloud" class="uri">https://docs.ollama.com/cloud</a></p>
-<p><img src="images/clipboard-2860392648.png" class="img-fluid"></p>
-<p>目前云模型已经不在preview了，可以登录ollama的账户使用云模型了。</p>
-<p><img src="images/clipboard-183451256.png" class="img-fluid"></p>
-<p>点击Manage，可以查看免费额度剩多少。</p>
-<p><img src="images/clipboard-3183712572.png" class="img-fluid"></p>
-<p>此刻就可以用免费的云模型了。</p>
-<p><img src="images/clipboard-2463933078.png" class="img-fluid"></p>
+<section id="基本用法" class="level3">
+<h3 class="anchored" data-anchor-id="基本用法">基本用法</h3>
+<p>创建虚拟环境：</p>
+<pre><code>uv venv</code></pre>
+<p>只要进入一个文件夹，输入该指令，当前文件夹名称会变成环境名，之后用<code>source .venv/bin/activate</code> 激活虚拟环境。</p>
+<p>激活之后就可以用了。</p>
+<p>安装包</p>
+<pre><code>uv pip install xxx</code></pre>
+<p>它也可以加镜像。</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -637,14 +643,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./cp_7.html" class="pagination-link" aria-label="应用案例">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">应用案例</span></span>
+      <a href="./summary.html" class="pagination-link" aria-label="Summary">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Summary</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./附录.html" class="pagination-link" aria-label="附录">
-        <span class="nav-page-text">附录</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

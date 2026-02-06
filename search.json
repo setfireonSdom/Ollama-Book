@@ -453,8 +453,8 @@
     "objectID": "cp_2.html#注意",
     "href": "cp_2.html#注意",
     "title": "2  Ollama安装",
-    "section": "2.3 注意",
-    "text": "2.3 注意\n\nOllama Desktop 升级后，抬高了 macOS 最低版本，在最近一段时间，很多开发者工具都在做同一件事，放弃旧 macOS SDK 切到更新的 Xcode / Swift / Metal 只支持 macOS 13 / 14+。\n现在低版本的macOS电脑下载不了最新版本的ollama的GUI了，有的旧版本下载了会无法登陆，不再能使用远程模型。\n旧版本：\nhttps://github.com/ollama/ollama/releases?page=2\n源代码：\nhttps://github.com/ollama/ollama\n远端模型在目前版本的ollama里面调用不了了，只能下载一些模型本地用，案例里面的代码模型部分可以更换成小模型，不过运行速度会变慢。",
+    "section": "2.5 注意",
+    "text": "2.5 注意\n\nOllama Desktop 升级后，抬高了 macOS 最低版本，在最近一段时间，很多开发者工具都在做同一件事，放弃旧 macOS SDK 切到更新的 Xcode / Swift / Metal 只支持 macOS 13 / 14+。\n现在低版本的macOS电脑下载不了最新版本的ollama的GUI了，有的旧版本下载了会无法登陆，不再能使用远程模型。\n旧版本：\nhttps://github.com/ollama/ollama/releases?page=2\n源代码：\nhttps://github.com/ollama/ollama\n远端模型在目前版本的ollama里面调用不了了，只能下载一些模型本地用，案例里面的代码模型部分可以更换成小模型，不过运行速度会变慢。",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ollama安装</span>"
     ]
@@ -463,8 +463,8 @@
     "objectID": "cp_2.html#ollama-社区的各种集成项目",
     "href": "cp_2.html#ollama-社区的各种集成项目",
     "title": "2  Ollama安装",
-    "section": "2.2 Ollama 社区的各种集成项目",
-    "text": "2.2 Ollama 社区的各种集成项目\n在ollama的源代码官网readme里。\n\n列出了一堆集成项目，以Enchanted (macOS native) 为例（https://github.com/gluonfield/enchanted），点击进入：\n\nEnchanted 提供了一个界面来简化与模型交互的过程，它可以接入ollama的模型，不过目前ollama自身已配置一个用户界面。",
+    "section": "2.4 Ollama 社区的各种集成项目",
+    "text": "2.4 Ollama 社区的各种集成项目\n在ollama的源代码官网readme里。\n\n列出了一堆集成项目，以Enchanted (macOS native) 为例（https://github.com/gluonfield/enchanted），点击进入：\n\nEnchanted 提供了一个界面来简化与模型交互的过程，它可以接入ollama的模型，不过目前ollama自身已配置一个用户界面。",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ollama安装</span>"
     ]
@@ -497,6 +497,26 @@
     "text": "安装\nMacos and Linux\ncurl -LsSf https://astral.sh/uv/install.sh | sh\nWindows\npowershell -ExecutionPolicy ByPass -c \"irm https://astral.sh/uv/install.ps1 | iex\"\n如果碰到错误，可以去官网看看：https://docs.astral.sh/uv/getting-started/installation/#standalone-installer\n\n\n基本用法\n创建虚拟环境：\nuv venv\n只要进入一个文件夹，输入该指令，当前文件夹名称会变成环境名，之后用source .venv/bin/activate 激活虚拟环境。\n激活之后就可以用了。\n安装包\nuv pip install xxx\n它也可以加镜像。",
     "crumbs": [
       "附录"
+    ]
+  },
+  {
+    "objectID": "cp_2.html#在windows上安装",
+    "href": "cp_2.html#在windows上安装",
+    "title": "2  Ollama安装",
+    "section": "2.2 在windows上安装",
+    "text": "2.2 在windows上安装\n\n步骤同上macos教程",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ollama安装</span>"
+    ]
+  },
+  {
+    "objectID": "cp_2.html#linux安装ollama",
+    "href": "cp_2.html#linux安装ollama",
+    "title": "2  Ollama安装",
+    "section": "2.3 Linux安装Ollama",
+    "text": "2.3 Linux安装Ollama\ncurl -fsSL https://ollama.com/install.sh | sh\n参考：https://docs.ollama.com/linux#manual-install",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Ollama安装</span>"
     ]
   }
 ]

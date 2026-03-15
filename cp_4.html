@@ -222,11 +222,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#使用方法" id="toc-使用方法" class="nav-link" data-scroll-target="#使用方法"><span class="header-section-number">4.1.2</span> 使用方法</a></li>
   <li><a href="#流式响应" id="toc-流式响应" class="nav-link" data-scroll-target="#流式响应"><span class="header-section-number">4.1.3</span> 流式响应</a></li>
   <li><a href="#think模式" id="toc-think模式" class="nav-link" data-scroll-target="#think模式"><span class="header-section-number">4.1.4</span> Think模式</a></li>
-  <li><a href="#结构化输出" id="toc-结构化输出" class="nav-link" data-scroll-target="#结构化输出"><span class="header-section-number">4.1.5</span> 结构化输出</a></li>
-  <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding"><span class="header-section-number">4.1.6</span> Coding</a></li>
-  <li><a href="#api" id="toc-api" class="nav-link" data-scroll-target="#api"><span class="header-section-number">4.1.7</span> API</a></li>
-  <li><a href="#自定义客户端" id="toc-自定义客户端" class="nav-link" data-scroll-target="#自定义客户端"><span class="header-section-number">4.1.8</span> 自定义客户端</a></li>
-  <li><a href="#错误" id="toc-错误" class="nav-link" data-scroll-target="#错误"><span class="header-section-number">4.1.9</span> 错误</a></li>
+  <li><a href="#调用cloud模型" id="toc-调用cloud模型" class="nav-link" data-scroll-target="#调用cloud模型"><span class="header-section-number">4.1.5</span> 调用Cloud模型</a></li>
+  <li><a href="#结构化输出" id="toc-结构化输出" class="nav-link" data-scroll-target="#结构化输出"><span class="header-section-number">4.1.6</span> 结构化输出</a></li>
+  <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding"><span class="header-section-number">4.1.7</span> Coding</a></li>
+  <li><a href="#api" id="toc-api" class="nav-link" data-scroll-target="#api"><span class="header-section-number">4.1.8</span> API</a></li>
+  <li><a href="#自定义客户端" id="toc-自定义客户端" class="nav-link" data-scroll-target="#自定义客户端"><span class="header-section-number">4.1.9</span> 自定义客户端</a></li>
+  <li><a href="#错误" id="toc-错误" class="nav-link" data-scroll-target="#错误"><span class="header-section-number">4.1.10</span> 错误</a></li>
   </ul></li>
   <li><a href="#在-javascript-中使用-ollama-api" id="toc-在-javascript-中使用-ollama-api" class="nav-link" data-scroll-target="#在-javascript-中使用-ollama-api"><span class="header-section-number">4.2</span> 在 JavaScript 中使用 Ollama API</a>
   <ul class="collapse">
@@ -423,8 +424,29 @@ Thinking Process:
 
 对话结束。</code></pre>
 </section>
-<section id="结构化输出" class="level3" data-number="4.1.5">
-<h3 data-number="4.1.5" class="anchored" data-anchor-id="结构化输出"><span class="header-section-number">4.1.5</span> 结构化输出</h3>
+<section id="调用cloud模型" class="level3" data-number="4.1.5">
+<h3 data-number="4.1.5" class="anchored" data-anchor-id="调用cloud模型"><span class="header-section-number">4.1.5</span> 调用Cloud模型</h3>
+<p>ollama更新后，调用cloud模型的方式改变了。如下：</p>
+<pre><code>import os
+from ollama import Client
+
+client = Client(
+    host='https://ollama.com',
+    headers={'Authorization': 'Bearer ' + 'API_KEY'}
+)
+
+messages = [
+  {
+    'role': 'user',
+    'content': 'Why is the sky blue?',
+  },
+]
+
+for part in client.chat('gpt-oss:120b-cloud', messages=messages, stream=True):
+  print(part.message.content, end='', flush=True)</code></pre>
+</section>
+<section id="结构化输出" class="level3" data-number="4.1.6">
+<h3 data-number="4.1.6" class="anchored" data-anchor-id="结构化输出"><span class="header-section-number">4.1.6</span> 结构化输出</h3>
 <ul>
 <li>普通输出（Unstructured Output）
 <ul>
@@ -442,144 +464,144 @@ Thinking Process:
 <li>例如：</li>
 </ul></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"这是一只黑色的小猫"</span><span class="fu">,</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"activity"</span><span class="fu">:</span> <span class="st">"正在草地上玩耍"</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<section id="结构化输出的优势" class="level4" data-number="4.1.5.1">
-<h4 data-number="4.1.5.1" class="anchored" data-anchor-id="结构化输出的优势"><span class="header-section-number">4.1.5.1</span> 结构化输出的优势</h4>
-<section id="便于处理" class="level5" data-number="4.1.5.1.1">
-<h5 data-number="4.1.5.1.1" class="anchored" data-anchor-id="便于处理"><span class="header-section-number">4.1.5.1.1</span> 便于处理</h5>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"这是一只黑色的小猫"</span><span class="fu">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"activity"</span><span class="fu">:</span> <span class="st">"正在草地上玩耍"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="结构化输出的优势" class="level4" data-number="4.1.6.1">
+<h4 data-number="4.1.6.1" class="anchored" data-anchor-id="结构化输出的优势"><span class="header-section-number">4.1.6.1</span> 结构化输出的优势</h4>
+<section id="便于处理" class="level5" data-number="4.1.6.1.1">
+<h5 data-number="4.1.6.1.1" class="anchored" data-anchor-id="便于处理"><span class="header-section-number">4.1.6.1.1</span> 便于处理</h5>
 <ul>
 <li>机器可以轻松提取特定字段，如 <code>description</code> 或 <code>activity</code> ，而无需 NLP 解析普通文本。</li>
 </ul>
 </section>
-<section id="提高可控性" class="level5" data-number="4.1.5.1.2">
-<h5 data-number="4.1.5.1.2" class="anchored" data-anchor-id="提高可控性"><span class="header-section-number">4.1.5.1.2</span> 提高可控性</h5>
+<section id="提高可控性" class="level5" data-number="4.1.6.1.2">
+<h5 data-number="4.1.6.1.2" class="anchored" data-anchor-id="提高可控性"><span class="header-section-number">4.1.6.1.2</span> 提高可控性</h5>
 <ul>
 <li>结构化格式让开发者可以精确控制模型输出，避免冗长或不可预测的回答。</li>
 <li>例如，在 AI 生成代码时：</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"language"</span><span class="fu">:</span> <span class="st">"Python"</span><span class="fu">,</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"print('Hello, World!')"</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"language"</span><span class="fu">:</span> <span class="st">"Python"</span><span class="fu">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span> <span class="st">"print('Hello, World!')"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="便于存储与分析" class="level5" data-number="4.1.5.1.3">
-<h5 data-number="4.1.5.1.3" class="anchored" data-anchor-id="便于存储与分析"><span class="header-section-number">4.1.5.1.3</span> 便于存储与分析</h5>
+<section id="便于存储与分析" class="level5" data-number="4.1.6.1.3">
+<h5 data-number="4.1.6.1.3" class="anchored" data-anchor-id="便于存储与分析"><span class="header-section-number">4.1.6.1.3</span> 便于存储与分析</h5>
 <ul>
 <li>结构化数据更适合存储到数据库中，方便查询和分析。</li>
 <li>例如：</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"date"</span><span class="fu">:</span> <span class="st">"2025-01-20"</span><span class="fu">,</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"summary"</span><span class="fu">:</span> <span class="st">"今天的销售额增长了10%。"</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Any</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> chat</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field, ValidationError, field_validator</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 数据结构定义（稳定接口）</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CountryInfo(BaseModel):</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    capital: <span class="bu">str</span> <span class="op">=</span> Field(..., alias<span class="op">=</span><span class="st">"首都"</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    population: <span class="bu">int</span> <span class="op">=</span> Field(..., alias<span class="op">=</span><span class="st">"人口"</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    area_km2: <span class="bu">float</span> <span class="op">=</span> Field(..., alias<span class="op">=</span><span class="st">"占地面积"</span>)</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    model_config <span class="op">=</span> {</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"populate_by_name"</span>: <span class="va">True</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---- 宽容解析：人口 ----</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"population"</span>, mode<span class="op">=</span><span class="st">"before"</span>)</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> normalize_population(cls, v: Any) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(v, <span class="bu">dict</span>):</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"value"</span>, <span class="st">"estimate"</span>, <span class="st">"2022_estimate"</span>, <span class="st">"2023_estimate"</span>):</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> key <span class="kw">in</span> v:</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">return</span> <span class="bu">int</span>(v[key])</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"无法从对象中提取人口数值: </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">int</span>(v)</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---- 宽容解析：面积 ----</span></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"area_km2"</span>, mode<span class="op">=</span><span class="st">"before"</span>)</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> normalize_area(cls, v: Any) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(v, <span class="bu">dict</span>):</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"km2"</span>, <span class="st">"value"</span>, <span class="st">"total"</span>, <span class="st">"area"</span>):</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> key <span class="kw">in</span> v:</span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">return</span> <span class="bu">float</span>(v[key])</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"无法从对象中提取面积数值: </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(v)</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 调用 Ollama</span></span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> chat(</span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gpt-oss:120b-cloud"</span>,</span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    messages<span class="op">=</span>[</span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span>: (</span>
-<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>                <span class="st">"请介绍美国的首都、人口、占地面积信息。</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>                <span class="st">"仅返回 JSON，字段必须是：首都、人口、占地面积。</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>                <span class="st">"人口和占地面积必须是数值，不要嵌套对象，不要附带来源说明。"</span></span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>            ),</span>
-<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">format</span><span class="op">=</span><span class="st">"json"</span>,</span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>    options<span class="op">=</span>{<span class="st">"temperature"</span>: <span class="dv">0</span>},</span>
-<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>content <span class="op">=</span> response.get(<span class="st">"message"</span>, {}).get(<span class="st">"content"</span>)</span>
-<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> content:</span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Ollama 返回内容为空"</span>)</span>
-<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. JSON 解析</span></span>
-<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>    raw_json <span class="op">=</span> json.loads(content)</span>
-<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> json.JSONDecodeError <span class="im">as</span> e:</span>
-<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(</span>
-<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"Ollama 返回的内容不是合法 JSON:</span><span class="ch">\n</span><span class="sc">{</span>content<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>    ) <span class="im">from</span> e</span>
-<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Schema 校验 + 归一化</span></span>
-<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>    country <span class="op">=</span> CountryInfo.model_validate(raw_json)</span>
-<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> ValidationError <span class="im">as</span> e:</span>
-<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(</span>
-<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"JSON 结构不符合 CountryInfo 预期:</span><span class="ch">\n</span><span class="sc">{</span>e<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">原始 JSON:</span><span class="ch">\n</span><span class="sc">{</span>raw_json<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>    ) <span class="im">from</span> e</span>
-<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. 使用结果</span></span>
-<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
-<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"====== 原始 JSON ======"</span>)</span>
-<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raw_json)</span>
-<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">====== 结构化对象 ======"</span>)</span>
-<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(country)</span>
-<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">====== 标准化输出 ======"</span>)</span>
-<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(country.model_dump())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"date"</span><span class="fu">:</span> <span class="st">"2025-01-20"</span><span class="fu">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"summary"</span><span class="fu">:</span> <span class="st">"今天的销售额增长了10%。"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Any</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> chat</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel, Field, ValidationError, field_validator</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 数据结构定义（稳定接口）</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CountryInfo(BaseModel):</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    capital: <span class="bu">str</span> <span class="op">=</span> Field(..., alias<span class="op">=</span><span class="st">"首都"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    population: <span class="bu">int</span> <span class="op">=</span> Field(..., alias<span class="op">=</span><span class="st">"人口"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    area_km2: <span class="bu">float</span> <span class="op">=</span> Field(..., alias<span class="op">=</span><span class="st">"占地面积"</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    model_config <span class="op">=</span> {</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"populate_by_name"</span>: <span class="va">True</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---- 宽容解析：人口 ----</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"population"</span>, mode<span class="op">=</span><span class="st">"before"</span>)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> normalize_population(cls, v: Any) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(v, <span class="bu">dict</span>):</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"value"</span>, <span class="st">"estimate"</span>, <span class="st">"2022_estimate"</span>, <span class="st">"2023_estimate"</span>):</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> key <span class="kw">in</span> v:</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">return</span> <span class="bu">int</span>(v[key])</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"无法从对象中提取人口数值: </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">int</span>(v)</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---- 宽容解析：面积 ----</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">@field_validator</span>(<span class="st">"area_km2"</span>, mode<span class="op">=</span><span class="st">"before"</span>)</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> normalize_area(cls, v: Any) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(v, <span class="bu">dict</span>):</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"km2"</span>, <span class="st">"value"</span>, <span class="st">"total"</span>, <span class="st">"area"</span>):</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> key <span class="kw">in</span> v:</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">return</span> <span class="bu">float</span>(v[key])</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"无法从对象中提取面积数值: </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(v)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 调用 Ollama</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> chat(</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">"gpt-oss:120b-cloud"</span>,</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    messages<span class="op">=</span>[</span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span>: (</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>                <span class="st">"请介绍美国的首都、人口、占地面积信息。</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>                <span class="st">"仅返回 JSON，字段必须是：首都、人口、占地面积。</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>                <span class="st">"人口和占地面积必须是数值，不要嵌套对象，不要附带来源说明。"</span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>            ),</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">format</span><span class="op">=</span><span class="st">"json"</span>,</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    options<span class="op">=</span>{<span class="st">"temperature"</span>: <span class="dv">0</span>},</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>content <span class="op">=</span> response.get(<span class="st">"message"</span>, {}).get(<span class="st">"content"</span>)</span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> content:</span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Ollama 返回内容为空"</span>)</span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. JSON 解析</span></span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>    raw_json <span class="op">=</span> json.loads(content)</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> json.JSONDecodeError <span class="im">as</span> e:</span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(</span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"Ollama 返回的内容不是合法 JSON:</span><span class="ch">\n</span><span class="sc">{</span>content<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>    ) <span class="im">from</span> e</span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Schema 校验 + 归一化</span></span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>    country <span class="op">=</span> CountryInfo.model_validate(raw_json)</span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> ValidationError <span class="im">as</span> e:</span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(</span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"JSON 结构不符合 CountryInfo 预期:</span><span class="ch">\n</span><span class="sc">{</span>e<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">原始 JSON:</span><span class="ch">\n</span><span class="sc">{</span>raw_json<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>    ) <span class="im">from</span> e</span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. 使用结果</span></span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------</span></span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"====== 原始 JSON ======"</span>)</span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raw_json)</span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">====== 结构化对象 ======"</span>)</span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(country)</span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">====== 标准化输出 ======"</span>)</span>
+<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(country.model_dump())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 </section>
-<section id="coding" class="level3" data-number="4.1.6">
-<h3 data-number="4.1.6" class="anchored" data-anchor-id="coding"><span class="header-section-number">4.1.6</span> Coding</h3>
+<section id="coding" class="level3" data-number="4.1.7">
+<h3 data-number="4.1.7" class="anchored" data-anchor-id="coding"><span class="header-section-number">4.1.7</span> Coding</h3>
 <p>ollama新出现一个命令<code>ollama launch</code> ，执行后，它会让你在终端选择一些工具进行配置，目前有四种：</p>
 <ul>
 <li><p><a href="https://docs.ollama.com/integrations/opencode"><strong>OpenCode</strong></a> - Open-source coding assistant</p></li>
@@ -594,77 +616,77 @@ ollama launch claude --model glm-4.7-flash
 # 
 ollama launch claude --config</code></pre>
 </section>
-<section id="api" class="level3" data-number="4.1.7">
-<h3 data-number="4.1.7" class="anchored" data-anchor-id="api"><span class="header-section-number">4.1.7</span> API</h3>
+<section id="api" class="level3" data-number="4.1.8">
+<h3 data-number="4.1.8" class="anchored" data-anchor-id="api"><span class="header-section-number">4.1.8</span> API</h3>
 <p>Ollama Python 库提供了丰富的接口，简化了与 Ollama 的交互。这些接口设计直观，易于集成，旨在帮助开发者更便捷地调用和管理模型。如果你想了解更详细的底层实现和完整的 API 端点信息，建议参考 <a href="https://github.com/ollama/ollama/blob/main/docs/api.md">Ollama API 使用指南</a>。</p>
-<section id="聊天" class="level4" data-number="4.1.7.1">
-<h4 data-number="4.1.7.1" class="anchored" data-anchor-id="聊天"><span class="header-section-number">4.1.7.1</span> 聊天</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ollama.chat(model<span class="op">=</span><span class="st">'gpt-oss:20b-cloud'</span>, messages<span class="op">=</span>[{<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>}])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="聊天" class="level4" data-number="4.1.8.1">
+<h4 data-number="4.1.8.1" class="anchored" data-anchor-id="聊天"><span class="header-section-number">4.1.8.1</span> 聊天</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ollama.chat(model<span class="op">=</span><span class="st">'gpt-oss:20b-cloud'</span>, messages<span class="op">=</span>[{<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>}])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>输出</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ChatResponse(model<span class="op">=</span><span class="st">'gpt-oss:20b-cloud'</span>, created_at<span class="op">=</span><span class="st">'2026-01-08T06:03:12.28867162Z'</span>, done<span class="op">=</span><span class="va">True</span>, done_reason<span class="op">=</span><span class="st">'stop'</span>, total_duration<span class="op">=</span><span class="dv">7605534897</span>, load_duration<span class="op">=</span><span class="va">None</span>, prompt_eval_count<span class="op">=</span><span class="dv">74</span>, prompt_eval_duration<span class="op">=</span><span class="va">None</span>, eval_count<span class="op">=</span><span class="dv">879</span>, eval_duration<span class="op">=</span><span class="va">None</span>, message<span class="op">=</span>Message(role<span class="op">=</span><span class="st">'assistant'</span>, content<span class="op">=</span><span class="st">'天空之所以呈现蓝色，是因为太阳光在进入大气层时发生了**瑞利散射**（Rayleigh scattering）。下面用通俗的方式解释这个现象：</span><span class="ch">\n\n</span><span class="st">1. **太阳光是多色光**  </span><span class="ch">\n</span><span class="st">   太阳光实际上是一束由不同波长（颜色）组成的白光，其中包括红、橙、黄、绿、蓝、靛、紫七种颜色。波长从短（紫光）到长（红光）递增。</span><span class="ch">\n\n</span><span class="st">2. **大气分子与光的相互作用**  </span><span class="ch">\n</span><span class="st">   当太阳光射入地球大气层时，光与空气中的分子（如氮气、氧气）和微小颗粒相互碰撞。大气分子的尺寸（≈0.1</span><span class="ch">\u202f</span><span class="st">µm）与可见光的波长（≈0.4</span><span class="ch">\u202f</span><span class="st">µm–0.7</span><span class="ch">\u202f</span><span class="st">µm）相近，导致光子被分子弹散成不同方向。</span><span class="ch">\n\n</span><span class="st">3. **瑞利散射的波长依赖性**  </span><span class="ch">\n</span><span class="st">   瑞利散射强度与光波长的四次方成反比：</span><span class="ch">\n</span><span class="st">   </span><span class="ch">\\</span><span class="st">[</span><span class="ch">\n</span><span class="st">   I_{</span><span class="ch">\\</span><span class="st">text</span><span class="sc">{scattered}</span><span class="st">} </span><span class="ch">\\</span><span class="st">propto </span><span class="ch">\\</span><span class="st">frac</span><span class="sc">{1}</span><span class="st">{</span><span class="ch">\\</span><span class="st">lambda^4}</span><span class="ch">\n</span><span class="st">   </span><span class="ch">\\</span><span class="st">]</span><span class="ch">\n</span><span class="st">   换句话说，波长越短（蓝光、紫光），被散射的比例就越大；波长越长（红光、橙光），散射比例越小。  </span><span class="ch">\n</span><span class="st">   于是，蓝光在穿过大气时被散射得最多，其余颜色几乎一并沿直线路径到达地面。</span><span class="ch">\n\n</span><span class="st">4. **为什么我们看到蓝天**  </span><span class="ch">\n</span><span class="st">   - **在天空任何一个点**，散射到我们眼中的光主要是来自上空各个方向的蓝光。  </span><span class="ch">\n</span><span class="st">   - **天空地平面**没有“真实”物质，光只因为散射而能到达我们，因此整个天空被蓝色的散射光充满。  </span><span class="ch">\n</span><span class="st">   - **白天天空最亮、最蓝**，因为太阳光直接照射，散射分布均匀。</span><span class="ch">\n\n</span><span class="st">5. **天空颜色的变化**  </span><span class="ch">\n</span><span class="st">   - **日出/日落**：太阳光需穿过更长的大气路径，蓝光几乎全部被散射，剩下的长波长光（红、橙）主导，天空变红。  </span><span class="ch">\n</span><span class="st">   - **多尘/雾霾天气**：颗粒尺寸增大，散射更偏向红橙光，天空可能偏黄或灰。  </span><span class="ch">\n</span><span class="st">   - **布满云的天空**：云层也会散射光，但主要呈现白色或灰色。  </span><span class="ch">\n\n</span><span class="st">**简而言之**，天空蓝是因为大气中的分子对短波长（蓝光）的散射比长波长（红光）强很多，导致我们在任何方向看到的光大多是被散射到的蓝光。  </span><span class="ch">\n\n</span><span class="st">如果你想进一步探究，可以阅读宇宙物理或光学中的“瑞利散射”章节，那里有更精确的公式和实验数据。'</span>, thinking<span class="op">=</span><span class="st">'The user asks: "为什么天空是蓝色的？" (Why is the sky blue?). They likely want a clear explanation in Chinese. We should explain Rayleigh scattering. Effective about. Perhaps mention scattering, molecular scattering, composition of sky, etc. The answer: because molecules scatter shorter wavelengths (blue) more strongly. Also mention that blue light is scattered in all directions, making sky appear blue. Additionally mention photochemistry: solar light scattering by air molecules, small particles, etc. They might want more detail: Rayleigh scattering formula and fractional scattering cross-section inversely proportional to the fourth power of wavelength. And maybe mention that near sunrise/sunset it</span><span class="ch">\'</span><span class="st">s red because long path. Also mention that the sky is not always blue. Also talk about how scattering gives blue. Provide lay summary. The user likely expects a short explanation, maybe Chinese. Also must not produce disallowed content. It</span><span class="ch">\'</span><span class="st">s safe. Provide answer entirely in Chinese. Let</span><span class="ch">\'</span><span class="st">s answer accordingly.'</span>, images<span class="op">=</span><span class="va">None</span>, tool_name<span class="op">=</span><span class="va">None</span>, tool_calls<span class="op">=</span><span class="va">None</span>), logprobs<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ChatResponse(model<span class="op">=</span><span class="st">'gpt-oss:20b-cloud'</span>, created_at<span class="op">=</span><span class="st">'2026-01-08T06:03:12.28867162Z'</span>, done<span class="op">=</span><span class="va">True</span>, done_reason<span class="op">=</span><span class="st">'stop'</span>, total_duration<span class="op">=</span><span class="dv">7605534897</span>, load_duration<span class="op">=</span><span class="va">None</span>, prompt_eval_count<span class="op">=</span><span class="dv">74</span>, prompt_eval_duration<span class="op">=</span><span class="va">None</span>, eval_count<span class="op">=</span><span class="dv">879</span>, eval_duration<span class="op">=</span><span class="va">None</span>, message<span class="op">=</span>Message(role<span class="op">=</span><span class="st">'assistant'</span>, content<span class="op">=</span><span class="st">'天空之所以呈现蓝色，是因为太阳光在进入大气层时发生了**瑞利散射**（Rayleigh scattering）。下面用通俗的方式解释这个现象：</span><span class="ch">\n\n</span><span class="st">1. **太阳光是多色光**  </span><span class="ch">\n</span><span class="st">   太阳光实际上是一束由不同波长（颜色）组成的白光，其中包括红、橙、黄、绿、蓝、靛、紫七种颜色。波长从短（紫光）到长（红光）递增。</span><span class="ch">\n\n</span><span class="st">2. **大气分子与光的相互作用**  </span><span class="ch">\n</span><span class="st">   当太阳光射入地球大气层时，光与空气中的分子（如氮气、氧气）和微小颗粒相互碰撞。大气分子的尺寸（≈0.1</span><span class="ch">\u202f</span><span class="st">µm）与可见光的波长（≈0.4</span><span class="ch">\u202f</span><span class="st">µm–0.7</span><span class="ch">\u202f</span><span class="st">µm）相近，导致光子被分子弹散成不同方向。</span><span class="ch">\n\n</span><span class="st">3. **瑞利散射的波长依赖性**  </span><span class="ch">\n</span><span class="st">   瑞利散射强度与光波长的四次方成反比：</span><span class="ch">\n</span><span class="st">   </span><span class="ch">\\</span><span class="st">[</span><span class="ch">\n</span><span class="st">   I_{</span><span class="ch">\\</span><span class="st">text</span><span class="sc">{scattered}</span><span class="st">} </span><span class="ch">\\</span><span class="st">propto </span><span class="ch">\\</span><span class="st">frac</span><span class="sc">{1}</span><span class="st">{</span><span class="ch">\\</span><span class="st">lambda^4}</span><span class="ch">\n</span><span class="st">   </span><span class="ch">\\</span><span class="st">]</span><span class="ch">\n</span><span class="st">   换句话说，波长越短（蓝光、紫光），被散射的比例就越大；波长越长（红光、橙光），散射比例越小。  </span><span class="ch">\n</span><span class="st">   于是，蓝光在穿过大气时被散射得最多，其余颜色几乎一并沿直线路径到达地面。</span><span class="ch">\n\n</span><span class="st">4. **为什么我们看到蓝天**  </span><span class="ch">\n</span><span class="st">   - **在天空任何一个点**，散射到我们眼中的光主要是来自上空各个方向的蓝光。  </span><span class="ch">\n</span><span class="st">   - **天空地平面**没有“真实”物质，光只因为散射而能到达我们，因此整个天空被蓝色的散射光充满。  </span><span class="ch">\n</span><span class="st">   - **白天天空最亮、最蓝**，因为太阳光直接照射，散射分布均匀。</span><span class="ch">\n\n</span><span class="st">5. **天空颜色的变化**  </span><span class="ch">\n</span><span class="st">   - **日出/日落**：太阳光需穿过更长的大气路径，蓝光几乎全部被散射，剩下的长波长光（红、橙）主导，天空变红。  </span><span class="ch">\n</span><span class="st">   - **多尘/雾霾天气**：颗粒尺寸增大，散射更偏向红橙光，天空可能偏黄或灰。  </span><span class="ch">\n</span><span class="st">   - **布满云的天空**：云层也会散射光，但主要呈现白色或灰色。  </span><span class="ch">\n\n</span><span class="st">**简而言之**，天空蓝是因为大气中的分子对短波长（蓝光）的散射比长波长（红光）强很多，导致我们在任何方向看到的光大多是被散射到的蓝光。  </span><span class="ch">\n\n</span><span class="st">如果你想进一步探究，可以阅读宇宙物理或光学中的“瑞利散射”章节，那里有更精确的公式和实验数据。'</span>, thinking<span class="op">=</span><span class="st">'The user asks: "为什么天空是蓝色的？" (Why is the sky blue?). They likely want a clear explanation in Chinese. We should explain Rayleigh scattering. Effective about. Perhaps mention scattering, molecular scattering, composition of sky, etc. The answer: because molecules scatter shorter wavelengths (blue) more strongly. Also mention that blue light is scattered in all directions, making sky appear blue. Additionally mention photochemistry: solar light scattering by air molecules, small particles, etc. They might want more detail: Rayleigh scattering formula and fractional scattering cross-section inversely proportional to the fourth power of wavelength. And maybe mention that near sunrise/sunset it</span><span class="ch">\'</span><span class="st">s red because long path. Also mention that the sky is not always blue. Also talk about how scattering gives blue. Provide lay summary. The user likely expects a short explanation, maybe Chinese. Also must not produce disallowed content. It</span><span class="ch">\'</span><span class="st">s safe. Provide answer entirely in Chinese. Let</span><span class="ch">\'</span><span class="st">s answer accordingly.'</span>, images<span class="op">=</span><span class="va">None</span>, tool_name<span class="op">=</span><span class="va">None</span>, tool_calls<span class="op">=</span><span class="va">None</span>), logprobs<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="生成" class="level4" data-number="4.1.7.2">
-<h4 data-number="4.1.7.2" class="anchored" data-anchor-id="生成"><span class="header-section-number">4.1.7.2</span> 生成</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ollama.generate(model<span class="op">=</span><span class="st">'gpt-oss:20b-cloud'</span>, prompt<span class="op">=</span><span class="st">'为什么天空是蓝色的？回复限定在10个字以内？'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="生成" class="level4" data-number="4.1.8.2">
+<h4 data-number="4.1.8.2" class="anchored" data-anchor-id="生成"><span class="header-section-number">4.1.8.2</span> 生成</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ollama.generate(model<span class="op">=</span><span class="st">'gpt-oss:20b-cloud'</span>, prompt<span class="op">=</span><span class="st">'为什么天空是蓝色的？回复限定在10个字以内？'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>输出</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>GenerateResponse(model<span class="op">=</span><span class="st">'gpt-oss:20b-cloud'</span>, created_at<span class="op">=</span><span class="st">'2026-01-08T06:04:43.87466241Z'</span>, done<span class="op">=</span><span class="va">True</span>, done_reason<span class="op">=</span><span class="st">'stop'</span>, total_duration<span class="op">=</span><span class="dv">2370915257</span>, load_duration<span class="op">=</span><span class="va">None</span>, prompt_eval_count<span class="op">=</span><span class="dv">82</span>, prompt_eval_duration<span class="op">=</span><span class="va">None</span>, eval_count<span class="op">=</span><span class="dv">272</span>, eval_duration<span class="op">=</span><span class="va">None</span>, response<span class="op">=</span><span class="st">'散射光蓝色突出。'</span>, thinking<span class="op">=</span><span class="st">'The user asks: "为什么天空是蓝色的？回复限定在10个字以内？" They want a response of at most 10 Chinese characters (including spaces? Usually Chinese characters count individually, but spaces maybe not). They want an answer that explains why the sky is blue in fewer than 10 Chinese characters. It</span><span class="ch">\'</span><span class="st">s short. Maybe something like: "散射光蓝色突出". Count characters: "散射光蓝色突出" = let</span><span class="ch">\'</span><span class="st">s count: 散(1)射(2)光(3)蓝(4)色(5)突(6)出(7). That</span><span class="ch">\'</span><span class="st">s 7 characters. Under 10. Good.</span><span class="ch">\n\n</span><span class="st">Alternatively: "大气散射，蓝光占优". Count: 大气散射，蓝光占优. Let</span><span class="ch">\'</span><span class="st">s count: 大(1)气(2)散(3)射(4)，(punctuation maybe not counted)蓝(5)光(6)占(7)优(8). 8 characters. Under 10.</span><span class="ch">\n\n</span><span class="st">Thus we need to reply with 10 Chinese characters maximum. We need to be careful not to exceed. We</span><span class="ch">\'</span><span class="st">ll give a concise answer: "散射光蓝色突出". That</span><span class="ch">\'</span><span class="st">s 7 characters.</span><span class="ch">\n\n</span><span class="st">Let</span><span class="ch">\'</span><span class="st">s reply.'</span>, context<span class="op">=</span><span class="va">None</span>, logprobs<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>GenerateResponse(model<span class="op">=</span><span class="st">'gpt-oss:20b-cloud'</span>, created_at<span class="op">=</span><span class="st">'2026-01-08T06:04:43.87466241Z'</span>, done<span class="op">=</span><span class="va">True</span>, done_reason<span class="op">=</span><span class="st">'stop'</span>, total_duration<span class="op">=</span><span class="dv">2370915257</span>, load_duration<span class="op">=</span><span class="va">None</span>, prompt_eval_count<span class="op">=</span><span class="dv">82</span>, prompt_eval_duration<span class="op">=</span><span class="va">None</span>, eval_count<span class="op">=</span><span class="dv">272</span>, eval_duration<span class="op">=</span><span class="va">None</span>, response<span class="op">=</span><span class="st">'散射光蓝色突出。'</span>, thinking<span class="op">=</span><span class="st">'The user asks: "为什么天空是蓝色的？回复限定在10个字以内？" They want a response of at most 10 Chinese characters (including spaces? Usually Chinese characters count individually, but spaces maybe not). They want an answer that explains why the sky is blue in fewer than 10 Chinese characters. It</span><span class="ch">\'</span><span class="st">s short. Maybe something like: "散射光蓝色突出". Count characters: "散射光蓝色突出" = let</span><span class="ch">\'</span><span class="st">s count: 散(1)射(2)光(3)蓝(4)色(5)突(6)出(7). That</span><span class="ch">\'</span><span class="st">s 7 characters. Under 10. Good.</span><span class="ch">\n\n</span><span class="st">Alternatively: "大气散射，蓝光占优". Count: 大气散射，蓝光占优. Let</span><span class="ch">\'</span><span class="st">s count: 大(1)气(2)散(3)射(4)，(punctuation maybe not counted)蓝(5)光(6)占(7)优(8). 8 characters. Under 10.</span><span class="ch">\n\n</span><span class="st">Thus we need to reply with 10 Chinese characters maximum. We need to be careful not to exceed. We</span><span class="ch">\'</span><span class="st">ll give a concise answer: "散射光蓝色突出". That</span><span class="ch">\'</span><span class="st">s 7 characters.</span><span class="ch">\n\n</span><span class="st">Let</span><span class="ch">\'</span><span class="st">s reply.'</span>, context<span class="op">=</span><span class="va">None</span>, logprobs<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>ollama.generate 是“一次性文本生成接口”。你给它一个 prompt，它把这个 prompt 当作完整输入上下文，然后从头到尾生成一段文本。它不理解“角色”“对话轮次”“历史状态”这些概念，你如果想要多轮对话，只能自己把之前的内容拼成一个长字符串再传进去。所以它更像是一个传统的 text completion API，适合做单轮任务，比如写文章、续写、摘要、改写、代码生成等。</p>
 <p>ollama.chat 是“对话接口”。它接受的是 messages 结构，而不是一个字符串。每条 message 都有 role（system / user / assistant）和 content。模型在内部会把这些结构当成对话历史来处理，这意味着它天然支持多轮对话、上下文连续、系统指令约束等。你不需要自己拼 prompt，模型知道哪一句是谁说的。这更接近 ChatGPT 的使用方式，适合 Agent、聊天机器人、带记忆的交互场景。</p>
 </section>
-<section id="本地模型列表" class="level4" data-number="4.1.7.3">
-<h4 data-number="4.1.7.3" class="anchored" data-anchor-id="本地模型列表"><span class="header-section-number">4.1.7.3</span> 本地模型列表</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ollama.<span class="bu">list</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="本地模型列表" class="level4" data-number="4.1.8.3">
+<h4 data-number="4.1.8.3" class="anchored" data-anchor-id="本地模型列表"><span class="header-section-number">4.1.8.3</span> 本地模型列表</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ollama.<span class="bu">list</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>展示所有模型</p>
 </section>
-<section id="显示模型信息" class="level4" data-number="4.1.7.4">
-<h4 data-number="4.1.7.4" class="anchored" data-anchor-id="显示模型信息"><span class="header-section-number">4.1.7.4</span> 显示模型信息</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ollama.show(<span class="st">'gpt-oss:20b-cloud'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="显示模型信息" class="level4" data-number="4.1.8.4">
+<h4 data-number="4.1.8.4" class="anchored" data-anchor-id="显示模型信息"><span class="header-section-number">4.1.8.4</span> 显示模型信息</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ollama.show(<span class="st">'gpt-oss:20b-cloud'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>输出</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ShowResponse(modified_at<span class="op">=</span>datetime.datetime(<span class="dv">2026</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">14</span>, <span class="dv">51</span>, <span class="dv">28</span>, <span class="dv">727849</span>, tzinfo<span class="op">=</span>TzInfo(<span class="dv">28800</span>)), template<span class="op">=</span><span class="st">'</span><span class="sc">{{</span><span class="st"> .Prompt </span><span class="sc">}}</span><span class="st">'</span>, modelfile<span class="op">=</span><span class="st">'# Modelfile generated by "ollama show"</span><span class="ch">\n</span><span class="st"># To build a new Modelfile based on this, replace FROM with:</span><span class="ch">\n</span><span class="st"># FROM gpt-oss:20b-cloud</span><span class="ch">\n\n</span><span class="st">FROM </span><span class="ch">\n</span><span class="st">TEMPLATE </span><span class="sc">{{</span><span class="st"> .Prompt </span><span class="sc">}}</span><span class="ch">\n</span><span class="st">'</span>, license<span class="op">=</span><span class="va">None</span>, details<span class="op">=</span>ModelDetails(parent_model<span class="op">=</span><span class="st">''</span>, <span class="bu">format</span><span class="op">=</span><span class="st">''</span>, family<span class="op">=</span><span class="st">'gptoss'</span>, families<span class="op">=</span>[<span class="st">'gptoss'</span>], parameter_size<span class="op">=</span><span class="st">'20.9B'</span>, quantization_level<span class="op">=</span><span class="st">'MXFP4'</span>), modelinfo<span class="op">=</span>{<span class="st">'general.architecture'</span>: <span class="st">'gptoss'</span>, <span class="st">'general.basename'</span>: <span class="st">'gpt-oss:20b'</span>, <span class="st">'gptoss.context_length'</span>: <span class="dv">131072</span>, <span class="st">'gptoss.embedding_length'</span>: <span class="dv">2880</span>}, parameters<span class="op">=</span><span class="va">None</span>, capabilities<span class="op">=</span>[<span class="st">'completion'</span>, <span class="st">'tools'</span>, <span class="st">'thinking'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ShowResponse(modified_at<span class="op">=</span>datetime.datetime(<span class="dv">2026</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">14</span>, <span class="dv">51</span>, <span class="dv">28</span>, <span class="dv">727849</span>, tzinfo<span class="op">=</span>TzInfo(<span class="dv">28800</span>)), template<span class="op">=</span><span class="st">'</span><span class="sc">{{</span><span class="st"> .Prompt </span><span class="sc">}}</span><span class="st">'</span>, modelfile<span class="op">=</span><span class="st">'# Modelfile generated by "ollama show"</span><span class="ch">\n</span><span class="st"># To build a new Modelfile based on this, replace FROM with:</span><span class="ch">\n</span><span class="st"># FROM gpt-oss:20b-cloud</span><span class="ch">\n\n</span><span class="st">FROM </span><span class="ch">\n</span><span class="st">TEMPLATE </span><span class="sc">{{</span><span class="st"> .Prompt </span><span class="sc">}}</span><span class="ch">\n</span><span class="st">'</span>, license<span class="op">=</span><span class="va">None</span>, details<span class="op">=</span>ModelDetails(parent_model<span class="op">=</span><span class="st">''</span>, <span class="bu">format</span><span class="op">=</span><span class="st">''</span>, family<span class="op">=</span><span class="st">'gptoss'</span>, families<span class="op">=</span>[<span class="st">'gptoss'</span>], parameter_size<span class="op">=</span><span class="st">'20.9B'</span>, quantization_level<span class="op">=</span><span class="st">'MXFP4'</span>), modelinfo<span class="op">=</span>{<span class="st">'general.architecture'</span>: <span class="st">'gptoss'</span>, <span class="st">'general.basename'</span>: <span class="st">'gpt-oss:20b'</span>, <span class="st">'gptoss.context_length'</span>: <span class="dv">131072</span>, <span class="st">'gptoss.embedding_length'</span>: <span class="dv">2880</span>}, parameters<span class="op">=</span><span class="va">None</span>, capabilities<span class="op">=</span>[<span class="st">'completion'</span>, <span class="st">'tools'</span>, <span class="st">'thinking'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="创建模型" class="level4" data-number="4.1.7.5">
-<h4 data-number="4.1.7.5" class="anchored" data-anchor-id="创建模型"><span class="header-section-number">4.1.7.5</span> 创建模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ollama.create(model<span class="op">=</span><span class="st">'example'</span>, from_<span class="op">=</span><span class="st">"gpt-oss:20b-cloud"</span>, system <span class="op">=</span> <span class="st">"你是超级马里奥兄弟中的马里奥"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="创建模型" class="level4" data-number="4.1.8.5">
+<h4 data-number="4.1.8.5" class="anchored" data-anchor-id="创建模型"><span class="header-section-number">4.1.8.5</span> 创建模型</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ollama.create(model<span class="op">=</span><span class="st">'example'</span>, from_<span class="op">=</span><span class="st">"gpt-oss:20b-cloud"</span>, system <span class="op">=</span> <span class="st">"你是超级马里奥兄弟中的马里奥"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>ollama.create 的真实含义是，以一个已有模型为基础，在本地生成一个“带固定配置的派生模型别名”。它不训练、不微调、不联网、不下载云模型，本质上就是“基于已有模型封装一个新入口”。</p>
 <p>使用ollama提供的远程模型创建的新模型用不了。</p>
 <p>ollama.create 不会重新占一份模型内存，也不会复制一份权重。</p>
 </section>
-<section id="复制模型" class="level4" data-number="4.1.7.6">
-<h4 data-number="4.1.7.6" class="anchored" data-anchor-id="复制模型"><span class="header-section-number">4.1.7.6</span> 复制模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ollama.copy(<span class="st">'llama3.1'</span>, <span class="st">'user/llama3.1'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="复制模型" class="level4" data-number="4.1.8.6">
+<h4 data-number="4.1.8.6" class="anchored" data-anchor-id="复制模型"><span class="header-section-number">4.1.8.6</span> 复制模型</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ollama.copy(<span class="st">'llama3.1'</span>, <span class="st">'user/llama3.1'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>ollama.copy 本质上就是改个名字，不会增加一份存储。ollama.copy 是“给这台机器贴了一个新标签”。</p>
 <p>user/llama3.1是名字，不是文件路径。</p>
 </section>
-<section id="删除模型" class="level4" data-number="4.1.7.7">
-<h4 data-number="4.1.7.7" class="anchored" data-anchor-id="删除模型"><span class="header-section-number">4.1.7.7</span> 删除模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ollama.delete(<span class="st">'llama3.1'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="删除模型" class="level4" data-number="4.1.8.7">
+<h4 data-number="4.1.8.7" class="anchored" data-anchor-id="删除模型"><span class="header-section-number">4.1.8.7</span> 删除模型</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ollama.delete(<span class="st">'llama3.1'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="拉取模型" class="level4" data-number="4.1.7.8">
-<h4 data-number="4.1.7.8" class="anchored" data-anchor-id="拉取模型"><span class="header-section-number">4.1.7.8</span> 拉取模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ollama.pull(<span class="st">'llama3.1'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="拉取模型" class="level4" data-number="4.1.8.8">
+<h4 data-number="4.1.8.8" class="anchored" data-anchor-id="拉取模型"><span class="header-section-number">4.1.8.8</span> 拉取模型</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ollama.pull(<span class="st">'llama3.1'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="推送模型" class="level4" data-number="4.1.7.9">
-<h4 data-number="4.1.7.9" class="anchored" data-anchor-id="推送模型"><span class="header-section-number">4.1.7.9</span> 推送模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ollama.push(<span class="st">'user/llama3.1'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="推送模型" class="level4" data-number="4.1.8.9">
+<h4 data-number="4.1.8.9" class="anchored" data-anchor-id="推送模型"><span class="header-section-number">4.1.8.9</span> 推送模型</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ollama.push(<span class="st">'user/llama3.1'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="生成嵌入" class="level4" data-number="4.1.7.10">
-<h4 data-number="4.1.7.10" class="anchored" data-anchor-id="生成嵌入"><span class="header-section-number">4.1.7.10</span> 生成嵌入</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ollama.embeddings(model<span class="op">=</span><span class="st">'bge-m3:latest'</span>, prompt<span class="op">=</span><span class="st">'你好'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="生成嵌入" class="level4" data-number="4.1.8.10">
+<h4 data-number="4.1.8.10" class="anchored" data-anchor-id="生成嵌入"><span class="header-section-number">4.1.8.10</span> 生成嵌入</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ollama.embeddings(model<span class="op">=</span><span class="st">'bge-m3:latest'</span>, prompt<span class="op">=</span><span class="st">'你好'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>这段话变成一个向量。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>EmbeddingsResponse(embedding<span class="op">=</span>[<span class="op">-</span><span class="fl">0.934937596321106</span>, <span class="fl">0.15120680630207062</span>, <span class="op">-</span><span class="fl">1.652724027633667</span>, <span class="op">-</span><span class="fl">0.63127601146698</span>, <span class="op">-</span><span class="fl">0.4281521737575531</span>, <span class="op">-</span><span class="fl">1.204410433769226</span>, <span class="op">-</span><span class="fl">0.054718829691410065</span>, <span class="op">-</span><span class="fl">0.6449270248413086</span>, <span class="op">-</span><span class="fl">0.360179603099823</span>, <span class="fl">0.29594287276268005</span>, <span class="fl">0.3280348777770996</span>, <span class="fl">0.6836121082305908</span>, <span class="fl">0.1597084254026413</span>, <span class="op">-</span><span class="fl">0.0376434326171875</span>, <span class="fl">0.3108561336994171</span>, <span class="op">-</span><span class="fl">0.5079349875450134</span>, <span class="op">-</span><span class="fl">0.15418609976768494</span>, <span class="op">-</span><span class="fl">0.7474806308746338</span>, <span class="op">-</span><span class="fl">0.20530489087104797</span>, <span class="op">-</span><span class="fl">1.013852834701538</span>, <span class="op">-</span><span class="fl">0.7304589748382568</span>, <span class="op">-</span><span class="fl">0.30937767028808594</span>, <span class="fl">0.10951188206672668</span>, <span class="fl">0.22685357928276062</span>, <span class="fl">0.49349159002304077</span>, <span class="fl">0.8112816214561462</span>, <span class="op">-</span><span class="fl">1.2956737279891968</span>, <span class="op">-</span><span class="fl">0.08606769144535065</span>, <span class="fl">0.8491671681404114</span>, <span class="op">-</span><span class="fl">0.08309851586818695</span>,......])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 批量生成embedding</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>ollama.embed(model<span class="op">=</span><span class="st">'llama3.1'</span>, <span class="bu">input</span><span class="op">=</span>[<span class="st">'天空是蓝色的'</span>, <span class="st">'草是绿色的'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>EmbeddingsResponse(embedding<span class="op">=</span>[<span class="op">-</span><span class="fl">0.934937596321106</span>, <span class="fl">0.15120680630207062</span>, <span class="op">-</span><span class="fl">1.652724027633667</span>, <span class="op">-</span><span class="fl">0.63127601146698</span>, <span class="op">-</span><span class="fl">0.4281521737575531</span>, <span class="op">-</span><span class="fl">1.204410433769226</span>, <span class="op">-</span><span class="fl">0.054718829691410065</span>, <span class="op">-</span><span class="fl">0.6449270248413086</span>, <span class="op">-</span><span class="fl">0.360179603099823</span>, <span class="fl">0.29594287276268005</span>, <span class="fl">0.3280348777770996</span>, <span class="fl">0.6836121082305908</span>, <span class="fl">0.1597084254026413</span>, <span class="op">-</span><span class="fl">0.0376434326171875</span>, <span class="fl">0.3108561336994171</span>, <span class="op">-</span><span class="fl">0.5079349875450134</span>, <span class="op">-</span><span class="fl">0.15418609976768494</span>, <span class="op">-</span><span class="fl">0.7474806308746338</span>, <span class="op">-</span><span class="fl">0.20530489087104797</span>, <span class="op">-</span><span class="fl">1.013852834701538</span>, <span class="op">-</span><span class="fl">0.7304589748382568</span>, <span class="op">-</span><span class="fl">0.30937767028808594</span>, <span class="fl">0.10951188206672668</span>, <span class="fl">0.22685357928276062</span>, <span class="fl">0.49349159002304077</span>, <span class="fl">0.8112816214561462</span>, <span class="op">-</span><span class="fl">1.2956737279891968</span>, <span class="op">-</span><span class="fl">0.08606769144535065</span>, <span class="fl">0.8491671681404114</span>, <span class="op">-</span><span class="fl">0.08309851586818695</span>,......])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 批量生成embedding</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ollama.embed(model<span class="op">=</span><span class="st">'llama3.1'</span>, <span class="bu">input</span><span class="op">=</span>[<span class="st">'天空是蓝色的'</span>, <span class="st">'草是绿色的'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="进程" class="level4" data-number="4.1.7.11">
-<h4 data-number="4.1.7.11" class="anchored" data-anchor-id="进程"><span class="header-section-number">4.1.7.11</span> 进程</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ollama.ps()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="进程" class="level4" data-number="4.1.8.11">
+<h4 data-number="4.1.8.11" class="anchored" data-anchor-id="进程"><span class="header-section-number">4.1.8.11</span> 进程</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ollama.ps()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>ollama.ps() 是用来看现在有哪些模型正在跑的。ollama.ps() 看到的是“运行实例”。</p>
 </section>
 </section>
-<section id="自定义客户端" class="level3" data-number="4.1.8">
-<h3 data-number="4.1.8" class="anchored" data-anchor-id="自定义客户端"><span class="header-section-number">4.1.8</span> 自定义客户端</h3>
+<section id="自定义客户端" class="level3" data-number="4.1.9">
+<h3 data-number="4.1.9" class="anchored" data-anchor-id="自定义客户端"><span class="header-section-number">4.1.9</span> 自定义客户端</h3>
 <p>可以通过通过 <code>ollama</code> 实例化 <code>Client</code> 或 <code>AsyncClient</code> 来创建自定义客户端。</p>
 <p>可以使用以下字段创建自定义客户端：</p>
 <ul>
@@ -672,52 +694,52 @@ ollama launch claude --config</code></pre>
 <li><code>timeout</code>: 请求超时时间</li>
 </ul>
 <p>所有关键字参数参见<code>httpx.Client</code>.</p>
-<section id="同步客户端" class="level4" data-number="4.1.8.1">
-<h4 data-number="4.1.8.1" class="anchored" data-anchor-id="同步客户端"><span class="header-section-number">4.1.8.1</span> 同步客户端</h4>
+<section id="同步客户端" class="level4" data-number="4.1.9.1">
+<h4 data-number="4.1.9.1" class="anchored" data-anchor-id="同步客户端"><span class="header-section-number">4.1.9.1</span> 同步客户端</h4>
 <p>使用的是同步客户端 <code>(Client)</code> 意味着当你调用 <code>client.chat()</code> 方法时，程序会等待该请求完成并返回结果后才会继续执行后续代码。这种方式更直观、简单，适合于编写流程较为线性、不需要处理大量并发任务的应用。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> Client</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> Client(</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  host<span class="op">=</span><span class="st">'http://localhost:11434'</span>,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">=</span>{<span class="st">'x-some-header'</span>: <span class="st">'some-value'</span>}</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> client.chat(model<span class="op">=</span><span class="st">'llama3.1'</span>, messages<span class="op">=</span>[</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'role'</span>: <span class="st">'user'</span>,</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>,</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> Client</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> Client(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  host<span class="op">=</span><span class="st">'http://localhost:11434'</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  headers<span class="op">=</span>{<span class="st">'x-some-header'</span>: <span class="st">'some-value'</span>}</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> client.chat(model<span class="op">=</span><span class="st">'llama3.1'</span>, messages<span class="op">=</span>[</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'role'</span>: <span class="st">'user'</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>,</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="异步客户端" class="level4" data-number="4.1.8.2">
-<h4 data-number="4.1.8.2" class="anchored" data-anchor-id="异步客户端"><span class="header-section-number">4.1.8.2</span> 异步客户端</h4>
+<section id="异步客户端" class="level4" data-number="4.1.9.2">
+<h4 data-number="4.1.9.2" class="anchored" data-anchor-id="异步客户端"><span class="header-section-number">4.1.9.2</span> 异步客户端</h4>
 <p>这段代码使用了异步客户端 <code>(AsyncClient)</code> ，并且定义了一个异步函数 <code>chat()</code> 。通过await关键字，可以暂停该函数的执行直到 <code>AsyncClient().chat()</code> 请求完成，但在此期间不会阻塞其他操作。这对于需要高效率处理 <code>I/O</code> 操作（如网络请求）或希望同时执行多个任务的应用来说非常有用。此外，使用 <code>asyncio.run(chat())</code> 来运行这个异步函数。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> AsyncClient</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nest_asyncio</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>nest_asyncio.<span class="bu">apply</span>()</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> chat():</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    message <span class="op">=</span> {<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>}</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> <span class="cf">await</span> AsyncClient().chat(model<span class="op">=</span><span class="st">'llama3.1'</span>, messages<span class="op">=</span>[message])</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(response)</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>asyncio.run(chat())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>设置 <code>stream=True</code> 修改函数以返回 Python 异步生成器：</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> AsyncClient</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nest_asyncio</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>nest_asyncio.<span class="bu">apply</span>()</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> chat():</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  message <span class="op">=</span> {<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>}</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">async</span> <span class="cf">for</span> part <span class="kw">in</span> <span class="cf">await</span> AsyncClient().chat(model<span class="op">=</span><span class="st">'llama3.1'</span>, messages<span class="op">=</span>[message], stream<span class="op">=</span><span class="va">True</span>):</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(part[<span class="st">'message'</span>][<span class="st">'content'</span>], end<span class="op">=</span><span class="st">''</span>, flush<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>asyncio.run(chat())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> chat():</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    message <span class="op">=</span> {<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>}</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> <span class="cf">await</span> AsyncClient().chat(model<span class="op">=</span><span class="st">'llama3.1'</span>, messages<span class="op">=</span>[message])</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(response)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>asyncio.run(chat())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>设置 <code>stream=True</code> 修改函数以返回 Python 异步生成器：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> AsyncClient</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nest_asyncio</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>nest_asyncio.<span class="bu">apply</span>()</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> chat():</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  message <span class="op">=</span> {<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>}</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">async</span> <span class="cf">for</span> part <span class="kw">in</span> <span class="cf">await</span> AsyncClient().chat(model<span class="op">=</span><span class="st">'llama3.1'</span>, messages<span class="op">=</span>[message], stream<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(part[<span class="st">'message'</span>][<span class="st">'content'</span>], end<span class="op">=</span><span class="st">''</span>, flush<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>asyncio.run(chat())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="同步-异步客户端不同调用次数耗时对比测试" class="level4" data-number="4.1.8.3">
-<h4 data-number="4.1.8.3" class="anchored" data-anchor-id="同步-异步客户端不同调用次数耗时对比测试"><span class="header-section-number">4.1.8.3</span> 同步 &amp; 异步客户端不同调用次数耗时对比测试</h4>
+<section id="同步-异步客户端不同调用次数耗时对比测试" class="level4" data-number="4.1.9.3">
+<h4 data-number="4.1.9.3" class="anchored" data-anchor-id="同步-异步客户端不同调用次数耗时对比测试"><span class="header-section-number">4.1.9.3</span> 同步 &amp; 异步客户端不同调用次数耗时对比测试</h4>
 <p>下面的这段代码分别调用同步和异步客户端重复 <code>test_num</code> 次问答过程，对比所需要的总时间和单次时间，用户可以更改以下的参数进行测试：</p>
 <ul>
 <li>test_messages: 测试数据<br>
@@ -726,99 +748,99 @@ ollama launch claude --config</code></pre>
 </li>
 <li>model_name: 测试模型</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> Client, AsyncClient</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nest_asyncio</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 应用nest_asyncio以支持Jupyter中的异步操作</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>nest_asyncio.<span class="bu">apply</span>()</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 初始化客户端</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> Client(host<span class="op">=</span><span class="st">'http://localhost:11434'</span>)</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>async_client <span class="op">=</span> AsyncClient(host<span class="op">=</span><span class="st">'http://localhost:11434'</span>)</span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 同步请求处理函数</span></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> request_example(client, model_name, messages):</span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 同步请求返回</span></span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> client.chat(model<span class="op">=</span>model_name, messages<span class="op">=</span>messages)</span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"同步请求失败: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>    end_time <span class="op">=</span> time.time()</span>
-<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> end_time <span class="op">-</span> start_time</span>
-<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"同步请求时间: </span><span class="sc">{</span>duration<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response, duration</span>
-<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 异步请求处理函数</span></span>
-<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> async_request_example(client, model_name, messages):</span>
-<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
-<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 异步请求返回</span></span>
-<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="cf">await</span> client.chat(model<span class="op">=</span>model_name, messages<span class="op">=</span>messages)</span>
-<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"异步请求失败: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a>    end_time <span class="op">=</span> time.time()</span>
-<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> end_time <span class="op">-</span> start_time</span>
-<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"异步请求时间: </span><span class="sc">{</span>duration<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response, duration</span>
-<span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 异步请求测试函数</span></span>
-<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> async_client_test(test_num, model_name, messages):</span>
-<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a>    tasks <span class="op">=</span> [asyncio.create_task(async_request_example(async_client, model_name, messages)) </span>
-<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a>             <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(test_num)]</span>
-<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a>    results<span class="op">=</span> <span class="cf">await</span> asyncio.gather(<span class="op">*</span>tasks)</span>
-<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span>
-<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 运行同步测试</span></span>
-<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sync_test(model_name, messages, test_num):</span>
-<span id="cb34-51"><a href="#cb34-51" aria-hidden="true" tabindex="-1"></a>    total_time <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb34-52"><a href="#cb34-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(test_num):</span>
-<span id="cb34-53"><a href="#cb34-53" aria-hidden="true" tabindex="-1"></a>        _, duration <span class="op">=</span> request_example(client, model_name, messages)</span>
-<span id="cb34-54"><a href="#cb34-54" aria-hidden="true" tabindex="-1"></a>        total_time <span class="op">+=</span> duration</span>
-<span id="cb34-55"><a href="#cb34-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total_time <span class="op">/</span> test_num</span>
-<span id="cb34-56"><a href="#cb34-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-57"><a href="#cb34-57" aria-hidden="true" tabindex="-1"></a><span class="co"># 运行异步测试</span></span>
-<span id="cb34-58"><a href="#cb34-58" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> async_test(model_name, messages, test_num):</span>
-<span id="cb34-59"><a href="#cb34-59" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
-<span id="cb34-60"><a href="#cb34-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> async_client_test(test_num, model_name, messages)</span>
-<span id="cb34-61"><a href="#cb34-61" aria-hidden="true" tabindex="-1"></a>    end_time <span class="op">=</span> time.time()</span>
-<span id="cb34-62"><a href="#cb34-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (end_time <span class="op">-</span> start_time) <span class="op">/</span> test_num</span>
-<span id="cb34-63"><a href="#cb34-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-64"><a href="#cb34-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-65"><a href="#cb34-65" aria-hidden="true" tabindex="-1"></a><span class="co"># 准备测试数据</span></span>
-<span id="cb34-66"><a href="#cb34-66" aria-hidden="true" tabindex="-1"></a>test_messages <span class="op">=</span> [{<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>}]</span>
-<span id="cb34-67"><a href="#cb34-67" aria-hidden="true" tabindex="-1"></a>test_num <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb34-68"><a href="#cb34-68" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">'llama3.1'</span></span>
-<span id="cb34-69"><a href="#cb34-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-70"><a href="#cb34-70" aria-hidden="true" tabindex="-1"></a><span class="co"># 运行同步测试并输出结果</span></span>
-<span id="cb34-71"><a href="#cb34-71" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"运行同步测试"</span>)</span>
-<span id="cb34-72"><a href="#cb34-72" aria-hidden="true" tabindex="-1"></a>sync_avg_time <span class="op">=</span> sync_test(model_name, test_messages, test_num)</span>
-<span id="cb34-73"><a href="#cb34-73" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"同步测试平均时间: </span><span class="sc">{</span>sync_avg_time<span class="sc">:.2f}</span><span class="ss"> 秒"</span>)</span>
-<span id="cb34-74"><a href="#cb34-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-75"><a href="#cb34-75" aria-hidden="true" tabindex="-1"></a><span class="co"># 运行异步测试并输出结果</span></span>
-<span id="cb34-76"><a href="#cb34-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"运行异步测试"</span>)</span>
-<span id="cb34-77"><a href="#cb34-77" aria-hidden="true" tabindex="-1"></a>async_avg_time <span class="op">=</span> asyncio.run(async_test(model_name, test_messages, test_num))</span>
-<span id="cb34-78"><a href="#cb34-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"异步测试平均时间: </span><span class="sc">{</span>async_avg_time<span class="sc">:.2f}</span><span class="ss"> 秒"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ollama <span class="im">import</span> Client, AsyncClient</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nest_asyncio</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 应用nest_asyncio以支持Jupyter中的异步操作</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>nest_asyncio.<span class="bu">apply</span>()</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 初始化客户端</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> Client(host<span class="op">=</span><span class="st">'http://localhost:11434'</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>async_client <span class="op">=</span> AsyncClient(host<span class="op">=</span><span class="st">'http://localhost:11434'</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 同步请求处理函数</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> request_example(client, model_name, messages):</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 同步请求返回</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> client.chat(model<span class="op">=</span>model_name, messages<span class="op">=</span>messages)</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"同步请求失败: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>    end_time <span class="op">=</span> time.time()</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> end_time <span class="op">-</span> start_time</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"同步请求时间: </span><span class="sc">{</span>duration<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response, duration</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 异步请求处理函数</span></span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> async_request_example(client, model_name, messages):</span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 异步请求返回</span></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="cf">await</span> client.chat(model<span class="op">=</span>model_name, messages<span class="op">=</span>messages)</span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"异步请求失败: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>    end_time <span class="op">=</span> time.time()</span>
+<span id="cb35-38"><a href="#cb35-38" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> end_time <span class="op">-</span> start_time</span>
+<span id="cb35-39"><a href="#cb35-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"异步请求时间: </span><span class="sc">{</span>duration<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb35-40"><a href="#cb35-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response, duration</span>
+<span id="cb35-41"><a href="#cb35-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-42"><a href="#cb35-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 异步请求测试函数</span></span>
+<span id="cb35-43"><a href="#cb35-43" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> async_client_test(test_num, model_name, messages):</span>
+<span id="cb35-44"><a href="#cb35-44" aria-hidden="true" tabindex="-1"></a>    tasks <span class="op">=</span> [asyncio.create_task(async_request_example(async_client, model_name, messages)) </span>
+<span id="cb35-45"><a href="#cb35-45" aria-hidden="true" tabindex="-1"></a>             <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(test_num)]</span>
+<span id="cb35-46"><a href="#cb35-46" aria-hidden="true" tabindex="-1"></a>    results<span class="op">=</span> <span class="cf">await</span> asyncio.gather(<span class="op">*</span>tasks)</span>
+<span id="cb35-47"><a href="#cb35-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span>
+<span id="cb35-48"><a href="#cb35-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-49"><a href="#cb35-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 运行同步测试</span></span>
+<span id="cb35-50"><a href="#cb35-50" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sync_test(model_name, messages, test_num):</span>
+<span id="cb35-51"><a href="#cb35-51" aria-hidden="true" tabindex="-1"></a>    total_time <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb35-52"><a href="#cb35-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(test_num):</span>
+<span id="cb35-53"><a href="#cb35-53" aria-hidden="true" tabindex="-1"></a>        _, duration <span class="op">=</span> request_example(client, model_name, messages)</span>
+<span id="cb35-54"><a href="#cb35-54" aria-hidden="true" tabindex="-1"></a>        total_time <span class="op">+=</span> duration</span>
+<span id="cb35-55"><a href="#cb35-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total_time <span class="op">/</span> test_num</span>
+<span id="cb35-56"><a href="#cb35-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-57"><a href="#cb35-57" aria-hidden="true" tabindex="-1"></a><span class="co"># 运行异步测试</span></span>
+<span id="cb35-58"><a href="#cb35-58" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> async_test(model_name, messages, test_num):</span>
+<span id="cb35-59"><a href="#cb35-59" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
+<span id="cb35-60"><a href="#cb35-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> async_client_test(test_num, model_name, messages)</span>
+<span id="cb35-61"><a href="#cb35-61" aria-hidden="true" tabindex="-1"></a>    end_time <span class="op">=</span> time.time()</span>
+<span id="cb35-62"><a href="#cb35-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (end_time <span class="op">-</span> start_time) <span class="op">/</span> test_num</span>
+<span id="cb35-63"><a href="#cb35-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-64"><a href="#cb35-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-65"><a href="#cb35-65" aria-hidden="true" tabindex="-1"></a><span class="co"># 准备测试数据</span></span>
+<span id="cb35-66"><a href="#cb35-66" aria-hidden="true" tabindex="-1"></a>test_messages <span class="op">=</span> [{<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'为什么天空是蓝色的？'</span>}]</span>
+<span id="cb35-67"><a href="#cb35-67" aria-hidden="true" tabindex="-1"></a>test_num <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb35-68"><a href="#cb35-68" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">'llama3.1'</span></span>
+<span id="cb35-69"><a href="#cb35-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-70"><a href="#cb35-70" aria-hidden="true" tabindex="-1"></a><span class="co"># 运行同步测试并输出结果</span></span>
+<span id="cb35-71"><a href="#cb35-71" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"运行同步测试"</span>)</span>
+<span id="cb35-72"><a href="#cb35-72" aria-hidden="true" tabindex="-1"></a>sync_avg_time <span class="op">=</span> sync_test(model_name, test_messages, test_num)</span>
+<span id="cb35-73"><a href="#cb35-73" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"同步测试平均时间: </span><span class="sc">{</span>sync_avg_time<span class="sc">:.2f}</span><span class="ss"> 秒"</span>)</span>
+<span id="cb35-74"><a href="#cb35-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-75"><a href="#cb35-75" aria-hidden="true" tabindex="-1"></a><span class="co"># 运行异步测试并输出结果</span></span>
+<span id="cb35-76"><a href="#cb35-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"运行异步测试"</span>)</span>
+<span id="cb35-77"><a href="#cb35-77" aria-hidden="true" tabindex="-1"></a>async_avg_time <span class="op">=</span> asyncio.run(async_test(model_name, test_messages, test_num))</span>
+<span id="cb35-78"><a href="#cb35-78" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"异步测试平均时间: </span><span class="sc">{</span>async_avg_time<span class="sc">:.2f}</span><span class="ss"> 秒"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="错误" class="level3" data-number="4.1.9">
-<h3 data-number="4.1.9" class="anchored" data-anchor-id="错误"><span class="header-section-number">4.1.9</span> 错误</h3>
+<section id="错误" class="level3" data-number="4.1.10">
+<h3 data-number="4.1.10" class="anchored" data-anchor-id="错误"><span class="header-section-number">4.1.10</span> 错误</h3>
 <p>如果请求返回错误状态或在流式传输时检测到错误，则会引发错误。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="st">'does-not-yet-exist'</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  ollama.chat(model)</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> ollama.ResponseError <span class="im">as</span> e:</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">'错误:'</span>, e.error)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> e.status_code <span class="op">==</span> <span class="dv">404</span>:</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    ollama.pull(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="st">'does-not-yet-exist'</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  ollama.chat(model)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> ollama.ResponseError <span class="im">as</span> e:</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">'错误:'</span>, e.error)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> e.status_code <span class="op">==</span> <span class="dv">404</span>:</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    ollama.pull(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p>参考文档</p>
 </blockquote>
@@ -836,144 +858,144 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="使用方法-1" class="level3" data-number="4.2.2">
 <h3 data-number="4.2.2" class="anchored" data-anchor-id="使用方法-1"><span class="header-section-number">4.2.2</span> 使用方法</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama'</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ollama<span class="op">.</span><span class="fu">chat</span>({</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">model</span><span class="op">:</span> <span class="st">'kimi-k2:1t-cloud'</span><span class="op">,</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">messages</span><span class="op">:</span> [{ <span class="dt">role</span><span class="op">:</span> <span class="st">'user'</span><span class="op">,</span> <span class="dt">content</span><span class="op">:</span> <span class="st">'为什么天空是蓝色的？'</span> }]<span class="op">,</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(response<span class="op">.</span><span class="at">message</span><span class="op">.</span><span class="at">content</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama'</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ollama<span class="op">.</span><span class="fu">chat</span>({</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">model</span><span class="op">:</span> <span class="st">'kimi-k2:1t-cloud'</span><span class="op">,</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">messages</span><span class="op">:</span> [{ <span class="dt">role</span><span class="op">:</span> <span class="st">'user'</span><span class="op">,</span> <span class="dt">content</span><span class="op">:</span> <span class="st">'为什么天空是蓝色的？'</span> }]<span class="op">,</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(response<span class="op">.</span><span class="at">message</span><span class="op">.</span><span class="at">content</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>如果本地还没有<code>kimi-k2:1t-cloud</code>模型，先在终端<code>ollama run kimi-k2:1t-cloud</code>.</p>
 <p>输出</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>天空是蓝色的，主要是因为<span class="op">**</span>瑞利散射（Rayleigh scattering）<span class="op">**</span>。</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>### 简单解释：</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>太阳光看起来是白色的，但其实它由多种颜色的光组成（比如红、橙、黄、绿、蓝、靛、紫）。当阳光进入地球大气层时，它会遇到空气中的氮气、氧气等分子。</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>这些分子会把阳光<span class="op">**</span>散射<span class="op">**</span>到各个方向。但不同颜色的光被散射的程度不同：<span class="op">**</span>波长越短的光（比如蓝色和紫色）散射得越厉害<span class="op">**</span>。</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>虽然紫色光散射更强，但人眼对蓝色更敏感，而且太阳光中蓝色成分比紫色多，加上高层大气会吸收部分紫光，所以我们看到的天空是<span class="op">**</span>蓝色<span class="op">**</span>的。</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>### 一句话总结：</span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="op">**</span>因为蓝光比其他颜色更容易被空气分子散射，所以我们看到的天空是蓝色的。<span class="op">**</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>如果你想知道为什么日出日落时天空是红色或橙色的，我也可以继续解释。</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>天空是蓝色的，主要是因为<span class="op">**</span>瑞利散射（Rayleigh scattering）<span class="op">**</span>。</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>### 简单解释：</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>太阳光看起来是白色的，但其实它由多种颜色的光组成（比如红、橙、黄、绿、蓝、靛、紫）。当阳光进入地球大气层时，它会遇到空气中的氮气、氧气等分子。</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>这些分子会把阳光<span class="op">**</span>散射<span class="op">**</span>到各个方向。但不同颜色的光被散射的程度不同：<span class="op">**</span>波长越短的光（比如蓝色和紫色）散射得越厉害<span class="op">**</span>。</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>虽然紫色光散射更强，但人眼对蓝色更敏感，而且太阳光中蓝色成分比紫色多，加上高层大气会吸收部分紫光，所以我们看到的天空是<span class="op">**</span>蓝色<span class="op">**</span>的。</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>### 一句话总结：</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="op">**</span>因为蓝光比其他颜色更容易被空气分子散射，所以我们看到的天空是蓝色的。<span class="op">**</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>如果你想知道为什么日出日落时天空是红色或橙色的，我也可以继续解释。</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="浏览器使用" class="level4" data-number="4.2.2.1">
 <h4 data-number="4.2.2.1" class="anchored" data-anchor-id="浏览器使用"><span class="header-section-number">4.2.2.1</span> 浏览器使用</h4>
 <p>要在没有 Node.js 的情况下使用此库，请导入浏览器模块。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama/browser'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama/browser'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="流式响应-1" class="level3" data-number="4.2.3">
 <h3 data-number="4.2.3" class="anchored" data-anchor-id="流式响应-1"><span class="header-section-number">4.2.3</span> 流式响应</h3>
 <p>可以通过设置 <code>stream: true</code> 启用响应流，使函数调用返回一个 <code>AsyncGenerator</code> ，其中每个部分都是流中的一个对象。</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama'</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> message <span class="op">=</span> { <span class="dt">role</span><span class="op">:</span> <span class="st">'user'</span><span class="op">,</span> <span class="dt">content</span><span class="op">:</span> <span class="st">'为什么天空是蓝色的？'</span> }</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ollama<span class="op">.</span><span class="fu">chat</span>({ <span class="dt">model</span><span class="op">:</span> <span class="st">'kimi-k2:1t-cloud'</span><span class="op">,</span> <span class="dt">messages</span><span class="op">:</span> [message]<span class="op">,</span> <span class="dt">stream</span><span class="op">:</span> <span class="kw">true</span> })</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> part <span class="kw">of</span> response) {</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">process</span><span class="op">.</span><span class="at">stdout</span><span class="op">.</span><span class="fu">write</span>(part<span class="op">.</span><span class="at">message</span><span class="op">.</span><span class="at">content</span>)</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>javascrip_ollama <span class="op">%</span> node javascript_ollama<span class="op">.</span><span class="at">js</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>天空是蓝色的，主要是因为<span class="op">**</span>瑞利散射（Rayleigh scattering）<span class="op">**</span>。</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>### 简单解释：</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>太阳光看起来是白色的，但其实它包含了<span class="op">**</span>红、橙、黄、绿、蓝、靛、紫<span class="op">**</span>等各种颜色的光。当阳光穿过大气层时，会被空气中的分子（主要是氮气和氧气）散射。</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> <span class="op">**</span>蓝光波长较短<span class="op">**</span>，比红光更容易被散射。</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> 所以蓝光在各个方向被“打散”，充满了整个天空，我们就看到天空是蓝色的。</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>### 再深入一点：</span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> 日出或日落时，太阳靠近地平线，阳光穿过更厚的大气层，蓝光被散射得更多，剩下的<span class="op">**</span>红光<span class="op">**</span>就主导了天空，所以看起来是<span class="op">**</span>橙红色<span class="op">**</span>。</span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> 如果没有大气层（比如月球上），天空就是黑的，即使太阳在天上。</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>一句话总结：  </span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="op">**</span>天空是蓝色的，是因为空气把阳光中的蓝光散射得最多，蓝光到处都是。<span class="op">**%</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama'</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> message <span class="op">=</span> { <span class="dt">role</span><span class="op">:</span> <span class="st">'user'</span><span class="op">,</span> <span class="dt">content</span><span class="op">:</span> <span class="st">'为什么天空是蓝色的？'</span> }</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ollama<span class="op">.</span><span class="fu">chat</span>({ <span class="dt">model</span><span class="op">:</span> <span class="st">'kimi-k2:1t-cloud'</span><span class="op">,</span> <span class="dt">messages</span><span class="op">:</span> [message]<span class="op">,</span> <span class="dt">stream</span><span class="op">:</span> <span class="kw">true</span> })</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="cf">await</span> (<span class="kw">const</span> part <span class="kw">of</span> response) {</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">process</span><span class="op">.</span><span class="at">stdout</span><span class="op">.</span><span class="fu">write</span>(part<span class="op">.</span><span class="at">message</span><span class="op">.</span><span class="at">content</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>javascrip_ollama <span class="op">%</span> node javascript_ollama<span class="op">.</span><span class="at">js</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>天空是蓝色的，主要是因为<span class="op">**</span>瑞利散射（Rayleigh scattering）<span class="op">**</span>。</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>### 简单解释：</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>太阳光看起来是白色的，但其实它包含了<span class="op">**</span>红、橙、黄、绿、蓝、靛、紫<span class="op">**</span>等各种颜色的光。当阳光穿过大气层时，会被空气中的分子（主要是氮气和氧气）散射。</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> <span class="op">**</span>蓝光波长较短<span class="op">**</span>，比红光更容易被散射。</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> 所以蓝光在各个方向被“打散”，充满了整个天空，我们就看到天空是蓝色的。</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>### 再深入一点：</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> 日出或日落时，太阳靠近地平线，阳光穿过更厚的大气层，蓝光被散射得更多，剩下的<span class="op">**</span>红光<span class="op">**</span>就主导了天空，所以看起来是<span class="op">**</span>橙红色<span class="op">**</span>。</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="op">-</span> 如果没有大气层（比如月球上），天空就是黑的，即使太阳在天上。</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="op">---</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>一句话总结：  </span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="op">**</span>天空是蓝色的，是因为空气把阳光中的蓝光散射得最多，蓝光到处都是。<span class="op">**%</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="结构化输出-1" class="level3" data-number="4.2.4">
 <h3 data-number="4.2.4" class="anchored" data-anchor-id="结构化输出-1"><span class="header-section-number">4.2.4</span> 结构化输出</h3>
 <p>使用 Ollama JavaScript 库，将架构作为 <code>JSON</code> 对象传递给 <code>format</code> 参数，可以选择使用 <code>object</code> 格式，也可以使用 Zod （推荐）通过 <code>zodToJsonSchema()</code> 方法序列化架构。</p>
 <p>先安装：</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>npm install zod<span class="op">-</span>to<span class="op">-</span>json<span class="op">-</span>schema</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>npm install zod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama'</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { z } <span class="im">from</span> <span class="st">'zod'</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. 定义 Zod Schema（这是唯一的“真理”）</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CountrySchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">name</span><span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">,</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">capital</span><span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">,</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">languages</span><span class="op">:</span> z<span class="op">.</span><span class="fu">array</span>(z<span class="op">.</span><span class="fu">string</span>())</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. 调用 Ollama</span></span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">main</span>() {</span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ollama<span class="op">.</span><span class="fu">chat</span>({</span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">model</span><span class="op">:</span> <span class="st">'gpt-oss:120b-cloud'</span><span class="op">,</span></span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">messages</span><span class="op">:</span> [</span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">role</span><span class="op">:</span> <span class="st">'system'</span><span class="op">,</span></span>
-<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">content</span><span class="op">:</span> <span class="st">'You are a strict JSON generator. Output JSON only.'</span></span>
-<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
-<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">role</span><span class="op">:</span> <span class="st">'user'</span><span class="op">,</span></span>
-<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">content</span><span class="op">:</span> <span class="vs">`</span></span>
-<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a><span class="vs">Return ONLY valid JSON using this exact structure:</span></span>
-<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a><span class="vs">{</span></span>
-<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a><span class="vs">  "name": string,</span></span>
-<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a><span class="vs">  "capital": string,</span></span>
-<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a><span class="vs">  "languages": string[]</span></span>
-<span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a><span class="vs">}</span></span>
-<span id="cb43-30"><a href="#cb43-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-31"><a href="#cb43-31" aria-hidden="true" tabindex="-1"></a><span class="vs">Tell me about Canada.</span></span>
-<span id="cb43-32"><a href="#cb43-32" aria-hidden="true" tabindex="-1"></a><span class="vs">        `</span><span class="op">.</span><span class="fu">trim</span>()</span>
-<span id="cb43-33"><a href="#cb43-33" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb43-34"><a href="#cb43-34" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
-<span id="cb43-35"><a href="#cb43-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">format</span><span class="op">:</span> <span class="st">'json'</span></span>
-<span id="cb43-36"><a href="#cb43-36" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb43-37"><a href="#cb43-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-38"><a href="#cb43-38" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 3. 解析模型输出</span></span>
-<span id="cb43-39"><a href="#cb43-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> rawJson <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(response<span class="op">.</span><span class="at">message</span><span class="op">.</span><span class="at">content</span>)</span>
-<span id="cb43-40"><a href="#cb43-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-41"><a href="#cb43-41" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 4. Zod 校验（失败直接抛错）</span></span>
-<span id="cb43-42"><a href="#cb43-42" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> country <span class="op">=</span> CountrySchema<span class="op">.</span><span class="fu">parse</span>(rawJson)</span>
-<span id="cb43-43"><a href="#cb43-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-44"><a href="#cb43-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 5. 使用结果</span></span>
-<span id="cb43-45"><a href="#cb43-45" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(country)</span>
-<span id="cb43-46"><a href="#cb43-46" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb43-47"><a href="#cb43-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-48"><a href="#cb43-48" aria-hidden="true" tabindex="-1"></a><span class="co">// 运行</span></span>
-<span id="cb43-49"><a href="#cb43-49" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span>()<span class="op">.</span><span class="fu">catch</span>(err <span class="kw">=&gt;</span> {</span>
-<span id="cb43-50"><a href="#cb43-50" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">'Error:'</span><span class="op">,</span> err)</span>
-<span id="cb43-51"><a href="#cb43-51" aria-hidden="true" tabindex="-1"></a>  <span class="bu">process</span><span class="op">.</span><span class="fu">exit</span>(<span class="dv">1</span>)</span>
-<span id="cb43-52"><a href="#cb43-52" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>npm install zod<span class="op">-</span>to<span class="op">-</span>json<span class="op">-</span>schema</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>npm install zod</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama'</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { z } <span class="im">from</span> <span class="st">'zod'</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. 定义 Zod Schema（这是唯一的“真理”）</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> CountrySchema <span class="op">=</span> z<span class="op">.</span><span class="fu">object</span>({</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">name</span><span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">,</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">capital</span><span class="op">:</span> z<span class="op">.</span><span class="fu">string</span>()<span class="op">,</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">languages</span><span class="op">:</span> z<span class="op">.</span><span class="fu">array</span>(z<span class="op">.</span><span class="fu">string</span>())</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. 调用 Ollama</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="kw">async</span> <span class="kw">function</span> <span class="fu">main</span>() {</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ollama<span class="op">.</span><span class="fu">chat</span>({</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">model</span><span class="op">:</span> <span class="st">'gpt-oss:120b-cloud'</span><span class="op">,</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">messages</span><span class="op">:</span> [</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">role</span><span class="op">:</span> <span class="st">'system'</span><span class="op">,</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">content</span><span class="op">:</span> <span class="st">'You are a strict JSON generator. Output JSON only.'</span></span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">role</span><span class="op">:</span> <span class="st">'user'</span><span class="op">,</span></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">content</span><span class="op">:</span> <span class="vs">`</span></span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a><span class="vs">Return ONLY valid JSON using this exact structure:</span></span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a><span class="vs">{</span></span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a><span class="vs">  "name": string,</span></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a><span class="vs">  "capital": string,</span></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="vs">  "languages": string[]</span></span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a><span class="vs">}</span></span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a><span class="vs">Tell me about Canada.</span></span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="vs">        `</span><span class="op">.</span><span class="fu">trim</span>()</span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">format</span><span class="op">:</span> <span class="st">'json'</span></span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 3. 解析模型输出</span></span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> rawJson <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(response<span class="op">.</span><span class="at">message</span><span class="op">.</span><span class="at">content</span>)</span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 4. Zod 校验（失败直接抛错）</span></span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> country <span class="op">=</span> CountrySchema<span class="op">.</span><span class="fu">parse</span>(rawJson)</span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 5. 使用结果</span></span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(country)</span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a><span class="co">// 运行</span></span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span>()<span class="op">.</span><span class="fu">catch</span>(err <span class="kw">=&gt;</span> {</span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">'Error:'</span><span class="op">,</span> err)</span>
+<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a>  <span class="bu">process</span><span class="op">.</span><span class="fu">exit</span>(<span class="dv">1</span>)</span>
+<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>原github代码使用的是4.xGB的模型，有点大了，换成了云模型，但是云模型跑原代码报错，模型输出不能收敛为json格式，所以做了修改。</p>
 </section>
 <section id="创建模型-1" class="level3" data-number="4.2.5">
 <h3 data-number="4.2.5" class="anchored" data-anchor-id="创建模型-1"><span class="header-section-number">4.2.5</span> 创建模型</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama'</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> modelfile <span class="op">=</span> <span class="vs">`</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="vs">FROM llama3.1</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="vs">SYSTEM "你是超级马里奥兄弟中的马里奥。"</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> ollama<span class="op">.</span><span class="fu">create</span>({ <span class="dt">model</span><span class="op">:</span> <span class="st">'example'</span><span class="op">,</span> <span class="dt">modelfile</span><span class="op">:</span> modelfile })</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama <span class="im">from</span> <span class="st">'ollama'</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> modelfile <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="vs">FROM llama3.1</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="vs">SYSTEM "你是超级马里奥兄弟中的马里奥。"</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="vs">`</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> ollama<span class="op">.</span><span class="fu">create</span>({ <span class="dt">model</span><span class="op">:</span> <span class="st">'example'</span><span class="op">,</span> <span class="dt">modelfile</span><span class="op">:</span> modelfile })</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="api-1" class="level3" data-number="4.2.6">
 <h3 data-number="4.2.6" class="anchored" data-anchor-id="api-1"><span class="header-section-number">4.2.6</span> API</h3>
 <p>Ollama JavaScript 库的 API 设计围绕 Ollama REST API 。如果你想了解更详细的底层实现和完整的 API 端点信息，建议参考 <a href="https://github.com/ollama/ollama/blob/main/docs/api.md">Ollama API 使用指南</a></p>
 <section id="聊天-1" class="level4" data-number="4.2.6.1">
 <h4 data-number="4.2.6.1" class="anchored" data-anchor-id="聊天-1"><span class="header-section-number">4.2.6.1</span> 聊天</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">chat</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">chat</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含聊天参数的请求对象。
 <ul>
@@ -995,7 +1017,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="生成-1" class="level4" data-number="4.2.6.2">
 <h4 data-number="4.2.6.2" class="anchored" data-anchor-id="生成-1"><span class="header-section-number">4.2.6.2</span> 生成</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">generate</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">generate</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含生成参数的请求对象。
 <ul>
@@ -1016,7 +1038,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="拉取模型-1" class="level4" data-number="4.2.6.3">
 <h4 data-number="4.2.6.3" class="anchored" data-anchor-id="拉取模型-1"><span class="header-section-number">4.2.6.3</span> 拉取模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">pull</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">pull</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含拉取参数的请求对象。
 <ul>
@@ -1029,7 +1051,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="推送模型-1" class="level4" data-number="4.2.6.4">
 <h4 data-number="4.2.6.4" class="anchored" data-anchor-id="推送模型-1"><span class="header-section-number">4.2.6.4</span> 推送模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">push</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">push</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含推送参数的请求对象。
 <ul>
@@ -1042,7 +1064,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="创建模型-2" class="level4" data-number="4.2.6.5">
 <h4 data-number="4.2.6.5" class="anchored" data-anchor-id="创建模型-2"><span class="header-section-number">4.2.6.5</span> 创建模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">create</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">create</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含创建参数的请求对象。
 <ul>
@@ -1056,7 +1078,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="删除模型-1" class="level4" data-number="4.2.6.6">
 <h4 data-number="4.2.6.6" class="anchored" data-anchor-id="删除模型-1"><span class="header-section-number">4.2.6.6</span> 删除模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">delete</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">delete</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含删除参数的请求对象。
 <ul>
@@ -1067,7 +1089,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="复制模型-1" class="level4" data-number="4.2.6.7">
 <h4 data-number="4.2.6.7" class="anchored" data-anchor-id="复制模型-1"><span class="header-section-number">4.2.6.7</span> 复制模型</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">copy</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">copy</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含复制参数的请求对象。
 <ul>
@@ -1079,14 +1101,14 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="本地模型列表-1" class="level4" data-number="4.2.6.8">
 <h4 data-number="4.2.6.8" class="anchored" data-anchor-id="本地模型列表-1"><span class="header-section-number">4.2.6.8</span> 本地模型列表</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">list</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">list</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>返回: <code>&lt;ListResponse&gt;</code></li>
 </ul>
 </section>
 <section id="显示模型信息-1" class="level4" data-number="4.2.6.9">
 <h4 data-number="4.2.6.9" class="anchored" data-anchor-id="显示模型信息-1"><span class="header-section-number">4.2.6.9</span> 显示模型信息</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">show</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">show</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含显示参数的请求对象。
 <ul>
@@ -1100,7 +1122,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="生成嵌入-1" class="level4" data-number="4.2.6.10">
 <h4 data-number="4.2.6.10" class="anchored" data-anchor-id="生成嵌入-1"><span class="header-section-number">4.2.6.10</span> 生成嵌入</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">embed</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">embed</span>(request)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>request</code> <code>&lt;Object&gt;</code>: 包含嵌入参数的请求对象。
 <ul>
@@ -1115,7 +1137,7 @@ ollama launch claude --config</code></pre>
 </section>
 <section id="进程-1" class="level4" data-number="4.2.6.11">
 <h4 data-number="4.2.6.11" class="anchored" data-anchor-id="进程-1"><span class="header-section-number">4.2.6.11</span> 进程</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">ps</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>ollama<span class="op">.</span><span class="fu">ps</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>返回: <code>&lt;ListResponse&gt;</code></li>
 </ul>
@@ -1128,13 +1150,13 @@ ollama launch claude --config</code></pre>
 <li><code>host</code> <code>&lt;string&gt;</code>: (可选) Ollama 主机地址。默认: <code>"http://127.0.0.1:11434"</code>。</li>
 <li><code>fetch</code> <code>&lt;Object&gt;</code>: (可选) 用于向 Ollama 主机发出请求的 fetch 库。</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Ollama } <span class="im">from</span> <span class="st">'ollama'</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ollama <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ollama</span>({ <span class="dt">host</span><span class="op">:</span> <span class="st">'http://127.0.0.1:11434'</span> })</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ollama<span class="op">.</span><span class="fu">chat</span>({</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">model</span><span class="op">:</span> <span class="st">'llama3.1'</span><span class="op">,</span></span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">messages</span><span class="op">:</span> [{ <span class="dt">role</span><span class="op">:</span> <span class="st">'user'</span><span class="op">,</span> <span class="dt">content</span><span class="op">:</span> <span class="st">'为什么天空是蓝色的？'</span> }]<span class="op">,</span></span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Ollama } <span class="im">from</span> <span class="st">'ollama'</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ollama <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ollama</span>({ <span class="dt">host</span><span class="op">:</span> <span class="st">'http://127.0.0.1:11434'</span> })</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> response <span class="op">=</span> <span class="cf">await</span> ollama<span class="op">.</span><span class="fu">chat</span>({</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">model</span><span class="op">:</span> <span class="st">'llama3.1'</span><span class="op">,</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">messages</span><span class="op">:</span> [{ <span class="dt">role</span><span class="op">:</span> <span class="st">'user'</span><span class="op">,</span> <span class="dt">content</span><span class="op">:</span> <span class="st">'为什么天空是蓝色的？'</span> }]<span class="op">,</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="构建" class="level3" data-number="4.2.8">
 <h3 data-number="4.2.8" class="anchored" data-anchor-id="构建"><span class="header-section-number">4.2.8</span> 构建</h3>
